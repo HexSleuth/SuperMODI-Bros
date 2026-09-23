@@ -69,13 +69,40 @@
   .btn.wide{width:78px;}
   .btn.small{width:56px;height:56px;font-size:14px;}
 
-  /* ---------- config panels ---------- */
-  #panel,#panel3d{
+  /* ---------- config panel (merged) ---------- */
+  #panel{
     width:100%;max-width:768px;background:var(--panel);border:1px solid var(--line);
     border-radius:8px;padding:10px 12px;font-size:11px;color:#b9b9cc;
   }
-  #panel summary,#panel3d summary{cursor:pointer;color:var(--gold);letter-spacing:1px;outline:none;}
-  #panel3d summary{color:var(--cyan);}
+  #panel > summary{
+    cursor:pointer;color:var(--gold);letter-spacing:1px;outline:none;
+    font-size:11px;
+  }
+  #panel[open] > summary{ margin-bottom:6px; }
+
+  .section-title{
+    color:var(--cyan);
+    font-size:10px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    margin-top:12px;
+    margin-bottom:4px;
+    padding-bottom:4px;
+    border-bottom:1px dashed #2a2a3a;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .section-title:first-of-type{ margin-top:6px; }
+  .section-title.gold{
+    color:var(--gold);
+  }
+  .divider{
+    border:none;
+    border-top:1px dashed #2a2a3a;
+    margin:14px 0 2px;
+  }
+
   .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:8px;}
   .row label{min-width:74px;color:#8f8fa6;}
   input[type=text],input[type=number]{
@@ -139,8 +166,14 @@
     </div>
   </div>
 
-  <details id="panel3d" open>
-    <summary>🧊 RENDER MODE / AUTO CAMERA</summary>
+  <!-- ============================================================
+       MERGED PANEL:  RENDER MODE / AUTO CAMERA  +  CHARACTER SPRITE
+       ============================================================ -->
+  <details id="panel" open>
+    <summary>⚙ CHARACTER SPRITE / OPTIONS &nbsp;·&nbsp; RENDER MODE / AUTO CAMERA</summary>
+
+    <!-- ===== SECTION 1 : RENDER MODE / AUTO CAMERA ===== -->
+    <div class="section-title">🧊 Render Mode / Auto Camera</div>
 
     <div class="row">
       <label>Render</label>
@@ -195,10 +228,12 @@
       every frame. Inspired by the
       <i>3D Object Viewer (Super Mario Bros.)</i> project by Rúben André Barreiro.
     </div>
-  </details>
 
-  <details id="panel">
-    <summary>⚙ CHARACTER SPRITE / OPTIONS</summary>
+    <!-- ===== DIVIDER ===== -->
+    <hr class="divider">
+
+    <!-- ===== SECTION 2 : CHARACTER SPRITE ===== -->
+    <div class="section-title gold">🎨 Character Sprite</div>
 
     <div class="row">
       <label>Image URL</label>
