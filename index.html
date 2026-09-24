@@ -4,6 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>SuperMODI-Bros — 2D/3D + Custom Sprites</title>
+
+<!-- Font Awesome (icons for buttons) -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous" referrerpolicy="no-referrer">
+
 <style>
   :root{
     --bg:#0b0b12;
@@ -28,6 +35,7 @@
     font-size:13px;letter-spacing:3px;margin:4px 0 0;
     color:var(--gold);text-transform:uppercase;text-align:center;
   }
+  h1 i{ margin-right:6px; color:var(--cyan); }
   #sub{font-size:10px;color:#8a8aa0;letter-spacing:1px;margin-bottom:4px;text-align:center;}
 
   #stage{
@@ -61,12 +69,17 @@
   .btn{
     width:64px;height:64px;border-radius:12px;border:2px solid var(--line);
     background:linear-gradient(#232334,#171722);color:#cfcfe0;
-    font-size:20px;font-weight:700;display:flex;align-items:center;justify-content:center;
+    font-size:22px;font-weight:700;display:flex;align-items:center;justify-content:center;
     touch-action:none;cursor:pointer;
+    transition:background .08s, color .08s, border-color .08s, transform .06s;
   }
+  .btn i{ pointer-events:none; line-height:1; }
   .btn:active,.btn.on{background:linear-gradient(#3a3a55,#25253a);color:#fff;border-color:#4a4a70;}
+  .btn:active{ transform:scale(0.95); }
   .btn.wide{width:78px;}
-  .btn.small{width:56px;height:56px;font-size:14px;}
+  .btn.small{width:56px;height:56px;font-size:18px;}
+  .btn.jump i{ color:#ffd34d; }
+  .btn.run  i{ color:#4dd8ff; }
 
   #panel{
     width:100%;max-width:768px;background:var(--panel);border:1px solid var(--line);
@@ -76,6 +89,7 @@
     cursor:pointer;color:var(--gold);letter-spacing:1px;outline:none;
     font-size:11px;
   }
+  #panel > summary i{ margin-right:6px; color:var(--cyan); }
   #panel[open] > summary{ margin-bottom:6px; }
 
   .section-title{
@@ -95,6 +109,7 @@
   .section-title.gold{
     color:var(--gold);
   }
+  .section-title i{ font-size:11px; }
   .divider{
     border:none;
     border-top:1px dashed #2a2a3a;
@@ -124,7 +139,10 @@
   button.act{
     background:#2b2b40;border:1px solid #3d3d58;color:var(--fg);
     border-radius:5px;padding:5px 10px;font-family:inherit;font-size:11px;cursor:pointer;
+    display:inline-flex;align-items:center;gap:5px;
+    transition:background .1s, border-color .1s, color .1s;
   }
+  button.act i{ font-size:11px; }
   button.act:hover{background:#383856;}
   button.act.on{background:#1f4b6b;border-color:#4dd8ff;color:#dff6ff;}
   #modeStatus{color:#4dd8ff;font-size:10px;}
@@ -153,6 +171,7 @@
     margin-bottom:2px;
     font-weight:bold;
   }
+  .spriteHeader i{ margin-right:5px; color:var(--cyan); }
   .spriteStatus{
     color:#7a7a92;
     font-size:10px;
@@ -171,7 +190,7 @@
 <body>
 <div id="app">
 
-  <h1>SuperMODI-Bros</h1>
+  <h1><i class="fa-solid fa-gamepad"></i>SuperMODI-Bros</h1>
   <div id="sub">2D Canvas + 3D Three.js + Custom Character Sprites</div>
 
   <div id="stage">
@@ -182,13 +201,13 @@
 
   <div id="touch">
     <div class="pad">
-      <div class="btn" data-key="left">◀</div>
-      <div class="btn" data-key="down">▼</div>
-      <div class="btn" data-key="right">▶</div>
+      <div class="btn" data-key="left"><i class="fa-solid fa-caret-left"></i></div>
+      <div class="btn" data-key="down"><i class="fa-solid fa-caret-down"></i></div>
+      <div class="btn" data-key="right"><i class="fa-solid fa-caret-right"></i></div>
     </div>
     <div class="pad">
-      <div class="btn small" data-key="run">RUN</div>
-      <div class="btn wide" data-key="jump">JUMP</div>
+      <div class="btn small run"  data-key="run"><i class="fa-solid fa-person-running"></i></div>
+      <div class="btn wide jump"  data-key="jump"><i class="fa-solid fa-arrow-up"></i></div>
     </div>
   </div>
 
@@ -196,22 +215,22 @@
        MERGED PANEL: RENDER MODE / AUTO CAMERA + CHARACTER SPRITES
        ============================================================ -->
   <details id="panel" open>
-    <summary>⚙ CHARACTER SPRITES / OPTIONS &nbsp;·&nbsp; RENDER MODE / AUTO CAMERA</summary>
+    <summary><i class="fa-solid fa-sliders"></i> CHARACTER SPRITES / OPTIONS &nbsp;·&nbsp; RENDER MODE / AUTO CAMERA</summary>
 
     <!-- ===== SECTION 1 : RENDER MODE / AUTO CAMERA ===== -->
-    <div class="section-title">🧊 Render Mode / Auto Camera</div>
+    <div class="section-title"><i class="fa-solid fa-cube"></i> Render Mode / Auto Camera</div>
 
     <div class="row">
       <label>Render</label>
-      <button class="act" id="mode2d" data-mode="2d">2D</button>
-      <button class="act" id="mode3d" data-mode="3d">3D</button>
-      <button class="act" id="modeAuto" data-mode="auto">AUTO</button>
+      <button class="act" id="mode2d" data-mode="2d"><i class="fa-solid fa-square"></i> 2D</button>
+      <button class="act" id="mode3d" data-mode="3d"><i class="fa-solid fa-cube"></i> 3D</button>
+      <button class="act" id="modeAuto" data-mode="auto"><i class="fa-solid fa-wand-magic-sparkles"></i> AUTO</button>
       <span id="modeStatus">detecting…</span>
     </div>
 
     <div class="row">
       <label>Auto-Adjust</label>
-      <button class="act on" id="toggleAuto">ON</button>
+      <button class="act on" id="toggleAuto"><i class="fa-solid fa-sliders"></i> ON</button>
       <span style="font-size:10px;color:#6f6f85;">camera follows speed, jump height &amp; screen shape</span>
     </div>
 
@@ -257,95 +276,95 @@
     <hr class="divider">
 
     <!-- ===== SECTION 2 : CHARACTER SPRITES (2D & 3D) ===== -->
-    <div class="section-title gold">🎨 Character Sprites (2D &amp; 3D)</div>
+    <div class="section-title gold"><i class="fa-solid fa-palette"></i> Character Sprites (2D &amp; 3D)</div>
 
     <!-- HERO -->
     <div class="spriteBlock" data-char="hero">
-      <div class="spriteHeader">HERO</div>
+      <div class="spriteHeader"><i class="fa-solid fa-user"></i>HERO</div>
       <div class="row">
         <label>URL</label>
         <input type="text" id="heroUrl"
           value="https://github.com/HexSleuth/SuperMODI-Bros/blob/main/1000221698.png">
-        <button class="act" data-load="hero">Load</button>
+        <button class="act" data-load="hero"><i class="fa-solid fa-upload"></i> Load</button>
       </div>
       <div class="row">
         <label>Cols</label><input type="number" id="heroCols" value="1" min="1" max="32">
         <label>Rows</label><input type="number" id="heroRows" value="1" min="1" max="32">
         <label>FPS</label><input type="number" id="heroFps" value="8" min="1" max="30">
         <input type="file" id="heroFile" accept="image/*">
-        <button class="act" data-clear="hero">Clear</button>
+        <button class="act" data-clear="hero"><i class="fa-solid fa-trash"></i> Clear</button>
       </div>
       <div class="row"><span class="spriteStatus" id="heroStatus">Using procedural character.</span></div>
     </div>
 
     <!-- GOOMBA -->
     <div class="spriteBlock" data-char="goomba">
-      <div class="spriteHeader">GOOMBA (Enemy)</div>
+      <div class="spriteHeader"><i class="fa-solid fa-ghost"></i>GOOMBA (Enemy)</div>
       <div class="row">
         <label>URL</label>
         <input type="text" id="goombaUrl" placeholder="https://...">
-        <button class="act" data-load="goomba">Load</button>
+        <button class="act" data-load="goomba"><i class="fa-solid fa-upload"></i> Load</button>
       </div>
       <div class="row">
         <label>Cols</label><input type="number" id="goombaCols" value="1" min="1" max="32">
         <label>Rows</label><input type="number" id="goombaRows" value="1" min="1" max="32">
         <label>FPS</label><input type="number" id="goombaFps" value="6" min="1" max="30">
         <input type="file" id="goombaFile" accept="image/*">
-        <button class="act" data-clear="goomba">Clear</button>
+        <button class="act" data-clear="goomba"><i class="fa-solid fa-trash"></i> Clear</button>
       </div>
       <div class="row"><span class="spriteStatus" id="goombaStatus">Using procedural Goomba.</span></div>
     </div>
 
     <!-- KOOPA -->
     <div class="spriteBlock" data-char="koopa">
-      <div class="spriteHeader">KOOPA (Enemy)</div>
+      <div class="spriteHeader"><i class="fa-solid fa-dragon"></i>KOOPA (Enemy)</div>
       <div class="row">
         <label>URL</label>
         <input type="text" id="koopaUrl" placeholder="https://...">
-        <button class="act" data-load="koopa">Load</button>
+        <button class="act" data-load="koopa"><i class="fa-solid fa-upload"></i> Load</button>
       </div>
       <div class="row">
         <label>Cols</label><input type="number" id="koopaCols" value="1" min="1" max="32">
         <label>Rows</label><input type="number" id="koopaRows" value="1" min="1" max="32">
         <label>FPS</label><input type="number" id="koopaFps" value="6" min="1" max="30">
         <input type="file" id="koopaFile" accept="image/*">
-        <button class="act" data-clear="koopa">Clear</button>
+        <button class="act" data-clear="koopa"><i class="fa-solid fa-trash"></i> Clear</button>
       </div>
       <div class="row"><span class="spriteStatus" id="koopaStatus">Using procedural Koopa.</span></div>
     </div>
 
     <!-- MUSHROOM -->
     <div class="spriteBlock" data-char="mushroom">
-      <div class="spriteHeader">MUSHROOM (Item)</div>
+      <div class="spriteHeader"><i class="fa-solid fa-star"></i>MUSHROOM (Item)</div>
       <div class="row">
         <label>URL</label>
         <input type="text" id="mushroomUrl" placeholder="https://...">
-        <button class="act" data-load="mushroom">Load</button>
+        <button class="act" data-load="mushroom"><i class="fa-solid fa-upload"></i> Load</button>
       </div>
       <div class="row">
         <label>Cols</label><input type="number" id="mushroomCols" value="1" min="1" max="32">
         <label>Rows</label><input type="number" id="mushroomRows" value="1" min="1" max="32">
         <label>FPS</label><input type="number" id="mushroomFps" value="1" min="1" max="30">
         <input type="file" id="mushroomFile" accept="image/*">
-        <button class="act" data-clear="mushroom">Clear</button>
+        <button class="act" data-clear="mushroom"><i class="fa-solid fa-trash"></i> Clear</button>
       </div>
       <div class="row"><span class="spriteStatus" id="mushroomStatus">Using procedural Mushroom.</span></div>
     </div>
 
     <!-- COIN -->
     <div class="spriteBlock" data-char="coin">
-      <div class="spriteHeader">COIN</div>
+      <div class="spriteHeader"><i class="fa-solid fa-coins"></i>COIN</div>
       <div class="row">
         <label>URL</label>
         <input type="text" id="coinUrl" placeholder="https://...">
-        <button class="act" data-load="coin">Load</button>
+        <button class="act" data-load="coin"><i class="fa-solid fa-upload"></i> Load</button>
       </div>
       <div class="row">
         <label>Cols</label><input type="number" id="coinCols" value="1" min="1" max="32">
         <label>Rows</label><input type="number" id="coinRows" value="1" min="1" max="32">
         <label>FPS</label><input type="number" id="coinFps" value="8" min="1" max="30">
         <input type="file" id="coinFile" accept="image/*">
-        <button class="act" data-clear="coin">Clear</button>
+        <button class="act" data-clear="coin"><i class="fa-solid fa-trash"></i> Clear</button>
       </div>
       <div class="row"><span class="spriteStatus" id="coinStatus">Using procedural Coin.</span></div>
     </div>
@@ -423,22 +442,27 @@ const BIG_W   = 12, BIG_H   = 26;
 
 /* =========================================================================
    2. SOUND MANAGER — WebAudio chiptune tones + unchanged MP3s
+      • System SFX interface kept identical (jump/bigjump/stomp/kick/…)
+      • Jump + Big-Jump now play the external "sound.mp3" file
+        (the same file that also drives the level-clear / win SFX).
    ========================================================================= */
 const Sound = (function(){
   let ac = null;
   let masterGain = null;
   let masterVolume = 0.55;
 
-  /* ---- External MP3 sound files (UNCHANGED) ---- */
+  /* ---- External MP3 sound files ---- */
   const SFX_URLS = {
     die:   'https://raw.githubusercontent.com/HexSleuth/HEX-BLASTER-2D---Orange-Hero-Arena-Shooter/main/opsSound.mp3',
     enemy: 'https://raw.githubusercontent.com/HexSleuth/HEX-BLASTER-2D---Orange-Hero-Arena-Shooter/main/sound1.mp3',
-    win:   'https://raw.githubusercontent.com/HexSleuth/HEX-BLASTER-2D---Orange-Hero-Arena-Shooter/main/sound.mp3'
+    win:   'https://raw.githubusercontent.com/HexSleuth/HEX-BLASTER-2D---Orange-Hero-Arena-Shooter/main/sound.mp3',
+    /* JUMP: now uses sound.mp3 — the "Old JUMP" sound effect */
+    jump:  'https://raw.githubusercontent.com/HexSleuth/HEX-BLASTER-2D---Orange-Hero-Arena-Shooter/main/sound.mp3'
   };
 
-  const SFX = { die:null, enemy:null, win:null };
-  const SFX_READY = { die:false, enemy:false, win:false };
-  const SFX_VOLUME = { die:0.85, enemy:0.75, win:0.85 };
+  const SFX = { die:null, enemy:null, win:null, jump:null };
+  const SFX_READY = { die:false, enemy:false, win:false, jump:false };
+  const SFX_VOLUME = { die:0.85, enemy:0.75, win:0.85, jump:0.75 };
 
   function preloadSFX(){
     for(const key in SFX_URLS){
@@ -520,7 +544,7 @@ const Sound = (function(){
       if(masterGain) masterGain.gain.value = masterVolume;
     },
 
-    /* --- External MP3 sound files (UNCHANGED) --- */
+    /* --- External MP3 sound files --- */
     die(){
       ensure();
       if(!playSFX('die')){
@@ -546,9 +570,21 @@ const Sound = (function(){
       }
     },
 
+    /* --- Jump / Big-Jump : now driven by sound.mp3 --- */
+    jump(){
+      ensure();
+      if(!playSFX('jump')){
+        tone(320, 780, 0.13, 'square', 0.09);
+      }
+    },
+    bigjump(){
+      ensure();
+      if(!playSFX('jump')){
+        tone(250, 620, 0.17, 'square', 0.10);
+      }
+    },
+
     /* --- WebAudio chiptune effects --- */
-    jump(){ ensure(); tone(320, 780, 0.13, 'square', 0.09); },
-    bigjump(){ ensure(); tone(250, 620, 0.17, 'square', 0.10); },
     coin(){
       ensure();
       tone(988, 988, 0.06, 'square', 0.10);
@@ -3426,7 +3462,8 @@ const autoBtn = document.getElementById('toggleAuto');
 autoBtn.addEventListener('click', function(){
   R3D.opts.autoAdjust = !R3D.opts.autoAdjust;
   autoBtn.classList.toggle('on', R3D.opts.autoAdjust);
-  autoBtn.textContent = R3D.opts.autoAdjust ? 'ON' : 'OFF';
+  /* Keep the Font Awesome icon while updating the label */
+  autoBtn.innerHTML = '<i class="fa-solid fa-sliders"></i> ' + (R3D.opts.autoAdjust ? 'ON' : 'OFF');
 });
 
 window.addEventListener('resize', function(){
