@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>SuperMODI-Bros — 2D/3D + Custom Sprites</title>
+<title>SuperMODI-Bros — 2D/3D + Level Editor</title>
 
 <!-- Font Awesome (icons for buttons) -->
 <link rel="stylesheet"
@@ -15,33 +15,105 @@
   :root{
     --bg:#0b0b12;
     --panel:#16161f;
+    --panel2:#1c1c28;
     --line:#2a2a3a;
     --fg:#e9e9f2;
     --gold:#ffd34d;
     --green:#4bd66b;
     --cyan:#4dd8ff;
+    --red:#e54545;
+    --violet:#9b6dff;
+    --shadow: 0 12px 34px rgba(0,0,0,.65);
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
   html,body{
-    margin:0;padding:0;background:var(--bg);color:var(--fg);
+    margin:0;padding:0;background:
+      radial-gradient(1200px 500px at 50% -10%, #1b1b2b 0%, var(--bg) 60%);
+    color:var(--fg);
     font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Courier New",monospace;
-    overflow-x:hidden;
+    overflow-x:hidden;min-height:100vh;
   }
   #app{
-    max-width:860px;margin:0 auto;padding:10px 10px 24px;
+    max-width:980px;margin:0 auto;padding:10px 10px 30px;
     display:flex;flex-direction:column;align-items:center;gap:10px;
   }
-  h1{
-    font-size:13px;letter-spacing:3px;margin:4px 0 0;
-    color:var(--gold);text-transform:uppercase;text-align:center;
-  }
-  h1 i{ margin-right:6px; color:var(--cyan); }
-  #sub{font-size:10px;color:#8a8aa0;letter-spacing:1px;margin-bottom:4px;text-align:center;}
 
+  /* ===== Top navigation bar ===== */
+  #topbar{
+    width:100%;max-width:960px;display:flex;align-items:center;
+    justify-content:space-between;gap:10px;
+    background:linear-gradient(180deg,#1d1d2b,#141420);
+    border:1px solid var(--line);border-radius:10px;
+    padding:8px 12px;box-shadow:0 6px 20px rgba(0,0,0,.4);
+  }
+  #brand{
+    display:flex;align-items:center;gap:8px;
+    font-size:12px;letter-spacing:3px;color:var(--gold);
+    text-transform:uppercase;font-weight:bold;
+  }
+  #brand i{color:var(--cyan);font-size:14px;}
+  #nav{display:flex;gap:6px;flex-wrap:wrap;}
+  .navbtn{
+    background:#22222f;border:1px solid var(--line);color:#cfcfe0;
+    border-radius:6px;padding:6px 10px;font-family:inherit;font-size:11px;
+    cursor:pointer;display:inline-flex;align-items:center;gap:6px;
+    transition:background .12s, color .12s, border-color .12s, transform .06s;
+  }
+  .navbtn i{font-size:11px;}
+  .navbtn:hover{background:#2e2e42;}
+  .navbtn.active{background:linear-gradient(180deg,#2e4666,#20334d);border-color:var(--cyan);color:#eaf9ff;}
+  .navbtn:active{transform:translateY(1px);}
+
+  h1{
+    font-size:15px;letter-spacing:4px;margin:4px 0 0;
+    color:var(--gold);text-transform:uppercase;text-align:center;
+    text-shadow:0 0 20px rgba(255,211,77,.25);
+  }
+  h1 i{ margin-right:8px; color:var(--cyan); }
+  #sub{font-size:10px;color:#8a8aa0;letter-spacing:1.5px;margin-bottom:4px;text-align:center;}
+
+  /* ===== Screens ===== */
+  .screen{width:100%;display:none;flex-direction:column;align-items:center;gap:10px;}
+  .screen.active{display:flex;}
+
+  /* ===== Main Menu Screen ===== */
+  #menuCard{
+    width:100%;max-width:640px;padding:26px 24px;
+    background:linear-gradient(180deg,#1a1a27,#111119);
+    border:1px solid var(--line);border-radius:14px;
+    box-shadow:var(--shadow);
+    display:flex;flex-direction:column;gap:14px;align-items:center;
+  }
+  .menu-title{
+    font-size:22px;letter-spacing:6px;color:var(--gold);
+    text-align:center;text-shadow:0 4px 0 rgba(0,0,0,.6), 0 0 30px rgba(255,211,77,.3);
+  }
+  .menu-sub{font-size:11px;color:#8f8fa6;letter-spacing:1px;text-align:center;line-height:1.6;}
+  .menu-actions{display:flex;flex-direction:column;gap:10px;width:100%;max-width:380px;}
+  .menubtn{
+    width:100%;padding:14px 16px;border-radius:10px;
+    background:linear-gradient(180deg,#252536,#181822);
+    border:1px solid var(--line);color:#eaeaf5;
+    font-family:inherit;font-size:13px;font-weight:bold;letter-spacing:2px;
+    text-transform:uppercase;cursor:pointer;
+    display:inline-flex;align-items:center;justify-content:flex-start;gap:12px;
+    transition:background .12s, border-color .12s, transform .06s;
+  }
+  .menubtn i{font-size:16px;color:var(--cyan);width:20px;text-align:center;}
+  .menubtn:hover{background:linear-gradient(180deg,#31415a,#20304a);border-color:var(--cyan);}
+  .menubtn:active{transform:translateY(1px);}
+  .menubtn.gold i{color:var(--gold);}
+  .menubtn.green i{color:var(--green);}
+  .menubtn.red i{color:var(--red);}
+  .menubtn.violet i{color:var(--violet);}
+
+  .menu-foot{font-size:10px;color:#6f6f85;letter-spacing:1px;text-align:center;margin-top:6px;}
+
+  /* ===== Stage / Game Screen ===== */
   #stage{
     position:relative;width:100%;max-width:768px;aspect-ratio:256/240;
     background:#000;border:3px solid #2f2f42;border-radius:8px;overflow:hidden;
-    box-shadow:0 12px 34px rgba(0,0,0,.65), inset 0 0 0 1px #000;
+    box-shadow:var(--shadow), inset 0 0 0 1px #000;
     touch-action:none;
   }
   #stage canvas{
@@ -81,6 +153,7 @@
   .btn.jump i{ color:#ffd34d; }
   .btn.run  i{ color:#4dd8ff; }
 
+  /* ===== Panel (Characters / Render Mode) — UNCHANGED ===== */
   #panel{
     width:100%;max-width:768px;background:var(--panel);border:1px solid var(--line);
     border-radius:8px;padding:10px 12px;font-size:11px;color:#b9b9cc;
@@ -94,31 +167,19 @@
 
   .section-title{
     color:var(--cyan);
-    font-size:10px;
-    letter-spacing:2px;
-    text-transform:uppercase;
-    margin-top:12px;
-    margin-bottom:4px;
-    padding-bottom:4px;
+    font-size:10px;letter-spacing:2px;text-transform:uppercase;
+    margin-top:12px;margin-bottom:4px;padding-bottom:4px;
     border-bottom:1px dashed #2a2a3a;
-    display:flex;
-    align-items:center;
-    gap:6px;
+    display:flex;align-items:center;gap:6px;
   }
   .section-title:first-of-type{ margin-top:6px; }
-  .section-title.gold{
-    color:var(--gold);
-  }
+  .section-title.gold{ color:var(--gold); }
   .section-title i{ font-size:11px; }
-  .divider{
-    border:none;
-    border-top:1px dashed #2a2a3a;
-    margin:14px 0 2px;
-  }
+  .divider{border:none;border-top:1px dashed #2a2a3a;margin:14px 0 2px;}
 
   .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:8px;}
   .row label{min-width:74px;color:#8f8fa6;}
-  input[type=text],input[type=number]{
+  input[type=text],input[type=number],select{
     background:#0e0e16;border:1px solid var(--line);color:var(--fg);
     border-radius:5px;padding:5px 7px;font-family:inherit;font-size:11px;
   }
@@ -156,239 +217,479 @@
   #caps{font-size:10px;color:#6f6f85;margin-top:6px;line-height:1.6;}
   #caps b{color:#9a9ab5;}
 
-  /* Sprite blocks */
   .spriteBlock{
-    border:1px dashed #2a2a3a;
-    border-radius:6px;
-    padding:8px 10px;
-    margin-top:8px;
-    background:rgba(20,20,30,.4);
+    border:1px dashed #2a2a3a;border-radius:6px;
+    padding:8px 10px;margin-top:8px;background:rgba(20,20,30,.4);
   }
   .spriteHeader{
-    color:var(--gold);
-    font-size:10px;
-    letter-spacing:2px;
-    margin-bottom:2px;
-    font-weight:bold;
+    color:var(--gold);font-size:10px;letter-spacing:2px;
+    margin-bottom:2px;font-weight:bold;
   }
   .spriteHeader i{ margin-right:5px; color:var(--cyan); }
   .spriteStatus{
-    color:#7a7a92;
-    font-size:10px;
-    word-break:break-word;
-    display:inline-block;
+    color:#7a7a92;font-size:10px;word-break:break-word;display:inline-block;
   }
-  .spriteBlock .row{
-    margin-top:5px;
+  .spriteBlock .row{ margin-top:5px; }
+  .spriteBlock input[type=text]{ min-width:120px; font-size:10px; }
+
+  /* ===== Level Editor Screen ===== */
+  #editorWrap{
+    width:100%;max-width:960px;display:flex;flex-direction:column;gap:10px;
   }
-  .spriteBlock input[type=text]{
-    min-width:120px;
-    font-size:10px;
+  #editorToolbar{
+    display:flex;flex-wrap:wrap;gap:6px;align-items:center;
+    background:linear-gradient(180deg,#1c1c29,#141420);
+    border:1px solid var(--line);border-radius:10px;
+    padding:8px 10px;box-shadow:0 6px 20px rgba(0,0,0,.35);
+  }
+  #editorToolbar .group{
+    display:flex;gap:6px;align-items:center;
+    padding:2px 8px;border-right:1px dashed #2a2a3a;
+  }
+  #editorToolbar .group:last-child{border-right:none;}
+  .toolbtn{
+    width:38px;height:38px;border-radius:8px;
+    border:1px solid var(--line);
+    background:linear-gradient(#232334,#171722);
+    display:inline-flex;align-items:center;justify-content:center;
+    cursor:pointer;transition:background .08s, border-color .08s, transform .06s;
+    color:#cfcfe0;font-size:14px;padding:0;
+  }
+  .toolbtn:hover{background:#2e2e42;}
+  .toolbtn.active{
+    background:linear-gradient(#2d4a71,#1f3553);
+    border-color:var(--cyan);color:#eaf9ff;
+    box-shadow:0 0 0 2px rgba(77,216,255,.25) inset;
+  }
+  .toolbtn.red.active{
+    background:linear-gradient(#5a2020,#3a1414);
+    border-color:var(--red);color:#ffecec;
+    box-shadow:0 0 0 2px rgba(229,69,69,.3) inset;
+  }
+  .toolbtn.gold.active{
+    background:linear-gradient(#5a481a,#3a2f10);
+    border-color:var(--gold);color:#fff8dc;
+    box-shadow:0 0 0 2px rgba(255,211,77,.3) inset;
+  }
+  .toolbtn.green.active{
+    background:linear-gradient(#1f5a2a,#123a1a);
+    border-color:var(--green);color:#dcffe3;
+    box-shadow:0 0 0 2px rgba(75,214,107,.3) inset;
+  }
+  .toolbtn.violet.active{
+    background:linear-gradient(#3a2a5a,#241a3a);
+    border-color:var(--violet);color:#efe6ff;
+    box-shadow:0 0 0 2px rgba(155,109,255,.3) inset;
+  }
+  .toolbtn img, .toolbtn .swatch{
+    width:22px;height:22px;display:block;border-radius:4px;
+    pointer-events:none;image-rendering:pixelated;
+  }
+  .toolbtn .swatch{
+    border:1px solid rgba(255,255,255,.15);
+  }
+  #editorCanvasWrap{
+    position:relative;width:100%;overflow:auto;
+    background:#0d0d14;border:1px solid var(--line);
+    border-radius:10px;box-shadow:var(--shadow);
+    max-height:520px;
+  }
+  #editorCanvas{
+    display:block;
+    image-rendering:pixelated;image-rendering:crisp-edges;
+    cursor:crosshair;touch-action:none;
+  }
+  #editorInfo{
+    display:flex;flex-wrap:wrap;gap:12px;font-size:10px;color:#8f8fa6;
+    padding:0 4px;
+  }
+  #editorInfo b{color:var(--cyan);}
+  #editorInfo .pill{
+    background:#181824;border:1px solid var(--line);
+    border-radius:20px;padding:3px 10px;display:inline-flex;align-items:center;gap:5px;
+  }
+
+  /* ===== Saved Levels Screen ===== */
+  #levelsWrap{
+    width:100%;max-width:720px;display:flex;flex-direction:column;gap:10px;
+  }
+  #levelsHeader{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    background:linear-gradient(180deg,#1c1c29,#141420);
+    border:1px solid var(--line);border-radius:10px;padding:10px 12px;
+  }
+  #levelsHeader h2{
+    font-size:12px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin:0;
+    display:flex;align-items:center;gap:8px;
+  }
+  #levelsHeader h2 i{color:var(--cyan);}
+  #levelsList{
+    display:flex;flex-direction:column;gap:8px;
+  }
+  .levelCard{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    background:linear-gradient(180deg,#20202e,#171722);
+    border:1px solid var(--line);border-radius:10px;padding:10px 12px;
+    transition:background .12s, border-color .12s;
+  }
+  .levelCard:hover{border-color:#4a4a70;}
+  .levelCard .lname{
+    display:flex;align-items:center;gap:10px;
+    font-size:12px;color:#eaeaf5;font-weight:bold;letter-spacing:1px;
+  }
+  .levelCard .lname i{color:var(--gold);}
+  .levelCard .lmeta{font-size:10px;color:#7a7a92;}
+  .levelCard .lacts{display:flex;gap:6px;}
+  .miniBtn{
+    background:#2b2b40;border:1px solid #3d3d58;color:var(--fg);
+    border-radius:6px;padding:6px 10px;font-family:inherit;font-size:10px;cursor:pointer;
+    display:inline-flex;align-items:center;gap:5px;
+    transition:background .12s, border-color .12s;
+  }
+  .miniBtn:hover{background:#383856;}
+  .miniBtn.play{border-color:#2f7f4a;color:#c7f7d4;}
+  .miniBtn.play:hover{background:#1e5a34;}
+  .miniBtn.edit{border-color:#2f5f8f;color:#c7e3ff;}
+  .miniBtn.edit:hover{background:#1e3e5a;}
+  .miniBtn.del{border-color:#8f2f2f;color:#ffd7d7;}
+  .miniBtn.del:hover{background:#5a1e1e;}
+  .emptyState{
+    text-align:center;padding:30px 20px;
+    border:1px dashed #2a2a3a;border-radius:10px;
+    color:#7a7a92;font-size:11px;line-height:1.7;
+  }
+  .emptyState i{font-size:26px;color:#3a3a55;display:block;margin-bottom:10px;}
+
+  /* Save dialog (modal) */
+  #saveModal{
+    position:fixed;inset:0;background:rgba(6,6,12,.7);
+    display:none;align-items:center;justify-content:center;z-index:100;
+    backdrop-filter: blur(3px);
+  }
+  #saveModal.active{display:flex;}
+  #saveDialog{
+    background:linear-gradient(180deg,#1c1c29,#141420);
+    border:1px solid var(--line);border-radius:12px;
+    padding:16px 18px;max-width:360px;width:92%;
+    box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;
+  }
+  #saveDialog h3{
+    margin:0;font-size:12px;letter-spacing:2px;color:var(--gold);
+    text-transform:uppercase;display:flex;align-items:center;gap:8px;
+  }
+  #saveDialog h3 i{color:var(--cyan);}
+  #saveDialog .dialog-actions{
+    display:flex;justify-content:flex-end;gap:8px;margin-top:4px;
+  }
+
+  @media (max-width:520px){
+    #brand span{display:none;}
+    #nav{gap:4px;}
+    .navbtn{padding:5px 8px;font-size:10px;}
+    .navbtn span{display:none;}
+    .navbtn i{font-size:13px;}
+    #touch{gap:6px;}
+    .btn{width:56px;height:56px;}
+    .btn.wide{width:70px;}
+    .btn.small{width:50px;height:50px;font-size:15px;}
   }
 </style>
 </head>
 <body>
 <div id="app">
 
-  <h1><i class="fa-solid fa-gamepad"></i>SuperMODI-Bros</h1>
-  <div id="sub">2D Canvas + 3D Three.js + Custom Character Sprites</div>
-
-  <div id="stage">
-    <canvas id="game" width="256" height="240"></canvas>
-    <canvas id="game3d" class="hide"></canvas>
-    <canvas id="hud" class="hide" width="256" height="240"></canvas>
-  </div>
-
-  <div id="touch">
-    <div class="pad">
-      <div class="btn" data-key="left"><i class="fa-solid fa-caret-left"></i></div>
-      <div class="btn" data-key="down"><i class="fa-solid fa-caret-down"></i></div>
-      <div class="btn" data-key="right"><i class="fa-solid fa-caret-right"></i></div>
-    </div>
-    <div class="pad">
-      <div class="btn small run"  data-key="run"><i class="fa-solid fa-person-running"></i></div>
-      <div class="btn wide jump"  data-key="jump"><i class="fa-solid fa-arrow-up"></i></div>
+  <!-- ================= TOP NAV ================= -->
+  <div id="topbar">
+    <div id="brand"><i class="fa-solid fa-gamepad"></i><span>SUPERMODI-BROS</span></div>
+    <div id="nav">
+      <button class="navbtn" data-screen="menu"><i class="fa-solid fa-house"></i><span>Menu</span></button>
+      <button class="navbtn" data-screen="game"><i class="fa-solid fa-play"></i><span>Play</span></button>
+      <button class="navbtn" data-screen="editor"><i class="fa-solid fa-pen-ruler"></i><span>Editor</span></button>
+      <button class="navbtn" data-screen="levels"><i class="fa-solid fa-folder-open"></i><span>Saved</span></button>
     </div>
   </div>
 
-  <!-- ============================================================
-       MERGED PANEL: RENDER MODE / AUTO CAMERA + CHARACTER SPRITES
-       ============================================================ -->
-  <details id="panel" open>
-    <summary><i class="fa-solid fa-sliders"></i> CHARACTER SPRITES / OPTIONS &nbsp;·&nbsp; RENDER MODE / AUTO CAMERA</summary>
-
-    <!-- ===== SECTION 1 : RENDER MODE / AUTO CAMERA ===== -->
-    <div class="section-title"><i class="fa-solid fa-cube"></i> Render Mode / Auto Camera</div>
-
-    <div class="row">
-      <label>Render</label>
-      <button class="act" id="mode2d" data-mode="2d"><i class="fa-solid fa-square"></i> 2D</button>
-      <button class="act" id="mode3d" data-mode="3d"><i class="fa-solid fa-cube"></i> 3D</button>
-      <button class="act" id="modeAuto" data-mode="auto"><i class="fa-solid fa-wand-magic-sparkles"></i> AUTO</button>
-      <span id="modeStatus">detecting…</span>
-    </div>
-
-    <div class="row">
-      <label>Auto-Adjust</label>
-      <button class="act on" id="toggleAuto"><i class="fa-solid fa-sliders"></i> ON</button>
-      <span style="font-size:10px;color:#6f6f85;">camera follows speed, jump height &amp; screen shape</span>
-    </div>
-
-    <div class="row">
-      <label>Yaw</label>
-      <input type="range" id="camYaw" min="-70" max="70" step="1" value="16">
-      <span class="val" id="camYawV">16°</span>
-    </div>
-
-    <div class="row">
-      <label>Pitch</label>
-      <input type="range" id="camPitch" min="0" max="55" step="1" value="15">
-      <span class="val" id="camPitchV">15°</span>
-    </div>
-
-    <div class="row">
-      <label>FOV</label>
-      <input type="range" id="camFov" min="35" max="90" step="1" value="55">
-      <span class="val" id="camFovV">55°</span>
-    </div>
-
-    <div class="row">
-      <label>Distance</label>
-      <input type="range" id="camDist" min="6" max="26" step="1" value="11">
-      <span class="val" id="camDistV">11</span>
-    </div>
-
-    <div class="row">
-      <label>Pixel ratio</label>
-      <input type="range" id="camDpr" min="1" max="2" step="0.25" value="1.5">
-      <span class="val" id="camDprV">1.5×</span>
-    </div>
-
-    <div id="caps">Scanning device…</div>
-
-    <div class="hint">
-      3D mode builds the entire level as real geometry with <b>Three.js</b>.
-      The camera auto-detects screen aspect, speed, jump velocity and level bounds,
-      then auto-adjusts its angle, distance and height every frame.
-    </div>
-
-    <!-- ===== DIVIDER ===== -->
-    <hr class="divider">
-
-    <!-- ===== SECTION 2 : CHARACTER SPRITES (2D & 3D) ===== -->
-    <div class="section-title gold"><i class="fa-solid fa-palette"></i> Character Sprites (2D &amp; 3D)</div>
-
-    <!-- HERO -->
-    <div class="spriteBlock" data-char="hero">
-      <div class="spriteHeader"><i class="fa-solid fa-user"></i>HERO</div>
-      <div class="row">
-        <label>URL</label>
-        <input type="text" id="heroUrl"
-          value="https://github.com/HexSleuth/SuperMODI-Bros/blob/main/1000221698.png">
-        <button class="act" data-load="hero"><i class="fa-solid fa-upload"></i> Load</button>
+  <!-- ================= MAIN MENU ================= -->
+  <div id="screen-menu" class="screen active">
+    <div id="menuCard">
+      <div class="menu-title"><i class="fa-solid fa-star" style="color:var(--gold)"></i> SUPERMODI-BROS</div>
+      <div class="menu-sub">
+        2D Canvas + 3D Three.js platformer<br>
+        with a full level editor and saved-level system
       </div>
-      <div class="row">
-        <label>Cols</label><input type="number" id="heroCols" value="1" min="1" max="32">
-        <label>Rows</label><input type="number" id="heroRows" value="1" min="1" max="32">
-        <label>FPS</label><input type="number" id="heroFps" value="8" min="1" max="30">
-        <input type="file" id="heroFile" accept="image/*">
-        <button class="act" data-clear="hero"><i class="fa-solid fa-trash"></i> Clear</button>
+      <div class="menu-actions">
+        <button class="menubtn gold" data-screen="game"><i class="fa-solid fa-play"></i>Play Main Game</button>
+        <button class="menubtn" data-screen="editor"><i class="fa-solid fa-pen-ruler"></i>Level Editor</button>
+        <button class="menubtn green" data-screen="levels"><i class="fa-solid fa-folder-open"></i>Saved Levels</button>
+        <button class="menubtn violet" id="menuRandom"><i class="fa-solid fa-dice"></i>Load Random Saved Level</button>
       </div>
-      <div class="row"><span class="spriteStatus" id="heroStatus">Using procedural character.</span></div>
+      <div class="menu-foot">
+        <i class="fa-solid fa-keyboard"></i>
+        &nbsp; ARROWS move &nbsp;·&nbsp; SPACE jump &nbsp;·&nbsp; X run &nbsp;·&nbsp; V toggle 2D/3D
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= GAME SCREEN ================= -->
+  <div id="screen-game" class="screen">
+    <div id="stage">
+      <canvas id="game" width="256" height="240"></canvas>
+      <canvas id="game3d" class="hide"></canvas>
+      <canvas id="hud" class="hide" width="256" height="240"></canvas>
     </div>
 
-    <!-- GOOMBA -->
-    <div class="spriteBlock" data-char="goomba">
-      <div class="spriteHeader"><i class="fa-solid fa-ghost"></i>GOOMBA (Enemy)</div>
-      <div class="row">
-        <label>URL</label>
-        <input type="text" id="goombaUrl" placeholder="https://...">
-        <button class="act" data-load="goomba"><i class="fa-solid fa-upload"></i> Load</button>
+    <div id="touch">
+      <div class="pad">
+        <div class="btn" data-key="left"><i class="fa-solid fa-caret-left"></i></div>
+        <div class="btn" data-key="down"><i class="fa-solid fa-caret-down"></i></div>
+        <div class="btn" data-key="right"><i class="fa-solid fa-caret-right"></i></div>
       </div>
-      <div class="row">
-        <label>Cols</label><input type="number" id="goombaCols" value="1" min="1" max="32">
-        <label>Rows</label><input type="number" id="goombaRows" value="1" min="1" max="32">
-        <label>FPS</label><input type="number" id="goombaFps" value="6" min="1" max="30">
-        <input type="file" id="goombaFile" accept="image/*">
-        <button class="act" data-clear="goomba"><i class="fa-solid fa-trash"></i> Clear</button>
+      <div class="pad">
+        <div class="btn small run"  data-key="run"><i class="fa-solid fa-person-running"></i></div>
+        <div class="btn wide jump"  data-key="jump"><i class="fa-solid fa-arrow-up"></i></div>
       </div>
-      <div class="row"><span class="spriteStatus" id="goombaStatus">Using procedural Goomba.</span></div>
     </div>
 
-    <!-- KOOPA -->
-    <div class="spriteBlock" data-char="koopa">
-      <div class="spriteHeader"><i class="fa-solid fa-dragon"></i>KOOPA (Enemy)</div>
-      <div class="row">
-        <label>URL</label>
-        <input type="text" id="koopaUrl" placeholder="https://...">
-        <button class="act" data-load="koopa"><i class="fa-solid fa-upload"></i> Load</button>
-      </div>
-      <div class="row">
-        <label>Cols</label><input type="number" id="koopaCols" value="1" min="1" max="32">
-        <label>Rows</label><input type="number" id="koopaRows" value="1" min="1" max="32">
-        <label>FPS</label><input type="number" id="koopaFps" value="6" min="1" max="30">
-        <input type="file" id="koopaFile" accept="image/*">
-        <button class="act" data-clear="koopa"><i class="fa-solid fa-trash"></i> Clear</button>
-      </div>
-      <div class="row"><span class="spriteStatus" id="koopaStatus">Using procedural Koopa.</span></div>
-    </div>
+    <!-- ============================================================
+         PANEL: CHARACTER SPRITES / OPTIONS  ·  RENDER MODE / AUTO CAMERA
+         ============================================================ -->
+    <details id="panel" open>
+      <summary><i class="fa-solid fa-sliders"></i> CHARACTER SPRITES / OPTIONS &nbsp;·&nbsp; RENDER MODE / AUTO CAMERA</summary>
 
-    <!-- MUSHROOM -->
-    <div class="spriteBlock" data-char="mushroom">
-      <div class="spriteHeader"><i class="fa-solid fa-star"></i>MUSHROOM (Item)</div>
-      <div class="row">
-        <label>URL</label>
-        <input type="text" id="mushroomUrl" placeholder="https://...">
-        <button class="act" data-load="mushroom"><i class="fa-solid fa-upload"></i> Load</button>
-      </div>
-      <div class="row">
-        <label>Cols</label><input type="number" id="mushroomCols" value="1" min="1" max="32">
-        <label>Rows</label><input type="number" id="mushroomRows" value="1" min="1" max="32">
-        <label>FPS</label><input type="number" id="mushroomFps" value="1" min="1" max="30">
-        <input type="file" id="mushroomFile" accept="image/*">
-        <button class="act" data-clear="mushroom"><i class="fa-solid fa-trash"></i> Clear</button>
-      </div>
-      <div class="row"><span class="spriteStatus" id="mushroomStatus">Using procedural Mushroom.</span></div>
-    </div>
+      <div class="section-title"><i class="fa-solid fa-cube"></i> Render Mode / Auto Camera</div>
 
-    <!-- COIN -->
-    <div class="spriteBlock" data-char="coin">
-      <div class="spriteHeader"><i class="fa-solid fa-coins"></i>COIN</div>
       <div class="row">
-        <label>URL</label>
-        <input type="text" id="coinUrl" placeholder="https://...">
-        <button class="act" data-load="coin"><i class="fa-solid fa-upload"></i> Load</button>
+        <label>Render</label>
+        <button class="act" id="mode2d" data-mode="2d"><i class="fa-solid fa-square"></i> 2D</button>
+        <button class="act" id="mode3d" data-mode="3d"><i class="fa-solid fa-cube"></i> 3D</button>
+        <button class="act" id="modeAuto" data-mode="auto"><i class="fa-solid fa-wand-magic-sparkles"></i> AUTO</button>
+        <span id="modeStatus">detecting…</span>
       </div>
+
       <div class="row">
-        <label>Cols</label><input type="number" id="coinCols" value="1" min="1" max="32">
-        <label>Rows</label><input type="number" id="coinRows" value="1" min="1" max="32">
-        <label>FPS</label><input type="number" id="coinFps" value="8" min="1" max="30">
-        <input type="file" id="coinFile" accept="image/*">
-        <button class="act" data-clear="coin"><i class="fa-solid fa-trash"></i> Clear</button>
+        <label>Auto-Adjust</label>
+        <button class="act on" id="toggleAuto"><i class="fa-solid fa-sliders"></i> ON</button>
+        <span style="font-size:10px;color:#6f6f85;">camera follows speed, jump height &amp; screen shape</span>
       </div>
-      <div class="row"><span class="spriteStatus" id="coinStatus">Using procedural Coin.</span></div>
-    </div>
 
-    <div class="hint">
-      Load a sprite sheet for any character. Set <b>Columns</b> × <b>Rows</b> to
-      match the sheet grid, and <b>FPS</b> for animation speed. The same sprite is
-      used in <b>both 2D and 3D</b> modes — 3D builds a camera-facing billboard.
-      If a remote image is blocked by CORS, use <b>Local file</b>. Press <b>Clear</b>
-      to return to the built-in procedural character.
-    </div>
+      <div class="row">
+        <label>Yaw</label>
+        <input type="range" id="camYaw" min="-70" max="70" step="1" value="16">
+        <span class="val" id="camYawV">16°</span>
+      </div>
 
-    <div id="legend">
-      <span><kbd>←</kbd><kbd>→</kbd> move</span>
-      <span><kbd>↓</kbd> crouch</span>
-      <span><kbd>Space</kbd>/<kbd>Z</kbd>/<kbd>↑</kbd> jump</span>
-      <span><kbd>X</kbd>/<kbd>Shift</kbd> run</span>
-      <span><kbd>P</kbd> pause</span>
-      <span><kbd>R</kbd> restart</span>
-      <span><kbd>Enter</kbd> start</span>
-      <span><kbd>V</kbd> toggle 2D/3D</span>
-    </div>
-  </details>
+      <div class="row">
+        <label>Pitch</label>
+        <input type="range" id="camPitch" min="0" max="55" step="1" value="15">
+        <span class="val" id="camPitchV">15°</span>
+      </div>
 
+      <div class="row">
+        <label>FOV</label>
+        <input type="range" id="camFov" min="35" max="90" step="1" value="55">
+        <span class="val" id="camFovV">55°</span>
+      </div>
+
+      <div class="row">
+        <label>Distance</label>
+        <input type="range" id="camDist" min="6" max="26" step="1" value="11">
+        <span class="val" id="camDistV">11</span>
+      </div>
+
+      <div class="row">
+        <label>Pixel ratio</label>
+        <input type="range" id="camDpr" min="1" max="2" step="0.25" value="1.5">
+        <span class="val" id="camDprV">1.5×</span>
+      </div>
+
+      <div id="caps">Scanning device…</div>
+
+      <div class="hint">
+        3D mode builds the entire level as real geometry with <b>Three.js</b>.
+        The camera auto-detects screen aspect, speed, jump velocity and level bounds,
+        then auto-adjusts its angle, distance and height every frame.
+      </div>
+
+      <hr class="divider">
+
+      <div class="section-title gold"><i class="fa-solid fa-palette"></i> Character Sprites (2D &amp; 3D)</div>
+
+      <div class="spriteBlock" data-char="hero">
+        <div class="spriteHeader"><i class="fa-solid fa-user"></i>HERO</div>
+        <div class="row">
+          <label>URL</label>
+          <input type="text" id="heroUrl"
+            value="https://github.com/HexSleuth/SuperMODI-Bros/blob/main/1000221698.png">
+          <button class="act" data-load="hero"><i class="fa-solid fa-upload"></i> Load</button>
+        </div>
+        <div class="row">
+          <label>Cols</label><input type="number" id="heroCols" value="1" min="1" max="32">
+          <label>Rows</label><input type="number" id="heroRows" value="1" min="1" max="32">
+          <label>FPS</label><input type="number" id="heroFps" value="8" min="1" max="30">
+          <input type="file" id="heroFile" accept="image/*">
+          <button class="act" data-clear="hero"><i class="fa-solid fa-trash"></i> Clear</button>
+        </div>
+        <div class="row"><span class="spriteStatus" id="heroStatus">Using procedural character.</span></div>
+      </div>
+
+      <div class="spriteBlock" data-char="goomba">
+        <div class="spriteHeader"><i class="fa-solid fa-ghost"></i>GOOMBA (Enemy)</div>
+        <div class="row">
+          <label>URL</label>
+          <input type="text" id="goombaUrl" placeholder="https://...">
+          <button class="act" data-load="goomba"><i class="fa-solid fa-upload"></i> Load</button>
+        </div>
+        <div class="row">
+          <label>Cols</label><input type="number" id="goombaCols" value="1" min="1" max="32">
+          <label>Rows</label><input type="number" id="goombaRows" value="1" min="1" max="32">
+          <label>FPS</label><input type="number" id="goombaFps" value="6" min="1" max="30">
+          <input type="file" id="goombaFile" accept="image/*">
+          <button class="act" data-clear="goomba"><i class="fa-solid fa-trash"></i> Clear</button>
+        </div>
+        <div class="row"><span class="spriteStatus" id="goombaStatus">Using procedural Goomba.</span></div>
+      </div>
+
+      <div class="spriteBlock" data-char="koopa">
+        <div class="spriteHeader"><i class="fa-solid fa-dragon"></i>KOOPA (Enemy)</div>
+        <div class="row">
+          <label>URL</label>
+          <input type="text" id="koopaUrl" placeholder="https://...">
+          <button class="act" data-load="koopa"><i class="fa-solid fa-upload"></i> Load</button>
+        </div>
+        <div class="row">
+          <label>Cols</label><input type="number" id="koopaCols" value="1" min="1" max="32">
+          <label>Rows</label><input type="number" id="koopaRows" value="1" min="1" max="32">
+          <label>FPS</label><input type="number" id="koopaFps" value="6" min="1" max="30">
+          <input type="file" id="koopaFile" accept="image/*">
+          <button class="act" data-clear="koopa"><i class="fa-solid fa-trash"></i> Clear</button>
+        </div>
+        <div class="row"><span class="spriteStatus" id="koopaStatus">Using procedural Koopa.</span></div>
+      </div>
+
+      <div class="spriteBlock" data-char="mushroom">
+        <div class="spriteHeader"><i class="fa-solid fa-star"></i>MUSHROOM (Item)</div>
+        <div class="row">
+          <label>URL</label>
+          <input type="text" id="mushroomUrl" placeholder="https://...">
+          <button class="act" data-load="mushroom"><i class="fa-solid fa-upload"></i> Load</button>
+        </div>
+        <div class="row">
+          <label>Cols</label><input type="number" id="mushroomCols" value="1" min="1" max="32">
+          <label>Rows</label><input type="number" id="mushroomRows" value="1" min="1" max="32">
+          <label>FPS</label><input type="number" id="mushroomFps" value="1" min="1" max="30">
+          <input type="file" id="mushroomFile" accept="image/*">
+          <button class="act" data-clear="mushroom"><i class="fa-solid fa-trash"></i> Clear</button>
+        </div>
+        <div class="row"><span class="spriteStatus" id="mushroomStatus">Using procedural Mushroom.</span></div>
+      </div>
+
+      <div class="spriteBlock" data-char="coin">
+        <div class="spriteHeader"><i class="fa-solid fa-coins"></i>COIN</div>
+        <div class="row">
+          <label>URL</label>
+          <input type="text" id="coinUrl" placeholder="https://...">
+          <button class="act" data-load="coin"><i class="fa-solid fa-upload"></i> Load</button>
+        </div>
+        <div class="row">
+          <label>Cols</label><input type="number" id="coinCols" value="1" min="1" max="32">
+          <label>Rows</label><input type="number" id="coinRows" value="1" min="1" max="32">
+          <label>FPS</label><input type="number" id="coinFps" value="8" min="1" max="30">
+          <input type="file" id="coinFile" accept="image/*">
+          <button class="act" data-clear="coin"><i class="fa-solid fa-trash"></i> Clear</button>
+        </div>
+        <div class="row"><span class="spriteStatus" id="coinStatus">Using procedural Coin.</span></div>
+      </div>
+
+      <div class="hint">
+        Load a sprite sheet for any character. Set <b>Columns</b> × <b>Rows</b> to
+        match the sheet grid, and <b>FPS</b> for animation speed. The same sprite is
+        used in <b>both 2D and 3D</b> modes — 3D builds a camera-facing billboard.
+        If a remote image is blocked by CORS, use <b>Local file</b>. Press <b>Clear</b>
+        to return to the built-in procedural character.
+      </div>
+
+      <div id="legend">
+        <span><kbd>←</kbd><kbd>→</kbd> move</span>
+        <span><kbd>↓</kbd> crouch</span>
+        <span><kbd>Space</kbd>/<kbd>Z</kbd>/<kbd>↑</kbd> jump</span>
+        <span><kbd>X</kbd>/<kbd>Shift</kbd> run</span>
+        <span><kbd>P</kbd> pause</span>
+        <span><kbd>R</kbd> restart</span>
+        <span><kbd>Enter</kbd> start</span>
+        <span><kbd>V</kbd> toggle 2D/3D</span>
+      </div>
+    </details>
+  </div>
+
+  <!-- ================= LEVEL EDITOR SCREEN ================= -->
+  <div id="screen-editor" class="screen">
+    <div id="editorWrap">
+      <div id="editorToolbar">
+        <div class="group">
+          <span style="font-size:10px;color:#7a7a92;letter-spacing:1px;">TILES</span>
+        </div>
+        <div class="group" id="tilePalette">
+          <!-- tile buttons will be injected -->
+        </div>
+        <div class="group">
+          <span style="font-size:10px;color:#7a7a92;letter-spacing:1px;">TOOLS</span>
+          <button class="toolbtn" id="toolErase" title="Erase (E)"><i class="fa-solid fa-eraser"></i></button>
+          <button class="toolbtn" id="toolFill"  title="Fill (F)"><i class="fa-solid fa-fill-drip"></i></button>
+          <button class="toolbtn" id="toolPick"  title="Pick (P)"><i class="fa-solid fa-eye-dropper"></i></button>
+        </div>
+        <div class="group">
+          <button class="toolbtn" id="edUndo" title="Undo (Ctrl+Z)"><i class="fa-solid fa-rotate-left"></i></button>
+          <button class="toolbtn" id="edRedo" title="Redo (Ctrl+Y)"><i class="fa-solid fa-rotate-right"></i></button>
+          <button class="toolbtn red" id="edClear" title="Clear Level"><i class="fa-solid fa-trash"></i></button>
+        </div>
+        <div class="group">
+          <button class="toolbtn" id="edResize" title="Toggle level length"><i class="fa-solid fa-arrows-left-right"></i></button>
+        </div>
+        <div class="group">
+          <button class="toolbtn green" id="edSave" title="Save Level"><i class="fa-solid fa-floppy-disk"></i></button>
+          <button class="toolbtn" id="edPlay" title="Play Test"><i class="fa-solid fa-play"></i></button>
+        </div>
+      </div>
+      <div id="editorCanvasWrap">
+        <canvas id="editorCanvas" width="2048" height="480"></canvas>
+      </div>
+      <div id="editorInfo">
+        <span class="pill"><i class="fa-solid fa-arrows-up-down-left-right"></i> <b>Click</b>&nbsp;to paint</span>
+        <span class="pill"><i class="fa-solid fa-hand-pointer"></i> <b>Drag</b>&nbsp;to paint multiple</span>
+        <span class="pill"><i class="fa-solid fa-ruler-combined"></i> Size: <b id="edSizeLabel">128 × 15</b></span>
+        <span class="pill"><i class="fa-solid fa-tag"></i> Selected: <b id="edSelectedLabel">Ground</b></span>
+        <span class="pill"><i class="fa-solid fa-arrows-left-right"></i> Scroll horizontally inside the canvas</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= SAVED LEVELS SCREEN ================= -->
+  <div id="screen-levels" class="screen">
+    <div id="levelsWrap">
+      <div id="levelsHeader">
+        <h2><i class="fa-solid fa-folder-open"></i> SAVED LEVELS</h2>
+        <div style="display:flex;gap:6px;">
+          <button class="miniBtn" id="lvRefresh"><i class="fa-solid fa-rotate"></i> Refresh</button>
+          <button class="miniBtn del" id="lvDeleteAll"><i class="fa-solid fa-trash"></i> Delete All</button>
+        </div>
+      </div>
+      <div id="levelsList"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ================= SAVE DIALOG ================= -->
+<div id="saveModal">
+  <div id="saveDialog">
+    <h3><i class="fa-solid fa-floppy-disk"></i> Save Level</h3>
+    <div style="font-size:11px;color:#b9b9cc;">Give your level a name:</div>
+    <input type="text" id="saveNameInput" maxlength="24" placeholder="My Awesome Level" style="flex:1;min-width:0;">
+    <div class="dialog-actions">
+      <button class="miniBtn" id="saveCancel"><i class="fa-solid fa-xmark"></i> Cancel</button>
+      <button class="miniBtn play" id="saveConfirm"><i class="fa-solid fa-check"></i> Save</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -441,22 +742,17 @@ const SMALL_W = 12, SMALL_H = 16;
 const BIG_W   = 12, BIG_H   = 26;
 
 /* =========================================================================
-   2. SOUND MANAGER — WebAudio chiptune tones + unchanged MP3s
-      • System SFX interface kept identical (jump/bigjump/stomp/kick/…)
-      • Jump + Big-Jump now play the external "sound.mp3" file
-        (the same file that also drives the level-clear / win SFX).
+   2. SOUND MANAGER — System SFX interface unchanged
    ========================================================================= */
 const Sound = (function(){
   let ac = null;
   let masterGain = null;
   let masterVolume = 0.55;
 
-  /* ---- External MP3 sound files ---- */
   const SFX_URLS = {
     die:   'https://raw.githubusercontent.com/HexSleuth/HEX-BLASTER-2D---Orange-Hero-Arena-Shooter/main/opsSound.mp3',
     enemy: 'https://raw.githubusercontent.com/HexSleuth/HEX-BLASTER-2D---Orange-Hero-Arena-Shooter/main/sound1.mp3',
     win:   'https://raw.githubusercontent.com/HexSleuth/HEX-BLASTER-2D---Orange-Hero-Arena-Shooter/main/sound.mp3',
-    /* JUMP: now uses sound.mp3 — the "Old JUMP" sound effect */
     jump:  'https://raw.githubusercontent.com/HexSleuth/HEX-BLASTER-2D---Orange-Hero-Arena-Shooter/main/sound.mp3'
   };
 
@@ -538,164 +834,28 @@ const Sound = (function(){
 
   return {
     unlock(){ ensure(); },
-
     setMasterVolume(v){
       masterVolume = clamp(v, 0, 1);
       if(masterGain) masterGain.gain.value = masterVolume;
     },
-
-    /* --- External MP3 sound files --- */
-    die(){
-      ensure();
-      if(!playSFX('die')){
-        arp([523,392,330,262,196], 0.13, 0.16, 'square', 0.11);
-      }
-    },
-    stomp(){
-      ensure();
-      if(!playSFX('enemy')){
-        tone(220, 70, 0.11, 'square', 0.11);
-      }
-    },
-    kick(){
-      ensure();
-      if(!playSFX('enemy')){
-        tone(620, 210, 0.10, 'square', 0.10);
-      }
-    },
-    clear(){
-      ensure();
-      if(!playSFX('win')){
-        arp([392,523,659,784,1047,1319], 0.13, 0.16, 'square', 0.10);
-      }
-    },
-
-    /* --- Jump / Big-Jump : now driven by sound.mp3 --- */
-    jump(){
-      ensure();
-      if(!playSFX('jump')){
-        tone(320, 780, 0.13, 'square', 0.09);
-      }
-    },
-    bigjump(){
-      ensure();
-      if(!playSFX('jump')){
-        tone(250, 620, 0.17, 'square', 0.10);
-      }
-    },
-
-    /* --- WebAudio chiptune effects --- */
-    coin(){
-      ensure();
-      tone(988, 988, 0.06, 'square', 0.10);
-      tone(1319, 1319, 0.16, 'square', 0.10, 0.06);
-    },
-    bump(){ ensure(); tone(190, 120, 0.07, 'square', 0.09); },
-    brick(){ ensure(); tone(430, 90, 0.13, 'sawtooth', 0.09); },
-    power(){ ensure(); arp([392,523,659,784,1047], 0.05, 0.10, 'square', 0.10); },
-    shrink(){ ensure(); arp([784,659,523,392,262], 0.05, 0.10, 'square', 0.10); },
-    oneup(){ ensure(); arp([659,784,1047,1319], 0.08, 0.10, 'triangle', 0.10); },
-    flag(){ ensure(); arp([392,494,587,784], 0.09, 0.12, 'triangle', 0.10); }
+    die(){ ensure(); if(!playSFX('die')) arp([523,392,330,262,196],0.13,0.16,'square',0.11); },
+    stomp(){ ensure(); if(!playSFX('enemy')) tone(220,70,0.11,'square',0.11); },
+    kick(){ ensure(); if(!playSFX('enemy')) tone(620,210,0.10,'square',0.10); },
+    clear(){ ensure(); if(!playSFX('win')) arp([392,523,659,784,1047,1319],0.13,0.16,'square',0.10); },
+    jump(){ ensure(); if(!playSFX('jump')) tone(320,780,0.13,'square',0.09); },
+    bigjump(){ ensure(); if(!playSFX('jump')) tone(250,620,0.17,'square',0.10); },
+    coin(){ ensure(); tone(988,988,0.06,'square',0.10); tone(1319,1319,0.16,'square',0.10,0.06); },
+    bump(){ ensure(); tone(190,120,0.07,'square',0.09); },
+    brick(){ ensure(); tone(430,90,0.13,'sawtooth',0.09); },
+    power(){ ensure(); arp([392,523,659,784,1047],0.05,0.10,'square',0.10); },
+    shrink(){ ensure(); arp([784,659,523,392,262],0.05,0.10,'square',0.10); },
+    oneup(){ ensure(); arp([659,784,1047,1319],0.08,0.10,'triangle',0.10); },
+    flag(){ ensure(); arp([392,494,587,784],0.09,0.12,'triangle',0.10); }
   };
 })();
 
 /* =========================================================================
-   3. CONTROLLER (ported from Controller.hpp)
-   ========================================================================= */
-const ControllerButton = {
-  BUTTON_A: 0, BUTTON_B: 1, BUTTON_SELECT: 2, BUTTON_START: 3,
-  BUTTON_UP: 4, BUTTON_DOWN: 5, BUTTON_LEFT: 6, BUTTON_RIGHT: 7
-};
-
-class Controller {
-  constructor(){
-    this.buttonStates = new Array(8).fill(false);
-    this.buttonIndex = 0;
-    this.strobe = 1;
-  }
-  readByte(){
-    let value = 1;
-    if(this.buttonIndex < 8){
-      value = this.buttonStates[this.buttonIndex] ? 0x41 : 0x40;
-    }
-    if((this.strobe & 1) === 0){ this.buttonIndex++; }
-    return value;
-  }
-  setButtonState(button, state){ this.buttonStates[button] = !!state; }
-  writeByte(value){
-    if((value & 1) === 0 && (this.strobe & 1) === 1){ this.buttonIndex = 0; }
-    this.strobe = value;
-  }
-}
-
-/* =========================================================================
-   4. MEMORY ACCESS (ported from MemoryAccess.hpp)
-   ========================================================================= */
-class MemoryAccess {
-  constructor(engine, value){
-    this.engine = engine;
-    if(typeof value === 'number'){
-      this.constant = value;
-      this.value = { v: value };
-    } else {
-      this.value = value;
-    }
-  }
-  set(v){ this.value.v = v & 0xff; this.engine.setZN(this.value.v); return this; }
-  get(){ return this.value.v & 0xff; }
-  addAssign(v){
-    const temp = (this.value.v + v + (this.engine.c ? 1 : 0)) & 0x1ffff;
-    this.value.v = temp & 0xff;
-    this.engine.setZN(this.value.v);
-    this.engine.c = temp > 0xff;
-    return this;
-  }
-  subAssign(v){
-    const temp = this.value.v - v - (this.engine.c ? 0 : 1);
-    this.value.v = temp & 0xff;
-    this.engine.setZN(this.value.v);
-    this.engine.c = temp < 0x100;
-    return this;
-  }
-  inc(){ this.value.v = (this.value.v + 1) & 0xff; this.engine.setZN(this.value.v); return this; }
-  dec(){ this.value.v = (this.value.v - 1) & 0xff; this.engine.setZN(this.value.v); return this; }
-  andAssign(v){ this.value.v &= v; this.engine.setZN(this.value.v); return this; }
-  orAssign(v){ this.value.v |= v; this.engine.setZN(this.value.v); return this; }
-  xorAssign(v){ this.value.v ^= v; this.engine.setZN(this.value.v); return this; }
-  shlAssign(n){
-    for(let i=0;i<n;i++){
-      this.engine.c = (this.value.v & (1 << 7)) !== 0;
-      this.value.v = (this.value.v << 1) & 0xfe;
-      this.engine.setZN(this.value.v);
-    }
-    return this;
-  }
-  shrAssign(n){
-    for(let i=0;i<n;i++){
-      this.engine.c = (this.value.v & 1) !== 0;
-      this.value.v = (this.value.v >> 1) & 0x7f;
-      this.engine.setZN(this.value.v);
-    }
-    return this;
-  }
-  rol(){
-    const bit7 = (this.value.v & (1 << 7)) !== 0;
-    this.value.v = (this.value.v << 1) & 0xff;
-    if(this.engine.c){ this.value.v |= 1; }
-    this.engine.c = bit7;
-    this.engine.setZN(this.value.v);
-  }
-  ror(){
-    const bit0 = (this.value.v & 1) !== 0;
-    this.value.v = (this.value.v >> 1) & 0x7f;
-    if(this.engine.c){ this.value.v |= (1 << 7); }
-    this.engine.c = bit0;
-    this.engine.setZN(this.value.v);
-  }
-}
-
-/* =========================================================================
-   5. INPUT
+   3. INPUT
    ========================================================================= */
 const Input = {
   left:false, right:false, jump:false, run:false, down:false,
@@ -716,7 +876,9 @@ const KEYMAP = {
 window.addEventListener('keydown', function(e){
   const a = KEYMAP[e.code];
   if(e.code === 'KeyV' && !e.repeat){
-    cycleMode();
+    if(document.getElementById('screen-game').classList.contains('active')){
+      cycleMode();
+    }
     e.preventDefault();
     return;
   }
@@ -771,7 +933,7 @@ stage.addEventListener('pointerdown', function(ev){
 });
 
 /* =========================================================================
-   6. TILE DEFINITIONS
+   4. TILE DEFINITIONS
    ========================================================================= */
 const SOLID_CHARS = 'XSB?MU[]{}f';
 function isSolidChar(c){ return SOLID_CHARS.indexOf(c) !== -1; }
@@ -790,8 +952,25 @@ const TILE_COLORS_3D = {
   'F': 0x00c000, 'f': 0x00a800
 };
 
+/* Editor tile palette entries */
+const EDITOR_TILES = [
+  {ch:'.', name:'Empty',     color:'#0b0b12'},
+  {ch:'X', name:'Ground',    color:'#c84c0c'},
+  {ch:'S', name:'Stone',     color:'#b06a1c'},
+  {ch:'B', name:'Brick',     color:'#d0561a'},
+  {ch:'?', name:'? Block',   color:'#e8a316'},
+  {ch:'M', name:'Mushroom',  color:'#e8a316'},
+  {ch:'U', name:'Used',      color:'#8a5a20'},
+  {ch:'[', name:'Pipe TL',   color:'#00a800'},
+  {ch:']', name:'Pipe TR',   color:'#00a800'},
+  {ch:'{', name:'Pipe BL',   color:'#00a800'},
+  {ch:'}', name:'Pipe BR',   color:'#00a800'},
+  {ch:'F', name:'Flagpole',  color:'#00c000'},
+  {ch:'f', name:'Pole base', color:'#00a800'}
+];
+
 /* =========================================================================
-   7. LEVEL BUILDER
+   5. LEVEL BUILDER (default level)
    ========================================================================= */
 function mkEnemy(type, tx, ty){
   if(type === 'goomba'){
@@ -808,7 +987,7 @@ function mkEnemy(type, tx, ty){
   };
 }
 
-function buildLevel(){
+function buildDefaultLevel(){
   const W = 212;
   const grid = [];
   for(let y=0;y<ROWS;y++) grid.push(new Array(W).fill('.'));
@@ -839,49 +1018,36 @@ function buildLevel(){
   const addKoopa  = (x,y)=> enemies.push(mkEnemy('koopa',  x, (y===undefined?12:y)));
 
   fill(0, GROUND_ROW, W-1, ROWS-1, 'X');
-
   fill(69, GROUND_ROW, 71, ROWS-1, '.');
   fill(86, GROUND_ROW, 88, ROWS-1, '.');
   fill(153, GROUND_ROW, 155, ROWS-1, '.');
 
   set(16,9,'?');
-
   set(20,9,'B'); set(21,9,'?'); set(22,9,'B'); set(23,9,'M'); set(24,9,'B');
   set(22,5,'?');
 
   addCoin(33,7); addCoin(34,7); addCoin(35,7);
 
-  pipe(28,2);
-  pipe(38,3);
-  pipe(46,4);
-  pipe(57,4);
+  pipe(28,2); pipe(38,3); pipe(46,4); pipe(57,4);
 
   set(60,9,'B'); set(61,9,'B');
   addCoin(63,7); addCoin(64,7); addCoin(65,7);
 
-  addGoomba(25);
-  addGoomba(42);
-  addGoomba(52); addGoomba(53);
-  addGoomba(64);
+  addGoomba(25); addGoomba(42); addGoomba(52); addGoomba(53); addGoomba(64);
 
   addCoin(74,7); addCoin(75,7);
 
   set(77,9,'B'); set(78,9,'?'); set(79,9,'B');
-  fill(80,5,84,5,'B');
-  set(82,5,'?');
+  fill(80,5,84,5,'B'); set(82,5,'?');
 
-  addGoomba(80);
-  addGoomba(83);
+  addGoomba(80); addGoomba(83);
 
   set(91,9,'B'); set(92,9,'?'); set(93,9,'B');
-  fill(95,5,99,5,'B');
-  set(97,5,'?');
+  fill(95,5,99,5,'B'); set(97,5,'?');
 
-  addGoomba(97);
-  addGoomba(100);
+  addGoomba(97); addGoomba(100);
 
   pipe(105,3);
-
   addKoopa(112);
 
   set(115,9,'B'); set(116,9,'B'); set(117,9,'B');
@@ -889,28 +1055,20 @@ function buildLevel(){
   addCoin(115,7); addCoin(116,7); addCoin(117,7);
 
   addGoomba(121); addGoomba(122);
-
-  stairUp(124,4);
-  stairDown(130,4);
+  stairUp(124,4); stairDown(130,4);
 
   pipe(138,4);
-
   addKoopa(144);
 
-  fill(145,9,150,9,'B');
-  set(147,9,'?');
+  fill(145,9,150,9,'B'); set(147,9,'?');
   addCoin(146,7); addCoin(147,7); addCoin(148,7);
-
   addGoomba(149);
 
   set(160,9,'?'); set(161,9,'?'); set(162,9,'?');
   addCoin(158,7); addCoin(159,7);
-
   addGoomba(166); addGoomba(167);
 
-  stairUp(170,4);
-  stairDown(176,4);
-
+  stairUp(170,4); stairDown(176,4);
   stairUp(184,8);
 
   const FLAG_X = 198;
@@ -923,8 +1081,35 @@ function buildLevel(){
   };
 }
 
+/* Build level from an array (used by editor + saved levels) */
+function buildLevelFromGrid(grid){
+  const h = grid.length;
+  const w = grid[0] ? grid[0].length : 0;
+  const coins = [];
+  const enemySpawns = [];
+  let flagX = -1;
+
+  for(let y=0;y<h;y++){
+    for(let x=0;x<w;x++){
+      const c = grid[y][x];
+      if(c === 'C'){
+        coins.push({x:x*TILE+3, y:y*TILE+2, w:10, h:12, t:(x*7+y*5)%32});
+      } else if(c === 'F' && flagX < 0){
+        flagX = x;
+      }
+    }
+  }
+
+  return {
+    w: w, h: h, grid: grid.map(r=>r.slice()),
+    coins: coins, enemySpawns: enemySpawns,
+    flagX: flagX >= 0 ? flagX : w - 6,
+    flagTopY: 3 * TILE, flagBaseY: 12 * TILE
+  };
+}
+
 /* =========================================================================
-   8. GAME STATE
+   6. GAME STATE
    ========================================================================= */
 const G = {
   state: 'title', prevState: 'play', frame: 0,
@@ -935,11 +1120,11 @@ const G = {
 };
 
 /* =========================================================================
-   9. TILE QUERIES
+   7. TILE QUERIES / COLLISION
    ========================================================================= */
 function tileChar(tx,ty){
   if(!G.level) return '.';
-  if(ty < 0 || ty >= ROWS) return '.';
+  if(ty < 0 || ty >= G.level.h) return '.';
   if(tx < 0 || tx >= G.level.w) return '.';
   return G.level.grid[ty][tx];
 }
@@ -949,14 +1134,11 @@ function solidPx(x,y){
   return isSolidChar(tileChar(tx,ty));
 }
 function setTile(tx,ty,c){
-  if(ty<0||ty>=ROWS||tx<0||tx>=G.level.w) return;
+  if(ty<0||ty>=G.level.h||tx<0||tx>=G.level.w) return;
   G.level.grid[ty][tx] = c;
   if(R3D.ready){ R3D.tilesDirty = true; }
 }
 
-/* =========================================================================
-   10. ENTITY PHYSICS
-   ========================================================================= */
 function collideX(e){
   e.x += e.vx;
   const yTop = e.y + 2;
@@ -1020,7 +1202,7 @@ function collideY(e, isPlayer){
 }
 
 /* =========================================================================
-   11. BLOCK INTERACTION
+   8. BLOCK INTERACTION
    ========================================================================= */
 function bumpBlock(tx,ty){
   const c = tileChar(tx,ty);
@@ -1054,7 +1236,6 @@ function bumpBlock(tx,ty){
     }
     return;
   }
-
   Sound.bump();
 }
 
@@ -1068,12 +1249,9 @@ function addCoin(){
 }
 
 /* =========================================================================
-   12. PARTICLES
+   9. PARTICLES / ENEMIES / ITEMS
    ========================================================================= */
-function spawnParticle(o){
-  G.particles.push(Object.assign({t:0, life:40, grav:0}, o));
-}
-
+function spawnParticle(o){ G.particles.push(Object.assign({t:0, life:40, grav:0}, o)); }
 function spawnBrickChunks(tx,ty){
   const bx = tx*TILE, by = ty*TILE;
   spawnParticle({kind:'chunk', x:bx+2,  y:by+2,  vx:-1.6, vy:-4.2, grav:0.35, life:70});
@@ -1081,14 +1259,8 @@ function spawnBrickChunks(tx,ty){
   spawnParticle({kind:'chunk', x:bx+2,  y:by+9,  vx:-1.2, vy:-2.8, grav:0.35, life:70});
   spawnParticle({kind:'chunk', x:bx+9,  y:by+9,  vx: 1.2, vy:-2.8, grav:0.35, life:70});
 }
-
-function spawnCoinPop(tx,ty){
-  spawnParticle({kind:'coinpop', x:tx*TILE+3, y:ty*TILE-2, vx:0, vy:-4.6, grav:0.30, life:38});
-}
-
-function spawnScorePopup(n, x, y){
-  spawnParticle({kind:'text', text:String(n), x:x, y:y, vx:0, vy:-0.9, grav:0, life:46});
-}
+function spawnCoinPop(tx,ty){ spawnParticle({kind:'coinpop', x:tx*TILE+3, y:ty*TILE-2, vx:0, vy:-4.6, grav:0.30, life:38}); }
+function spawnScorePopup(n, x, y){ spawnParticle({kind:'text', text:String(n), x:x, y:y, vx:0, vy:-0.9, grav:0, life:46}); }
 
 function updateParticles(){
   for(const pt of G.particles){
@@ -1101,19 +1273,14 @@ function updateParticles(){
   G.particles = G.particles.filter(p=>!p.dead);
 }
 
-/* =========================================================================
-   13. ENEMIES
-   ========================================================================= */
 function resetEnemies(){
-  G.enemies = G.level.enemySpawns.map(function(src){
+  G.enemies = (G.level.enemySpawns || []).map(function(src){
     const e = mkEnemy(src.type, 0, 0);
     Object.assign(e, {
       x: src.x, y: src.y, w: src.w, h: src.h,
       dir: src.dir, speed: src.speed, vx: src.vx
     });
-    e.state = 'walk';
-    e.remove = false;
-    e.active = false;
+    e.state = 'walk'; e.remove = false; e.active = false;
     return e;
   });
 }
@@ -1124,55 +1291,35 @@ function enemyActive(e){
 
 function updateEnemies(){
   const p = G.player;
-
   for(const e of G.enemies){
     if(e.remove) continue;
+    if(!e.active){ if(enemyActive(e)) e.active = true; else continue; }
 
-    if(!e.active){
-      if(enemyActive(e)) e.active = true;
-      else continue;
-    }
-
-    if(e.state === 'squashed'){
-      e.squashT--;
-      if(e.squashT <= 0) e.remove = true;
-      continue;
-    }
+    if(e.state === 'squashed'){ e.squashT--; if(e.squashT <= 0) e.remove = true; continue; }
     if(e.state === 'dead'){
-      e.vy += GRAV;
-      e.y  += e.vy;
-      e.x  += e.vx;
+      e.vy += GRAV; e.y += e.vy; e.x += e.vx;
       if(e.y > VIEW_H + 96) e.remove = true;
       continue;
     }
-
     if(e.state === 'shell'){
       e.shellT--;
       if(e.shellT <= 0){
-        e.state = 'walk';
-        e.h = 16;
-        e.y -= 2;
+        e.state = 'walk'; e.h = 16; e.y -= 2;
         e.dir = (p.x < e.x) ? 1 : -1;
         e.vx = e.speed * e.dir;
       }
     }
-
     if(e.state === 'walk')      e.vx = e.speed * e.dir;
     else if(e.state === 'shell')e.vx = 0;
     else if(e.state === 'shellmove') e.vx = 3.2 * e.dir;
 
-    e.vy += GRAV;
-    if(e.vy > MAX_FALL) e.vy = MAX_FALL;
+    e.vy += GRAV; if(e.vy > MAX_FALL) e.vy = MAX_FALL;
 
     const hx = collideX(e);
-    if(hx !== 0){
-      e.dir *= -1;
-      if(e.state === 'shellmove') Sound.bump();
-    }
+    if(hx !== 0){ e.dir *= -1; if(e.state === 'shellmove') Sound.bump(); }
     collideY(e, false);
 
     if(e.y > VIEW_H + 64){ e.remove = true; continue; }
-
     e.animT++;
   }
 
@@ -1182,8 +1329,7 @@ function updateEnemies(){
       if(o === s || o.remove || o.state === 'squashed' || o.state === 'dead') continue;
       if(!o.active) continue;
       if(aabb(s,o)){
-        o.state = 'dead';
-        o.vy = -4.5;
+        o.state = 'dead'; o.vy = -4.5;
         o.vx = (o.x < s.x ? -1.4 : 1.4);
         G.score += 200;
         spawnScorePopup(200, o.x, o.y);
@@ -1191,47 +1337,27 @@ function updateEnemies(){
       }
     }
   }
-
   G.enemies = G.enemies.filter(e=>!e.remove);
 }
 
-/* =========================================================================
-   14. ITEMS
-   ========================================================================= */
 function spawnMushroom(tx,ty){
   G.items.push({
-    type:'mush',
-    x: tx*TILE + 1, y: ty*TILE,
+    type:'mush', x: tx*TILE + 1, y: ty*TILE,
     w: 14, h: 15, vx: 0, vy: 0,
     dir: 1, emerge: 16, remove: false, animT: 0
   });
 }
-
 function updateItems(){
   const p = G.player;
-
   for(const it of G.items){
     if(it.remove) continue;
-
-    if(it.emerge > 0){
-      it.emerge--;
-      it.y -= 1;
-      continue;
-    }
-
-    it.vy += GRAV;
-    if(it.vy > MAX_FALL) it.vy = MAX_FALL;
-
+    if(it.emerge > 0){ it.emerge--; it.y -= 1; continue; }
+    it.vy += GRAV; if(it.vy > MAX_FALL) it.vy = MAX_FALL;
     it.vx = it.dir * 1.1;
-    const hx = collideX(it);
-    if(hx !== 0) it.dir *= -1;
-
+    const hx = collideX(it); if(hx !== 0) it.dir *= -1;
     collideY(it, false);
-
     if(it.y > VIEW_H + 64){ it.remove = true; continue; }
-
     it.animT++;
-
     if(p.state === 'normal' && aabb(p,it)){
       it.remove = true;
       G.score += 1000;
@@ -1240,64 +1366,41 @@ function updateItems(){
       growPlayer();
     }
   }
-
   G.items = G.items.filter(i=>!i.remove);
 }
 
 function growPlayer(){
   const p = G.player;
   if(!p.big){
-    p.big = true;
-    p.h = BIG_H;
-    p.y -= (BIG_H - SMALL_H);
-    p.state = 'transform';
-    p.transT = 26;
-    p.transformTo = 'big';
-  } else {
-    G.score += 1000;
-  }
+    p.big = true; p.h = BIG_H; p.y -= (BIG_H - SMALL_H);
+    p.state = 'transform'; p.transT = 26; p.transformTo = 'big';
+  } else { G.score += 1000; }
 }
 
 function hurtPlayer(){
   const p = G.player;
   if(p.invuln > 0 || p.state !== 'normal') return;
-
   if(p.big){
-    p.big = false;
-    p.h = SMALL_H;
-    p.y += (BIG_H - SMALL_H);
-    p.invuln = 110;
-    p.state = 'transform';
-    p.transT = 26;
-    p.transformTo = 'small';
+    p.big = false; p.h = SMALL_H; p.y += (BIG_H - SMALL_H);
+    p.invuln = 110; p.state = 'transform'; p.transT = 26; p.transformTo = 'small';
     Sound.shrink();
-  } else {
-    killPlayer();
-  }
+  } else { killPlayer(); }
 }
-
 function killPlayer(){
   const p = G.player;
   if(p.state === 'dying') return;
-  p.state = 'dying';
-  p.vy = -7.2;
-  p.vx = 0;
-  p.deadT = 0;
+  p.state = 'dying'; p.vy = -7.2; p.vx = 0; p.deadT = 0;
   G.dieT = 0;
   Sound.die();
 }
 
-/* =========================================================================
-   15. COINS
-   ========================================================================= */
 function updateCoins(){
   const p = G.player;
   for(const c of G.coinEnts){
     if(c.dead) continue;
     c.t++;
     if(p.state === 'normal' && aabb(p,c)){
-      c.dead = true;
-      addCoin();
+      c.dead = true; addCoin();
       G.score += 200;
       spawnScorePopup(200, c.x, c.y);
       Sound.coin();
@@ -1306,18 +1409,12 @@ function updateCoins(){
   G.coinEnts = G.coinEnts.filter(c=>!c.dead);
 }
 
-/* =========================================================================
-   16. COLLISION HELPERS
-   ========================================================================= */
 function aabb(a,b){
-  return a.x < b.x + b.w &&
-         a.x + a.w > b.x &&
-         a.y < b.y + b.h &&
-         a.y + a.h > b.y;
+  return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
 }
 
 /* =========================================================================
-   17. PLAYER
+   10. PLAYER
    ========================================================================= */
 function makePlayer(){
   return {
@@ -1337,20 +1434,11 @@ function updatePlayer(){
 
   if(p.state === 'dying'){
     p.deadT++;
-    if(p.deadT > 24){
-      p.vy += 0.34;
-      p.y  += p.vy;
-    }
+    if(p.deadT > 24){ p.vy += 0.34; p.y += p.vy; }
     if(p.deadT > 150) loseLife();
     return;
   }
-
-  if(p.state === 'transform'){
-    p.transT--;
-    if(p.transT <= 0) p.state = 'normal';
-    return;
-  }
-
+  if(p.state === 'transform'){ p.transT--; if(p.transT <= 0) p.state = 'normal'; return; }
   if(p.state === 'win'){ updateWinSequence(p); return; }
 
   if(p.invuln > 0) p.invuln--;
@@ -1366,26 +1454,21 @@ function updatePlayer(){
   const maxSpd = running ? MAX_RUN : MAX_WALK;
   const accel  = running ? ACC_RUN : ACC_WALK;
 
-  if(ax !== 0){
-    p.vx += ax * accel;
-    p.dir = ax;
-  } else {
+  if(ax !== 0){ p.vx += ax * accel; p.dir = ax; }
+  else {
     if(p.vx > 0) p.vx = Math.max(0, p.vx - FRICTION);
     else if(p.vx < 0) p.vx = Math.min(0, p.vx + FRICTION);
   }
 
   if(p.vx > maxSpd)  p.vx = Math.max(maxSpd, p.vx - 0.09);
   if(p.vx < -maxSpd) p.vx = Math.min(-maxSpd, p.vx + 0.09);
-
   if(p.vx > MAX_RUN)  p.vx = MAX_RUN;
   if(p.vx < -MAX_RUN) p.vx = -MAX_RUN;
 
   if(Input.jumpEdge && p.onGround){
     const fast = Math.abs(p.vx) > 2.2;
     p.vy = JUMP_BASE + (fast ? JUMP_BONUS : 0);
-    p.onGround = false;
-    p.jumpHeld = true;
-    p.jumpHeldTime = 0;
+    p.onGround = false; p.jumpHeld = true; p.jumpHeldTime = 0;
     if(p.big) Sound.bigjump(); else Sound.jump();
   }
   if(!Input.jump) p.jumpHeld = false;
@@ -1401,17 +1484,11 @@ function updatePlayer(){
 
   p.crouch = p.big && Input.down && p.onGround;
 
-  if(p.onGround && Math.abs(p.vx) > 0.12){
-    p.walkAnim += Math.abs(p.vx) * 0.28;
-    p.animT++;
-  } else if(!p.onGround){
-    p.animT++;
-  } else {
-    p.walkAnim = 0;
-  }
+  if(p.onGround && Math.abs(p.vx) > 0.12){ p.walkAnim += Math.abs(p.vx) * 0.28; p.animT++; }
+  else if(!p.onGround){ p.animT++; }
+  else { p.walkAnim = 0; }
 
   if(p.y > VIEW_H + 40){ killPlayer(); return; }
-
   playerEnemyCollisions();
   checkFlagpole();
 }
@@ -1432,28 +1509,18 @@ function playerEnemyCollisions(){
 
     if(isStomping){
       if(e.type === 'goomba'){
-        e.state = 'squashed';
-        e.squashT = 26;
-        e.vx = 0;
-        G.score += 100;
-        spawnScorePopup(100, e.x, e.y - 6);
+        e.state = 'squashed'; e.squashT = 26; e.vx = 0;
+        G.score += 100; spawnScorePopup(100, e.x, e.y - 6);
         Sound.stomp();
         p.vy = Input.jump ? -7.2 : -4.8;
       } else {
         if(e.state === 'walk'){
-          e.state = 'shell';
-          e.h = 14;
-          e.y += 2;
-          e.shellT = 340;
-          e.vx = 0;
-          G.score += 100;
-          spawnScorePopup(100, e.x, e.y - 6);
+          e.state = 'shell'; e.h = 14; e.y += 2; e.shellT = 340; e.vx = 0;
+          G.score += 100; spawnScorePopup(100, e.x, e.y - 6);
           Sound.stomp();
           p.vy = Input.jump ? -7.2 : -4.8;
         } else if(e.state === 'shellmove'){
-          e.state = 'shell';
-          e.shellT = 340;
-          e.vx = 0;
+          e.state = 'shell'; e.shellT = 340; e.vx = 0;
           Sound.stomp();
           p.vy = Input.jump ? -7.2 : -4.8;
         } else {
@@ -1471,7 +1538,6 @@ function playerEnemyCollisions(){
       Sound.kick();
       continue;
     }
-
     hurtPlayer();
   }
 }
@@ -1479,12 +1545,10 @@ function playerEnemyCollisions(){
 function checkFlagpole(){
   const p = G.player;
   if(p.state !== 'normal') return;
-
   const x1 = Math.floor((p.x + 3) / TILE);
   const x2 = Math.floor((p.x + p.w - 4) / TILE);
   const y1 = Math.floor((p.y + 2) / TILE);
   const y2 = Math.floor((p.y + p.h - 2) / TILE);
-
   for(let ty=y1; ty<=y2; ty++){
     for(let tx=x1; tx<=x2; tx++){
       if(tileChar(tx,ty) === 'F'){ startWinSequence(tx); return; }
@@ -1494,13 +1558,8 @@ function checkFlagpole(){
 
 function startWinSequence(tx){
   const p = G.player;
-  p.state = 'win';
-  p.winPhase = 0;
-  p.winT = 0;
-  p.vx = 0;
-  p.vy = 0;
-  p.dir = 1;
-  p.x = tx * TILE - 4;
+  p.state = 'win'; p.winPhase = 0; p.winT = 0;
+  p.vx = 0; p.vy = 0; p.dir = 1; p.x = tx * TILE - 4;
   G.flagSlide = true;
   Sound.flag();
 }
@@ -1511,55 +1570,36 @@ function updateWinSequence(p){
     G.flagY = Math.min(G.flagY + 2.2, G.level.flagBaseY - G.level.flagTopY - 16);
     if(p.y + p.h >= GROUND_Y - 1){
       p.y = GROUND_Y - p.h;
-      p.winPhase = 1;
-      p.winT = 0;
+      p.winPhase = 1; p.winT = 0;
       G.score += 1000;
       spawnScorePopup(1000, p.x, p.y);
     }
   } else if(p.winPhase === 1){
-    p.winT++;
-    p.x += 1.6;
-    p.walkAnim += 0.4;
+    p.winT++; p.x += 1.6; p.walkAnim += 0.4;
     if(p.winT > 110){
-      G.state = 'clear';
-      G.clearT = 0;
+      G.state = 'clear'; G.clearT = 0;
       Sound.clear();
     }
   }
 }
 
 /* =========================================================================
-   18. GAME FLOW
+   11. GAME FLOW
    ========================================================================= */
-function resetLevel(fullReset){
-  G.level     = buildLevel();
-  G.player    = makePlayer();
-  G.items     = [];
-  G.particles = [];
-  G.bumps     = [];
-  G.camX      = 0;
-  G.time      = 400;
-  G.timeAcc   = 0;
-  G.flagY     = 0;
-  G.flagSlide = false;
-  G.shake     = 0;
+function resetLevel(fullReset, levelOverride){
+  G.level = levelOverride || buildDefaultLevel();
+  G.player = makePlayer();
+  G.items = []; G.particles = []; G.bumps = [];
+  G.camX = 0; G.time = 400; G.timeAcc = 0;
+  G.flagY = 0; G.flagSlide = false; G.shake = 0;
 
   G.coinEnts = G.level.coins.map(function(c){
     return {x:c.x, y:c.y, w:c.w, h:c.h, t:c.t, dead:false};
   });
-
   resetEnemies();
 
-  if(fullReset){
-    G.score = 0;
-    G.coins = 0;
-    G.lives = 3;
-  }
-
-  if(R3D.ready){
-    R3D.tilesDirty = true;
-    clearDynamicPools3D();
-  }
+  if(fullReset){ G.score = 0; G.coins = 0; G.lives = 3; }
+  if(R3D.ready){ R3D.tilesDirty = true; clearDynamicPools3D(); }
 }
 
 function clearDynamicPools3D(){
@@ -1576,42 +1616,26 @@ function clearDynamicPools3D(){
 
 function loseLife(){
   G.lives--;
-  if(G.lives < 0){
-    G.state = 'gameover';
-    G.overT = 0;
-    return;
-  }
-  const keepScore = G.score;
-  const keepCoins = G.coins;
-  const keepLives = G.lives;
-
+  if(G.lives < 0){ G.state = 'gameover'; G.overT = 0; return; }
+  const ks = G.score, kc = G.coins, kl = G.lives;
   resetLevel(false);
-
-  G.score = keepScore;
-  G.coins = keepCoins;
-  G.lives = keepLives;
+  G.score = ks; G.coins = kc; G.lives = kl;
   G.state = 'play';
 }
 
-function startGame(){
-  resetLevel(true);
+function startGame(levelOverride){
+  resetLevel(true, levelOverride);
   G.state = 'play';
   G.frame = 0;
 }
 
-/* =========================================================================
-   19. CAMERA & TIMER
-   ========================================================================= */
 function updateCamera(){
   const p = G.player;
   const target = p.x + p.w * 0.5 - VIEW_W * 0.42;
   const maxCam = G.level.w * TILE - VIEW_W;
   G.camX = clamp(target, 0, maxCam);
 
-  if(p.x < G.camX + 1){
-    p.x = G.camX + 1;
-    if(p.vx < 0) p.vx = 0;
-  }
+  if(p.x < G.camX + 1){ p.x = G.camX + 1; if(p.vx < 0) p.vx = 0; }
   if(p.x + p.w > G.camX + VIEW_W - 1){
     p.x = G.camX + VIEW_W - 1 - p.w;
     if(p.vx > 0) p.vx = 0;
@@ -1622,8 +1646,7 @@ function updateTimer(){
   if(G.state !== 'play') return;
   G.timeAcc++;
   if(G.timeAcc >= 24){
-    G.timeAcc = 0;
-    G.time--;
+    G.timeAcc = 0; G.time--;
     if(G.time <= 0){ G.time = 0; killPlayer(); }
   }
 }
@@ -1633,12 +1656,8 @@ function updateBumps(){
   G.bumps = G.bumps.filter(b=> b.t < 12);
 }
 
-/* =========================================================================
-   20. MAIN UPDATE
-   ========================================================================= */
 function update(){
   G.frame++;
-
   if(Input.pauseEdge){
     Input.pauseEdge = false;
     if(G.state === 'play'){ G.prevState = 'play'; G.state = 'paused'; }
@@ -1655,44 +1674,32 @@ function update(){
     case 'title':
       if(Input.startEdge){ Input.startEdge = false; startGame(); }
       break;
-
     case 'play':
       Input.startEdge = false;
       updatePlayer();
       if(G.state === 'play'){
-        updateEnemies();
-        updateItems();
-        updateCoins();
-        updateBumps();
-        updateCamera();
-        updateTimer();
+        updateEnemies(); updateItems(); updateCoins();
+        updateBumps(); updateCamera(); updateTimer();
       }
       updateParticles();
       if(G.shake > 0) G.shake--;
       break;
-
-    case 'paused':
-      Input.startEdge = false;
-      break;
-
+    case 'paused': Input.startEdge = false; break;
     case 'clear':
-      G.clearT++;
-      updateParticles();
+      G.clearT++; updateParticles();
       if(Input.startEdge && G.clearT > 60){ Input.startEdge = false; startGame(); }
       break;
-
     case 'gameover':
       G.overT = (G.overT || 0) + 1;
       updateParticles();
       if(Input.startEdge && G.overT > 60){ Input.startEdge = false; G.state = 'title'; }
       break;
   }
-
   Input.jumpEdge = false;
 }
 
 /* =========================================================================
-   21. SPRITE BANK — multi-character
+   12. SPRITE BANK
    ========================================================================= */
 const SpriteBank = {
   hero:     { img:null, ready:false, cols:1, rows:1, fps:8,  frame:0 },
@@ -1706,12 +1713,7 @@ function setSpriteStatus(key, msg){
   const el = document.getElementById(key + 'Status');
   if(el) el.textContent = msg;
 }
-
-function frameCount(key){
-  const s = SpriteBank[key];
-  return Math.max(1, s.cols * s.rows);
-}
-
+function frameCount(key){ const s = SpriteBank[key]; return Math.max(1, s.cols * s.rows); }
 function pickFrame(key, ticks, animated){
   const s = SpriteBank[key];
   const total = frameCount(key);
@@ -1723,27 +1725,22 @@ function pickFrame(key, ticks, animated){
 function loadSpriteFor(key, src){
   if(!src || !SpriteBank[key]) return;
   const s = SpriteBank[key];
-  s.ready = false;
-  s.img = null;
+  s.ready = false; s.img = null;
 
   function attempt(useCors){
     const img = new Image();
     if(useCors) img.crossOrigin = 'anonymous';
     img.onload = function(){
-      s.img = img;
-      s.ready = true;
+      s.img = img; s.ready = true;
       s.cols = Math.max(1, parseInt(document.getElementById(key+'Cols').value,10) || 1);
       s.rows = Math.max(1, parseInt(document.getElementById(key+'Rows').value,10) || 1);
       s.fps  = Math.max(1, parseInt(document.getElementById(key+'Fps').value,10) || 8);
-      setSpriteStatus(key, 'Loaded: ' + img.width + '×' + img.height +
-                       ' — ' + (s.cols*s.rows) + ' frame(s).');
+      setSpriteStatus(key, 'Loaded: ' + img.width + '×' + img.height + ' — ' + (s.cols*s.rows) + ' frame(s).');
       onSpriteLoaded(key);
     };
     img.onerror = function(){
       if(useCors){ attempt(false); }
-      else {
-        setSpriteStatus(key, 'Could not load image (network/CORS). Use Local file.');
-      }
+      else { setSpriteStatus(key, 'Could not load image (network/CORS). Use Local file.'); }
     };
     img.src = src;
   }
@@ -1753,38 +1750,24 @@ function loadSpriteFor(key, src){
 function clearSpriteFor(key){
   const s = SpriteBank[key];
   if(!s) return;
-  s.img = null;
-  s.ready = false;
-  s.frame = 0;
+  s.img = null; s.ready = false; s.frame = 0;
   setSpriteStatus(key, 'Using procedural character.');
   onSpriteLoaded(key);
 }
 
-/* React to sprite changes: rebuild 3D counterparts */
 function onSpriteLoaded(key){
   if(!R3D.ready) return;
-  if(key === 'hero'){
-    rebuildPlayer3D();
-  } else if(key === 'goomba' || key === 'koopa'){
-    clearPool3D(R3D.enemyPool);
-  } else if(key === 'mushroom'){
-    clearPool3D(R3D.itemPool);
-  } else if(key === 'coin'){
-    clearPool3D(R3D.coinPool);
-  }
+  if(key === 'hero') rebuildPlayer3D();
+  else if(key === 'goomba' || key === 'koopa') clearPool3D(R3D.enemyPool);
+  else if(key === 'mushroom') clearPool3D(R3D.itemPool);
+  else if(key === 'coin') clearPool3D(R3D.coinPool);
 }
-
 function clearPool3D(pool){
-  for(const [, m] of pool){
-    R3D.dynamicGroup.remove(m);
-    disposeTree3D(m);
-  }
+  for(const [, m] of pool){ R3D.dynamicGroup.remove(m); disposeTree3D(m); }
   pool.clear();
 }
 
-/* --- Sprite sheet setup UI --- */
 const SPRITE_KEYS = ['hero','goomba','koopa','mushroom','coin'];
-
 SPRITE_KEYS.forEach(function(key){
   document.querySelector('[data-load="'+key+'"]').addEventListener('click', function(){
     const url = document.getElementById(key+'Url').value.trim();
@@ -1812,7 +1795,6 @@ SPRITE_KEYS.forEach(function(key){
   });
 });
 
-/* Generic 2D sprite drawing */
 function drawSpriteEntity(key, x, y, w, h, frameIndex, flipH){
   const s = SpriteBank[key];
   if(!s.ready || !s.img) return false;
@@ -1824,8 +1806,7 @@ function drawSpriteEntity(key, x, y, w, h, frameIndex, flipH){
   const sy = Math.floor(idx / s.cols) * fh;
   ctx.save();
   if(flipH){
-    ctx.translate(x + w, y);
-    ctx.scale(-1, 1);
+    ctx.translate(x + w, y); ctx.scale(-1, 1);
     ctx.drawImage(s.img, sx, sy, fw, fh, 0, 0, w, h);
   } else {
     ctx.drawImage(s.img, sx, sy, fw, fh, x, y, w, h);
@@ -1835,18 +1816,11 @@ function drawSpriteEntity(key, x, y, w, h, frameIndex, flipH){
 }
 
 /* =========================================================================
-   22. RENDERING — 2D
+   13. 2D RENDERING
    ========================================================================= */
-const SKY   = '#5c94fc';
-const CLOUD = '#ffffff';
-const HILL  = '#00a800';
-const HILL2 = '#008000';
+const SKY = '#5c94fc', CLOUD = '#ffffff', HILL = '#00a800', HILL2 = '#008000';
 
-function drawSky(){
-  ctx.fillStyle = SKY;
-  ctx.fillRect(0,0,VIEW_W,VIEW_H);
-}
-
+function drawSky(){ ctx.fillStyle = SKY; ctx.fillRect(0,0,VIEW_W,VIEW_H); }
 function drawCloudShape(x,y,s){
   ctx.fillStyle = CLOUD;
   ctx.fillRect(x + 4*s, y,        12*s, 8*s);
@@ -1854,7 +1828,6 @@ function drawCloudShape(x,y,s){
   ctx.fillRect(x + 8*s, y - 4*s,  10*s, 8*s);
   ctx.fillRect(x + 16*s,y + 2*s,  10*s, 6*s);
 }
-
 function drawHillShape(x, baseY, w, h){
   ctx.fillStyle = HILL;
   const steps = 4;
@@ -1868,37 +1841,30 @@ function drawHillShape(x, baseY, w, h){
   ctx.fillRect(x + w*0.3, baseY - h*0.55, 4, 4);
   ctx.fillRect(x + w*0.55, baseY - h*0.35, 4, 4);
 }
-
 function drawBushShape(x, baseY, w){
   ctx.fillStyle = HILL;
   ctx.fillRect(x, baseY - 8, w, 8);
   ctx.fillRect(x + 6, baseY - 14, w - 12, 8);
   ctx.fillRect(x + w*0.3, baseY - 18, w*0.4, 8);
 }
-
 function drawBackground(cam){
   const px = cam * 0.55;
-  const cloudPositions = [
-    [40,30],[200,52],[360,26],[520,60],[700,34],
-    [900,50],[1080,28],[1280,56],[1480,34],[1700,48],
-    [1900,30],[2100,54],[2300,36],[2500,50],[2700,32]
-  ];
-  for(const cp of cloudPositions){
+  const clouds = [[40,30],[200,52],[360,26],[520,60],[700,34],[900,50],[1080,28],
+    [1280,56],[1480,34],[1700,48],[1900,30],[2100,54],[2300,36],[2500,50],[2700,32]];
+  for(const cp of clouds){
     const x = cp[0] - px;
     if(x > -80 && x < VIEW_W + 80) drawCloudShape(x, cp[1], 1);
   }
-  const hillPositions = [
-    [80,2],[300,1],[520,2],[760,1],[1000,2],
-    [1240,1],[1480,2],[1740,1],[2000,2],[2260,1]
-  ];
-  for(const hp of hillPositions){
+  const hills = [[80,2],[300,1],[520,2],[760,1],[1000,2],[1240,1],
+    [1480,2],[1740,1],[2000,2],[2260,1]];
+  for(const hp of hills){
     const x = hp[0] - cam * 0.85;
     const w = hp[1] === 2 ? 96 : 64;
     const h = hp[1] === 2 ? 56 : 40;
     if(x > -140 && x < VIEW_W + 140) drawHillShape(x, GROUND_Y, w, h);
   }
-  const bushPositions = [180, 420, 660, 940, 1180, 1420, 1660, 1900, 2140];
-  for(const bx of bushPositions){
+  const bushes = [180, 420, 660, 940, 1180, 1420, 1660, 1900, 2140];
+  for(const bx of bushes){
     const x = bx - cam * 0.92;
     if(x > -100 && x < VIEW_W + 100) drawBushShape(x, GROUND_Y, 56);
   }
@@ -2000,19 +1966,17 @@ function drawTile(c, px, py, tx, ty){
       ctx.fillStyle = '#58d854'; ctx.fillRect(px + 3, py + 3, 10, 2);
       break;
     }
-    default: break;
   }
 }
 
 function drawTiles(cam){
   const startCol = Math.max(0, Math.floor(cam / TILE) - 1);
   const endCol   = Math.min(G.level.w - 1, Math.floor((cam + VIEW_W) / TILE) + 1);
-  for(let ty=0; ty<ROWS; ty++){
+  for(let ty=0; ty<G.level.h; ty++){
     for(let tx=startCol; tx<=endCol; tx++){
       const c = G.level.grid[ty][tx];
-      if(c === '.') continue;
-      let px = tx * TILE;
-      let py = ty * TILE;
+      if(c === '.' || c === 'C') continue;
+      let px = tx * TILE, py = ty * TILE;
       for(const b of G.bumps){
         if(b.x === tx && b.y === ty){
           const t = b.t / 12;
@@ -2029,8 +1993,7 @@ function drawCoins(cam){
   const useSprite = SpriteBank.coin.ready;
   for(const c of G.coinEnts){
     if(c.x < cam - 24 || c.x > cam + VIEW_W + 24) continue;
-    const cx = c.x + 5;
-    const cy = c.y + 6;
+    const cx = c.x + 5, cy = c.y + 6;
     if(useSprite){
       const idx = pickFrame('coin', c.t, true);
       drawSpriteEntity('coin', Math.round(c.x - 1), Math.round(c.y), 12, 12, idx, false);
@@ -2038,15 +2001,10 @@ function drawCoins(cam){
     }
     const w = Math.abs(Math.cos(c.t * 0.11)) * 8 + 2;
     ctx.fillStyle = '#ffd000';
-    ctx.beginPath();
-    ctx.ellipse(cx, cy, w * 0.5 + 1, 6, 0, 0, Math.PI * 2);
-    ctx.fill();
+    ctx.beginPath(); ctx.ellipse(cx, cy, w * 0.5 + 1, 6, 0, 0, Math.PI * 2); ctx.fill();
     ctx.fillStyle = '#b07000';
-    ctx.beginPath();
-    ctx.ellipse(cx, cy, Math.max(0.5, w * 0.5 - 1.5), 4, 0, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = '#ffe97a';
-    ctx.fillRect(cx - 1, cy - 3, 2, 6);
+    ctx.beginPath(); ctx.ellipse(cx, cy, Math.max(0.5, w * 0.5 - 1.5), 4, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#ffe97a'; ctx.fillRect(cx - 1, cy - 3, 2, 6);
   }
 }
 
@@ -2055,25 +2013,17 @@ function drawItems(cam){
   for(const it of G.items){
     if(it.x < cam - 32 || it.x > cam + VIEW_W + 32) continue;
     if(it.type === 'mush'){
-      const x = Math.round(it.x);
-      const y = Math.round(it.y);
+      const x = Math.round(it.x), y = Math.round(it.y);
       if(useSprite){
         const idx = pickFrame('mushroom', it.animT, false);
         drawSpriteEntity('mushroom', x, y, it.w, it.h, idx, false);
         continue;
       }
-      ctx.fillStyle = '#e52521';
-      ctx.fillRect(x, y + 1, 14, 8);
-      ctx.fillRect(x + 2, y, 10, 2);
+      ctx.fillStyle = '#e52521'; ctx.fillRect(x, y + 1, 14, 8); ctx.fillRect(x + 2, y, 10, 2);
       ctx.fillStyle = '#ffffff';
-      ctx.fillRect(x + 2, y + 3, 3, 3);
-      ctx.fillRect(x + 9, y + 3, 3, 3);
-      ctx.fillRect(x + 5, y + 5, 4, 3);
-      ctx.fillStyle = '#f8d8a8';
-      ctx.fillRect(x + 2, y + 9, 10, 6);
-      ctx.fillStyle = '#000000';
-      ctx.fillRect(x + 4, y + 11, 2, 3);
-      ctx.fillRect(x + 8, y + 11, 2, 3);
+      ctx.fillRect(x + 2, y + 3, 3, 3); ctx.fillRect(x + 9, y + 3, 3, 3); ctx.fillRect(x + 5, y + 5, 4, 3);
+      ctx.fillStyle = '#f8d8a8'; ctx.fillRect(x + 2, y + 9, 10, 6);
+      ctx.fillStyle = '#000000'; ctx.fillRect(x + 4, y + 11, 2, 3); ctx.fillRect(x + 8, y + 11, 2, 3);
     }
   }
 }
@@ -2085,27 +2035,21 @@ function drawGoombaShape(x, y, w, h, squashed){
     return;
   }
   ctx.fillStyle = '#8b4a12';
-  ctx.fillRect(x, y + 2, w, h - 4);
-  ctx.fillRect(x + 2, y, w - 4, h - 2);
+  ctx.fillRect(x, y + 2, w, h - 4); ctx.fillRect(x + 2, y, w - 4, h - 2);
   ctx.fillStyle = '#c1783a'; ctx.fillRect(x + 3, y + 3, w - 6, h - 8);
   ctx.fillStyle = '#000000';
-  ctx.fillRect(x + 3, y + 5, 2, 4);
-  ctx.fillRect(x + w - 5, y + 5, 2, 4);
+  ctx.fillRect(x + 3, y + 5, 2, 4); ctx.fillRect(x + w - 5, y + 5, 2, 4);
   ctx.fillStyle = '#ffffff';
-  ctx.fillRect(x + 3, y + 5, 1, 2);
-  ctx.fillRect(x + w - 5, y + 5, 1, 2);
+  ctx.fillRect(x + 3, y + 5, 1, 2); ctx.fillRect(x + w - 5, y + 5, 1, 2);
   ctx.fillStyle = '#5a2d0c';
-  ctx.fillRect(x + 1, y + h - 3, 4, 3);
-  ctx.fillRect(x + w - 5, y + h - 3, 4, 3);
+  ctx.fillRect(x + 1, y + h - 3, 4, 3); ctx.fillRect(x + w - 5, y + h - 3, 4, 3);
 }
-
 function drawKoopaShape(x, y, w, h, frame, shellOnly){
   if(shellOnly){
     ctx.fillStyle = '#0f7a0f'; ctx.fillRect(x, y + 2, w, h - 3);
     ctx.fillStyle = '#3ec53e'; ctx.fillRect(x + 1, y + 3, w - 2, h - 6);
     ctx.fillStyle = '#0f5a0f';
-    ctx.fillRect(x + 3, y + 5, w - 6, 2);
-    ctx.fillRect(x + 3, y + 8, w - 6, 2);
+    ctx.fillRect(x + 3, y + 5, w - 6, 2); ctx.fillRect(x + 3, y + 8, w - 6, 2);
     ctx.fillStyle = '#e8d24a'; ctx.fillRect(x + 1, y + h - 3, w - 2, 2);
     return;
   }
@@ -2116,29 +2060,23 @@ function drawKoopaShape(x, y, w, h, frame, shellOnly){
   ctx.fillStyle = '#000000';
   ctx.fillRect(headX + ((frame === 0) ? 3 : 0), y + 2, 2, 2);
   ctx.fillStyle = '#e8d24a';
-  ctx.fillRect(x + 1, y + h - 3, 4, 3);
-  ctx.fillRect(x + w - 5, y + h - 3, 4, 3);
+  ctx.fillRect(x + 1, y + h - 3, 4, 3); ctx.fillRect(x + w - 5, y + h - 3, 4, 3);
 }
 
 function drawEnemies(cam){
   for(const e of G.enemies){
     if(e.x < cam - 40 || e.x > cam + VIEW_W + 40) continue;
     if(!e.active) continue;
-    const x = Math.round(e.x);
-    const y = Math.round(e.y);
+    const x = Math.round(e.x), y = Math.round(e.y);
     const key = (e.type === 'goomba') ? 'goomba' : 'koopa';
     if(SpriteBank[key].ready){
       let idx = 0;
-      if(e.state === 'squashed'){
-        idx = 0;
-      } else if(e.state === 'dead'){
-        idx = 0;
-      } else if(e.type === 'koopa' && (e.state === 'shell' || e.state === 'shellmove')){
+      if(e.state === 'squashed') idx = 0;
+      else if(e.state === 'dead') idx = 0;
+      else if(e.type === 'koopa' && (e.state === 'shell' || e.state === 'shellmove')){
         const total = frameCount(key);
         idx = Math.min(total - 1, 1);
-      } else {
-        idx = pickFrame(key, e.animT, true);
-      }
+      } else idx = pickFrame(key, e.animT, true);
       drawSpriteEntity(key, x, y, e.w, e.h, idx, e.dir < 0);
       continue;
     }
@@ -2148,9 +2086,8 @@ function drawEnemies(cam){
       ctx.scale(1, -1);
       ctx.translate(-(x + e.w/2), -(y + e.h/2));
     }
-    if(e.type === 'goomba'){
-      drawGoombaShape(x, y, e.w, e.h, e.state === 'squashed');
-    } else {
+    if(e.type === 'goomba') drawGoombaShape(x, y, e.w, e.h, e.state === 'squashed');
+    else {
       const shellOnly = (e.state === 'shell' || e.state === 'shellmove');
       const frame = Math.floor(e.animT / 10) % 2;
       drawKoopaShape(x, y, e.w, e.h, frame, shellOnly);
@@ -2165,23 +2102,18 @@ function drawParticles(cam){
     const alpha = 1 - (pt.t / pt.life);
     if(pt.kind === 'chunk'){
       ctx.globalAlpha = alpha;
-      ctx.fillStyle = '#c84c0c';
-      ctx.fillRect(Math.round(pt.x), Math.round(pt.y), 6, 6);
-      ctx.fillStyle = '#000000';
-      ctx.fillRect(Math.round(pt.x), Math.round(pt.y), 6, 2);
+      ctx.fillStyle = '#c84c0c'; ctx.fillRect(Math.round(pt.x), Math.round(pt.y), 6, 6);
+      ctx.fillStyle = '#000000'; ctx.fillRect(Math.round(pt.x), Math.round(pt.y), 6, 2);
       ctx.globalAlpha = 1;
     } else if(pt.kind === 'coinpop'){
       const w = Math.abs(Math.cos(pt.t * 0.35)) * 8 + 2;
       ctx.fillStyle = '#ffd000';
-      ctx.beginPath();
-      ctx.ellipse(pt.x + 5, pt.y + 6, w * 0.5 + 1, 6, 0, 0, Math.PI * 2);
-      ctx.fill();
+      ctx.beginPath(); ctx.ellipse(pt.x + 5, pt.y + 6, w * 0.5 + 1, 6, 0, 0, Math.PI * 2); ctx.fill();
     } else if(pt.kind === 'text'){
       ctx.globalAlpha = alpha;
       ctx.fillStyle = '#ffffff';
       ctx.font = 'bold 8px monospace';
-      ctx.textAlign = 'left';
-      ctx.textBaseline = 'top';
+      ctx.textAlign = 'left'; ctx.textBaseline = 'top';
       ctx.fillText(pt.text, Math.round(pt.x), Math.round(pt.y));
       ctx.globalAlpha = 1;
     }
@@ -2196,84 +2128,45 @@ function drawPlayerProcedural(p, x, y, w, h){
   const skidding = p.onGround && Math.abs(p.vx) > 0.5 &&
                    ((p.vx > 0 && Input.left) || (p.vx < 0 && Input.right));
 
-  const skin  = '#f8b878';
-  const red   = '#e52521';
-  const blue  = '#3b5dc9';
-  const shoe  = '#6b3f1d';
-  const dark  = '#2b1a0c';
+  const skin = '#f8b878', red = '#e52521', blue = '#3b5dc9', shoe = '#6b3f1d', dark = '#2b1a0c';
 
   if(!big){
+    ctx.fillStyle = red; ctx.fillRect(x + 1, y + 0, 10, 4); ctx.fillRect(x + (p.dir > 0 ? 7 : 0), y + 1, 5, 2);
+    ctx.fillStyle = skin; ctx.fillRect(x + 2, y + 4, 8, 5);
+    ctx.fillStyle = dark; ctx.fillRect(x + (p.dir > 0 ? 7 : 3), y + 5, 2, 2);
+    ctx.fillStyle = blue; ctx.fillRect(x + 2, y + 9, 8, 4);
     ctx.fillStyle = red;
-    ctx.fillRect(x + 1, y + 0, 10, 4);
-    ctx.fillRect(x + (p.dir > 0 ? 7 : 0), y + 1, 5, 2);
-    ctx.fillStyle = skin;
-    ctx.fillRect(x + 2, y + 4, 8, 5);
-    ctx.fillStyle = dark;
-    ctx.fillRect(x + (p.dir > 0 ? 7 : 3), y + 5, 2, 2);
+    ctx.fillRect(x + 0, y + 9, 2, 3); ctx.fillRect(x + 10, y + 9, 2, 3);
     ctx.fillStyle = blue;
-    ctx.fillRect(x + 2, y + 9, 8, 4);
-    ctx.fillStyle = red;
-    ctx.fillRect(x + 0, y + 9, 2, 3);
-    ctx.fillRect(x + 10, y + 9, 2, 3);
-    ctx.fillStyle = blue;
-    if(airborne){
-      ctx.fillRect(x + 1, y + 13, 4, 2);
-      ctx.fillRect(x + 7, y + 13, 4, 2);
-    } else if(frame === 0){
-      ctx.fillRect(x + 2, y + 13, 3, 2);
-      ctx.fillRect(x + 7, y + 13, 3, 2);
-    } else if(frame === 1){
-      ctx.fillRect(x + 1, y + 13, 3, 2);
-      ctx.fillRect(x + 8, y + 13, 3, 2);
-    } else {
-      ctx.fillRect(x + 3, y + 13, 3, 2);
-      ctx.fillRect(x + 6, y + 13, 3, 2);
-    }
+    if(airborne){ ctx.fillRect(x + 1, y + 13, 4, 2); ctx.fillRect(x + 7, y + 13, 4, 2); }
+    else if(frame === 0){ ctx.fillRect(x + 2, y + 13, 3, 2); ctx.fillRect(x + 7, y + 13, 3, 2); }
+    else if(frame === 1){ ctx.fillRect(x + 1, y + 13, 3, 2); ctx.fillRect(x + 8, y + 13, 3, 2); }
+    else { ctx.fillRect(x + 3, y + 13, 3, 2); ctx.fillRect(x + 6, y + 13, 3, 2); }
     ctx.fillStyle = shoe;
-    ctx.fillRect(x + 1, y + 15, 4, 1);
-    ctx.fillRect(x + 7, y + 15, 4, 1);
+    ctx.fillRect(x + 1, y + 15, 4, 1); ctx.fillRect(x + 7, y + 15, 4, 1);
   } else {
-    ctx.fillStyle = red;
-    ctx.fillRect(x + 1, y + 0, 10, 5);
-    ctx.fillRect(x + (p.dir > 0 ? 8 : 0), y + 1, 4, 2);
-    ctx.fillStyle = skin;
-    ctx.fillRect(x + 2, y + 5, 8, 6);
-    ctx.fillStyle = dark;
-    ctx.fillRect(x + (p.dir > 0 ? 7 : 3), y + 6, 2, 3);
+    ctx.fillStyle = red; ctx.fillRect(x + 1, y + 0, 10, 5); ctx.fillRect(x + (p.dir > 0 ? 8 : 0), y + 1, 4, 2);
+    ctx.fillStyle = skin; ctx.fillRect(x + 2, y + 5, 8, 6);
+    ctx.fillStyle = dark; ctx.fillRect(x + (p.dir > 0 ? 7 : 3), y + 6, 2, 3);
     ctx.fillRect(x + 3, y + 9, 6, 1);
-    ctx.fillStyle = red;
-    ctx.fillRect(x + 1, y + 11, 10, 6);
+    ctx.fillStyle = red; ctx.fillRect(x + 1, y + 11, 10, 6);
     ctx.fillStyle = blue;
     ctx.fillRect(x + 2, y + 14, 8, 8);
-    ctx.fillRect(x + 3, y + 11, 2, 4);
-    ctx.fillRect(x + 7, y + 11, 2, 4);
+    ctx.fillRect(x + 3, y + 11, 2, 4); ctx.fillRect(x + 7, y + 11, 2, 4);
     ctx.fillStyle = '#ffd000';
-    ctx.fillRect(x + 3, y + 15, 1, 1);
-    ctx.fillRect(x + 8, y + 15, 1, 1);
+    ctx.fillRect(x + 3, y + 15, 1, 1); ctx.fillRect(x + 8, y + 15, 1, 1);
     ctx.fillStyle = blue;
-    if(airborne){
-      ctx.fillRect(x + 0, y + 22, 5, 2);
-      ctx.fillRect(x + 7, y + 22, 5, 2);
-    } else if(frame === 0){
-      ctx.fillRect(x + 2, y + 22, 3, 2);
-      ctx.fillRect(x + 7, y + 22, 3, 2);
-    } else if(frame === 1){
-      ctx.fillRect(x + 1, y + 22, 3, 2);
-      ctx.fillRect(x + 8, y + 22, 3, 2);
-    } else {
-      ctx.fillRect(x + 3, y + 22, 3, 2);
-      ctx.fillRect(x + 6, y + 22, 3, 2);
-    }
+    if(airborne){ ctx.fillRect(x + 0, y + 22, 5, 2); ctx.fillRect(x + 7, y + 22, 5, 2); }
+    else if(frame === 0){ ctx.fillRect(x + 2, y + 22, 3, 2); ctx.fillRect(x + 7, y + 22, 3, 2); }
+    else if(frame === 1){ ctx.fillRect(x + 1, y + 22, 3, 2); ctx.fillRect(x + 8, y + 22, 3, 2); }
+    else { ctx.fillRect(x + 3, y + 22, 3, 2); ctx.fillRect(x + 6, y + 22, 3, 2); }
     ctx.fillStyle = shoe;
-    ctx.fillRect(x + 0, y + 24, 5, 2);
-    ctx.fillRect(x + 7, y + 24, 5, 2);
+    ctx.fillRect(x + 0, y + 24, 5, 2); ctx.fillRect(x + 7, y + 24, 5, 2);
   }
 
   if(skidding){
-    ctx.fillStyle = '#ffffff';
-    ctx.globalAlpha = 0.6;
-    ctx.fillRect(x - 2, y + h - 3, 3, 2);
-    ctx.fillRect(x + w - 1, y + h - 3, 3, 2);
+    ctx.fillStyle = '#ffffff'; ctx.globalAlpha = 0.6;
+    ctx.fillRect(x - 2, y + h - 3, 3, 2); ctx.fillRect(x + w - 1, y + h - 3, 3, 2);
     ctx.globalAlpha = 1;
   }
 }
@@ -2281,17 +2174,14 @@ function drawPlayerProcedural(p, x, y, w, h){
 function drawPlayer(cam){
   const p = G.player;
   if(p.state === 'dying' && p.deadT > 150) return;
-  const x = Math.round(p.x);
-  const y = Math.round(p.y);
-  const w = p.w;
-  const h = p.h;
+  const x = Math.round(p.x), y = Math.round(p.y);
+  const w = p.w, h = p.h;
   if(p.invuln > 0 && Math.floor(G.frame / 3) % 2 === 0) return;
   if(p.state === 'transform'){
     const flick = Math.floor(p.transT / 4) % 2;
     if(p.transformTo === 'big' && flick === 0){
       if(SpriteBank.hero.ready){
-        const idx = 0;
-        drawSpriteEntity('hero', x, y + (h - SMALL_H), SMALL_W, SMALL_H, idx, p.dir < 0);
+        drawSpriteEntity('hero', x, y + (h - SMALL_H), SMALL_W, SMALL_H, 0, p.dir < 0);
         return;
       }
       drawPlayerProcedural(Object.assign({}, p, {big:false}), x, y + (h - SMALL_H), SMALL_W, SMALL_H);
@@ -2299,8 +2189,7 @@ function drawPlayer(cam){
     }
     if(p.transformTo === 'small' && flick === 1){
       if(SpriteBank.hero.ready){
-        const idx = 0;
-        drawSpriteEntity('hero', x, y - (BIG_H - h), BIG_W, BIG_H, idx, p.dir < 0);
+        drawSpriteEntity('hero', x, y - (BIG_H - h), BIG_W, BIG_H, 0, p.dir < 0);
         return;
       }
       drawPlayerProcedural(Object.assign({}, p, {big:true}), x, y - (BIG_H - h), BIG_W, BIG_H);
@@ -2311,15 +2200,10 @@ function drawPlayer(cam){
     let idx = 0;
     const total = frameCount('hero');
     if(total > 1){
-      if(p.state === 'dying'){
-        idx = 0;
-      } else if(!p.onGround){
-        idx = Math.min(total - 1, 1);
-      } else if(Math.abs(p.vx) > 0.15){
-        idx = pickFrame('hero', p.walkAnim * 3.5, true);
-      } else {
-        idx = 0;
-      }
+      if(p.state === 'dying') idx = 0;
+      else if(!p.onGround) idx = Math.min(total - 1, 1);
+      else if(Math.abs(p.vx) > 0.15) idx = pickFrame('hero', p.walkAnim * 3.5, true);
+      else idx = 0;
     }
     drawSpriteEntity('hero', x, y, w, h, idx, p.dir < 0);
   } else {
@@ -2339,19 +2223,11 @@ function drawFlag(cam){
 }
 
 function drawCastle(cam){
-  const cx = 203 * TILE;
+  const cx = (G.level.w - 9) * TILE;
   if(cx < cam - 200 || cx > cam + VIEW_W + 200) return;
-  const baseY = GROUND_Y;
-  const w = 5 * TILE;
-  const h = 5 * TILE;
-  const x = cx;
-  const y = baseY - h;
+  const baseY = GROUND_Y, w = 5 * TILE, h = 5 * TILE, x = cx, y = baseY - h;
   ctx.fillStyle = '#c84c0c'; ctx.fillRect(x, y, w, h);
-  ctx.fillStyle = '#c84c0c';
-  for(let i=0;i<5;i++){
-    ctx.fillRect(x + i*TILE, y - 8, 10, 8);
-    i++;
-  }
+  for(let i=0;i<5;i++){ ctx.fillRect(x + i*TILE, y - 8, 10, 8); i++; }
   ctx.fillStyle = '#000000';
   ctx.fillRect(x + w/2 - 8, baseY - 22, 16, 22);
   ctx.fillRect(x + 8, y + 12, 8, 10);
@@ -2366,123 +2242,85 @@ function drawCastle(cam){
   }
 }
 
-function pad(num, len){
-  let s = String(num);
-  while(s.length < len) s = '0' + s;
-  return s;
-}
+function pad(num, len){ let s = String(num); while(s.length < len) s = '0' + s; return s; }
 
 function drawHUD(){
   HUD.font = '8px monospace';
-  HUD.textBaseline = 'top';
-  HUD.textAlign = 'left';
-
+  HUD.textBaseline = 'top'; HUD.textAlign = 'left';
   HUD.fillStyle = '#ffffff';
   HUD.fillText('PLAYER', 24, 8);
   HUD.fillText(pad(G.score, 6), 24, 17);
-
   HUD.fillText('COINS', 92, 8);
   HUD.fillStyle = '#ffd000';
-  HUD.beginPath();
-  HUD.ellipse(95, 21, 3, 4, 0, 0, Math.PI * 2);
-  HUD.fill();
+  HUD.beginPath(); HUD.ellipse(95, 21, 3, 4, 0, 0, Math.PI * 2); HUD.fill();
   HUD.fillStyle = '#ffffff';
   HUD.fillText('x' + pad(G.coins, 2), 102, 17);
-
   HUD.fillText('WORLD', 148, 8);
   HUD.fillText('1-1', 154, 17);
-
   HUD.fillText('TIME', 200, 8);
   HUD.fillText(pad(G.time, 3), 204, 17);
-
   HUD.fillText('x' + G.lives, 8, 17);
-  HUD.fillStyle = '#e52521';
-  HUD.fillRect(2, 9, 5, 5);
-  HUD.fillStyle = '#f8b878';
-  HUD.fillRect(3, 13, 3, 2);
+  HUD.fillStyle = '#e52521'; HUD.fillRect(2, 9, 5, 5);
+  HUD.fillStyle = '#f8b878'; HUD.fillRect(3, 13, 3, 2);
 }
 
 function drawTitleScreen(){
   HUD.fillStyle = 'rgba(0,0,0,0.45)';
   HUD.fillRect(0,0,VIEW_W,VIEW_H);
-  HUD.textAlign = 'center';
-  HUD.textBaseline = 'middle';
-  HUD.fillStyle = '#ffd34d';
-  HUD.font = 'bold 16px monospace';
+  HUD.textAlign = 'center'; HUD.textBaseline = 'middle';
+  HUD.fillStyle = '#ffd34d'; HUD.font = 'bold 16px monospace';
   HUD.fillText('SUPER', VIEW_W/2, 62);
   HUD.fillText('PLATFORM BROS', VIEW_W/2, 82);
-  HUD.fillStyle = '#4dd8ff';
-  HUD.font = 'bold 9px monospace';
+  HUD.fillStyle = '#4dd8ff'; HUD.font = 'bold 9px monospace';
   HUD.fillText(R3D.active ? '— 3D MODE ACTIVE —' : '— 2D MODE ACTIVE —', VIEW_W/2, 102);
-  HUD.fillStyle = '#ffffff';
-  HUD.font = '9px monospace';
+  HUD.fillStyle = '#ffffff'; HUD.font = '9px monospace';
   HUD.fillText('A JavaScript Platform Adventure', VIEW_W/2, 120);
-  const blink = Math.floor(G.frame / 24) % 2;
-  if(blink){
-    HUD.fillStyle = '#ffffff';
-    HUD.font = 'bold 10px monospace';
+  if(Math.floor(G.frame / 24) % 2){
+    HUD.fillStyle = '#ffffff'; HUD.font = 'bold 10px monospace';
     HUD.fillText('PRESS ENTER / TAP TO START', VIEW_W/2, 150);
   }
-  HUD.fillStyle = '#c8c8d8';
-  HUD.font = '8px monospace';
+  HUD.fillStyle = '#c8c8d8'; HUD.font = '8px monospace';
   HUD.fillText('ARROWS / A-D  MOVE', VIEW_W/2, 180);
   HUD.fillText('SPACE / Z  JUMP     X  RUN', VIEW_W/2, 192);
   HUD.fillText('P PAUSE   R RESTART   V 2D/3D', VIEW_W/2, 204);
-  HUD.textAlign = 'left';
-  HUD.textBaseline = 'top';
+  HUD.textAlign = 'left'; HUD.textBaseline = 'top';
 }
 
 function drawPauseOverlay(){
-  HUD.fillStyle = 'rgba(0,0,0,0.55)';
-  HUD.fillRect(0,0,VIEW_W,VIEW_H);
-  HUD.textAlign = 'center';
-  HUD.textBaseline = 'middle';
-  HUD.fillStyle = '#ffffff';
-  HUD.font = 'bold 14px monospace';
+  HUD.fillStyle = 'rgba(0,0,0,0.55)'; HUD.fillRect(0,0,VIEW_W,VIEW_H);
+  HUD.textAlign = 'center'; HUD.textBaseline = 'middle';
+  HUD.fillStyle = '#ffffff'; HUD.font = 'bold 14px monospace';
   HUD.fillText('PAUSED', VIEW_W/2, VIEW_H/2 - 8);
   HUD.font = '8px monospace';
   HUD.fillText('PRESS P TO RESUME', VIEW_W/2, VIEW_H/2 + 12);
-  HUD.textAlign = 'left';
-  HUD.textBaseline = 'top';
+  HUD.textAlign = 'left'; HUD.textBaseline = 'top';
 }
-
 function drawClearOverlay(){
-  HUD.fillStyle = 'rgba(0,0,0,0.45)';
-  HUD.fillRect(0,0,VIEW_W,VIEW_H);
-  HUD.textAlign = 'center';
-  HUD.textBaseline = 'middle';
-  HUD.fillStyle = '#ffd34d';
-  HUD.font = 'bold 14px monospace';
+  HUD.fillStyle = 'rgba(0,0,0,0.45)'; HUD.fillRect(0,0,VIEW_W,VIEW_H);
+  HUD.textAlign = 'center'; HUD.textBaseline = 'middle';
+  HUD.fillStyle = '#ffd34d'; HUD.font = 'bold 14px monospace';
   HUD.fillText('COURSE CLEAR!', VIEW_W/2, 90);
-  HUD.fillStyle = '#ffffff';
-  HUD.font = '9px monospace';
+  HUD.fillStyle = '#ffffff'; HUD.font = '9px monospace';
   HUD.fillText('SCORE  ' + pad(G.score,6), VIEW_W/2, 118);
   HUD.fillText('COINS  x' + pad(G.coins,2), VIEW_W/2, 134);
   if(G.clearT > 60 && Math.floor(G.frame/24) % 2){
     HUD.font = 'bold 9px monospace';
     HUD.fillText('PRESS ENTER / TAP TO PLAY AGAIN', VIEW_W/2, 170);
   }
-  HUD.textAlign = 'left';
-  HUD.textBaseline = 'top';
+  HUD.textAlign = 'left'; HUD.textBaseline = 'top';
 }
-
 function drawGameOverOverlay(){
-  HUD.fillStyle = 'rgba(0,0,0,0.6)';
-  HUD.fillRect(0,0,VIEW_W,VIEW_H);
-  HUD.textAlign = 'center';
-  HUD.textBaseline = 'middle';
-  HUD.fillStyle = '#e52521';
-  HUD.font = 'bold 16px monospace';
+  HUD.fillStyle = 'rgba(0,0,0,0.6)'; HUD.fillRect(0,0,VIEW_W,VIEW_H);
+  HUD.textAlign = 'center'; HUD.textBaseline = 'middle';
+  HUD.fillStyle = '#e52521'; HUD.font = 'bold 16px monospace';
   HUD.fillText('GAME OVER', VIEW_W/2, 96);
-  HUD.fillStyle = '#ffffff';
-  HUD.font = '9px monospace';
+  HUD.fillStyle = '#ffffff'; HUD.font = '9px monospace';
   HUD.fillText('FINAL SCORE  ' + pad(G.score,6), VIEW_W/2, 126);
   if((G.overT||0) > 60 && Math.floor(G.frame/24) % 2){
     HUD.font = 'bold 9px monospace';
     HUD.fillText('PRESS ENTER / TAP TO CONTINUE', VIEW_W/2, 162);
   }
-  HUD.textAlign = 'left';
-  HUD.textBaseline = 'top';
+  HUD.textAlign = 'left'; HUD.textBaseline = 'top';
 }
 
 function render2D(){
@@ -2496,8 +2334,7 @@ function render2D(){
     ctx.translate(-cam, 0);
     drawTiles(cam);
     ctx.restore();
-    HUD = ctx;
-    drawTitleScreen();
+    HUD = ctx; drawTitleScreen();
     ctx.restore();
     return;
   }
@@ -2523,7 +2360,7 @@ function render2D(){
 }
 
 /* =========================================================================
-   23. THREE.JS LOADER
+   14. THREE.JS LOADER + 3D RENDERER
    ========================================================================= */
 let THREE = null;
 let threeLoading = null;
@@ -2531,7 +2368,6 @@ let threeLoading = null;
 function loadThree(){
   if(THREE) return Promise.resolve(THREE);
   if(threeLoading) return threeLoading;
-
   threeLoading = new Promise(function(resolve, reject){
     if(window.THREE){ THREE = window.THREE; return resolve(THREE); }
     const urls = [
@@ -2553,9 +2389,6 @@ function loadThree(){
   return threeLoading;
 }
 
-/* =========================================================================
-   24. 3D RENDERER (Three.js)
-   ========================================================================= */
 const R3D = {
   ready: false, active: false, loading: false,
   scene: null, camera: null, renderer: null,
@@ -2575,43 +2408,32 @@ function makeBox3D(T, mat, w, h, d, x, y, z){
   m.position.set(x, y, z);
   return m;
 }
-
 function disposeTree3D(obj){
   if(!obj) return;
   obj.traverse(function(o){
     if(o.geometry && o.geometry.__shared !== true) o.geometry.dispose();
     if(o.material){
-      if(Array.isArray(o.material)) o.material.forEach(function(m){ m.dispose(); });
-      else {
-        if(o.material.map) o.material.map.dispose();
-        o.material.dispose();
-      }
+      if(Array.isArray(o.material)) o.material.forEach(m=>m.dispose());
+      else { if(o.material.map) o.material.map.dispose(); o.material.dispose(); }
     }
   });
 }
-
-/* --- 3D sprite billboard helpers --- */
 function makeSpriteBillboard(key){
   const T = THREE;
   const s = SpriteBank[key];
   if(!s.ready || !s.img) return null;
   const tex = new T.Texture(s.img);
-  tex.magFilter = T.NearestFilter;
-  tex.minFilter = T.NearestFilter;
-  tex.wrapS = T.ClampToEdgeWrapping;
-  tex.wrapT = T.ClampToEdgeWrapping;
+  tex.magFilter = T.NearestFilter; tex.minFilter = T.NearestFilter;
+  tex.wrapS = T.ClampToEdgeWrapping; tex.wrapT = T.ClampToEdgeWrapping;
   tex.repeat.set(1 / s.cols, 1 / s.rows);
   tex.offset.set(0, 1 - 1 / s.rows);
   tex.needsUpdate = true;
-  const mat = new T.SpriteMaterial({
-    map: tex, transparent: true, alphaTest: 0.05, depthWrite: false
-  });
+  const mat = new T.SpriteMaterial({ map: tex, transparent: true, alphaTest: 0.05, depthWrite: false });
   const spr = new T.Sprite(mat);
   spr.userData.isSprite = true;
   spr.userData.spriteKey = key;
   return spr;
 }
-
 function setSpriteFrame(spr, frameIndex, flipH){
   if(!spr || !spr.userData || !spr.userData.isSprite) return;
   const key = spr.userData.spriteKey;
@@ -2634,40 +2456,28 @@ function buildScene3D(){
 
   const camera = new T.PerspectiveCamera(R3D.opts.fov, 1, 0.1, 400);
   const renderer = new T.WebGLRenderer({
-    canvas: canvas3d,
-    antialias: !IS_MOBILE,
-    alpha: false,
-    powerPreference: 'high-performance'
+    canvas: canvas3d, antialias: !IS_MOBILE, alpha: false, powerPreference: 'high-performance'
   });
   renderer.setClearColor(0x5c94fc, 1);
 
-  const hemi = new T.HemisphereLight(0xffffff, 0x445577, 0.95);
-  scene.add(hemi);
+  scene.add(new T.HemisphereLight(0xffffff, 0x445577, 0.95));
   const dir = new T.DirectionalLight(0xffffff, 0.85);
-  dir.position.set(12, 26, 18);
-  scene.add(dir);
+  dir.position.set(12, 26, 18); scene.add(dir);
   const dir2 = new T.DirectionalLight(0x88aaff, 0.35);
-  dir2.position.set(-16, 10, -10);
-  scene.add(dir2);
+  dir2.position.set(-16, 10, -10); scene.add(dir2);
 
   const staticGroup = new T.Group();
   const dynamicGroup = new T.Group();
-  scene.add(staticGroup);
-  scene.add(dynamicGroup);
+  scene.add(staticGroup); scene.add(dynamicGroup);
 
-  R3D.scene = scene;
-  R3D.camera = camera;
-  R3D.renderer = renderer;
-  R3D.staticGroup = staticGroup;
-  R3D.dynamicGroup = dynamicGroup;
+  R3D.scene = scene; R3D.camera = camera; R3D.renderer = renderer;
+  R3D.staticGroup = staticGroup; R3D.dynamicGroup = dynamicGroup;
 
   const cloudMat = new T.MeshLambertMaterial({color: 0xffffff});
   const cloudGeo = new T.BoxGeometry(1,1,1);
   for(let i=0;i<26;i++){
     const g = new T.Group();
-    const baseX = rand(-20, 230);
-    const baseY = rand(8, 18);
-    const baseZ = rand(-12, -4);
+    const baseX = rand(-20, 230), baseY = rand(8, 18), baseZ = rand(-12, -4);
     for(let k=0;k<4;k++){
       const m = new T.Mesh(cloudGeo, cloudMat);
       m.position.set(rand(-1.6,1.6), rand(-0.4,0.5), rand(-0.5,0.5));
@@ -2677,7 +2487,6 @@ function buildScene3D(){
     g.position.set(baseX, baseY, baseZ);
     staticGroup.add(g);
   }
-
   const hillMat = new T.MeshLambertMaterial({color: 0x00a800});
   for(let i=0;i<22;i++){
     const h = new T.Mesh(new T.SphereGeometry(rand(3,6), 8, 6), hillMat);
@@ -2698,12 +2507,10 @@ function buildScene3D(){
   const flagGroup = new T.Group();
   const clothMat = new T.MeshLambertMaterial({color: 0xe8e8e8, side: T.DoubleSide});
   const cloth = new T.Mesh(new T.BoxGeometry(0.9, 0.75, 0.06), clothMat);
-  cloth.position.set(-0.45, 0, 0);
-  flagGroup.add(cloth);
+  cloth.position.set(-0.45, 0, 0); flagGroup.add(cloth);
   const stripe = new T.Mesh(new T.BoxGeometry(0.9, 0.32, 0.08),
     new T.MeshLambertMaterial({color: 0xe52521, side: T.DoubleSide}));
-  stripe.position.set(-0.45, 0, 0);
-  flagGroup.add(stripe);
+  stripe.position.set(-0.45, 0, 0); flagGroup.add(stripe);
   flagGroup.position.set(G.level.flagX + 0.5, 10.2, 0);
   staticGroup.add(flagGroup);
   R3D.flagGroup = flagGroup;
@@ -2718,21 +2525,16 @@ function buildScene3D(){
   castleGroup.add(makeBox3D(T, castleDark, 1.3, 1.8, 0.3, 0, 1.1, 1.15));
   castleGroup.add(makeBox3D(T, castleDark, 0.8, 0.9, 0.3, -1.5, 3.6, 1.15));
   castleGroup.add(makeBox3D(T, castleDark, 0.8, 0.9, 0.3,  1.5, 3.6, 1.15));
-  castleGroup.position.set(203 + 2.5, 0, 0);
+  castleGroup.position.set((G.level.w - 4) + 0.5, 0, 0);
   staticGroup.add(castleGroup);
   R3D.castleGroup = castleGroup;
 
-  const backGround = new T.Mesh(new T.BoxGeometry(212, 2, 5),
+  const backGround = new T.Mesh(new T.BoxGeometry(G.level.w, 2, 5),
     new T.MeshLambertMaterial({color: 0xa03c08}));
-  backGround.position.set(106, 1, -3.2);
+  backGround.position.set(G.level.w/2, 1, -3.2);
   staticGroup.add(backGround);
 
-  /* Player: sprite billboard if available, else procedural */
-  if(SpriteBank.hero.ready){
-    R3D.playerGroup = makeSpriteBillboard('hero');
-  } else {
-    R3D.playerGroup = buildMarioFigure3D(T);
-  }
+  R3D.playerGroup = SpriteBank.hero.ready ? makeSpriteBillboard('hero') : buildMarioFigure3D(T);
   dynamicGroup.add(R3D.playerGroup);
 
   R3D.ready = true;
@@ -2741,26 +2543,19 @@ function buildScene3D(){
 
 function rebuildPlayer3D(){
   if(!R3D.ready) return;
-  if(R3D.playerGroup){
-    R3D.dynamicGroup.remove(R3D.playerGroup);
-    disposeTree3D(R3D.playerGroup);
-  }
-  if(SpriteBank.hero.ready){
-    R3D.playerGroup = makeSpriteBillboard('hero');
-  } else {
-    R3D.playerGroup = buildMarioFigure3D(THREE);
-  }
+  if(R3D.playerGroup){ R3D.dynamicGroup.remove(R3D.playerGroup); disposeTree3D(R3D.playerGroup); }
+  R3D.playerGroup = SpriteBank.hero.ready ? makeSpriteBillboard('hero') : buildMarioFigure3D(THREE);
   R3D.dynamicGroup.add(R3D.playerGroup);
 }
 
 function buildMarioFigure3D(T){
   const M = {
-    red:   new T.MeshLambertMaterial({color: 0xe52521}),
-    skin:  new T.MeshLambertMaterial({color: 0xf8b878}),
-    blue:  new T.MeshLambertMaterial({color: 0x3b5dc9}),
-    shoe:  new T.MeshLambertMaterial({color: 0x6b3f1d}),
-    dark:  new T.MeshLambertMaterial({color: 0x241408}),
-    gold:  new T.MeshLambertMaterial({color: 0xffd000}),
+    red: new T.MeshLambertMaterial({color: 0xe52521}),
+    skin: new T.MeshLambertMaterial({color: 0xf8b878}),
+    blue: new T.MeshLambertMaterial({color: 0x3b5dc9}),
+    shoe: new T.MeshLambertMaterial({color: 0x6b3f1d}),
+    dark: new T.MeshLambertMaterial({color: 0x241408}),
+    gold: new T.MeshLambertMaterial({color: 0xffd000}),
     white: new T.MeshLambertMaterial({color: 0xffffff})
   };
   const g = new T.Group();
@@ -2771,14 +2566,12 @@ function buildMarioFigure3D(T){
   legL.add(makeBox3D(T, M.shoe, 0.24, 0.10, 0.34, 0, -0.31, 0.04));
   legR.add(makeBox3D(T, M.shoe, 0.24, 0.10, 0.34, 0, -0.31, 0.04));
   g.add(legL); g.add(legR);
-
   g.add(makeBox3D(T, M.blue, 0.46, 0.30, 0.42, 0, 0.50, 0));
   g.add(makeBox3D(T, M.red,  0.52, 0.18, 0.44, 0, 0.70, 0));
   g.add(makeBox3D(T, M.blue, 0.10, 0.18, 0.46, -0.13, 0.70, 0));
   g.add(makeBox3D(T, M.blue, 0.10, 0.18, 0.46,  0.13, 0.70, 0));
   g.add(makeBox3D(T, M.gold, 0.05, 0.05, 0.02, -0.13, 0.62, 0.235));
   g.add(makeBox3D(T, M.gold, 0.05, 0.05, 0.02,  0.13, 0.62, 0.235));
-
   const armL = new T.Group(); armL.position.set(-0.31, 0.72, 0);
   const armR = new T.Group(); armR.position.set( 0.31, 0.72, 0);
   armL.add(makeBox3D(T, M.red,  0.13, 0.26, 0.26, 0, -0.13, 0));
@@ -2786,7 +2579,6 @@ function buildMarioFigure3D(T){
   armL.add(makeBox3D(T, M.skin, 0.15, 0.11, 0.27, 0, -0.30, 0));
   armR.add(makeBox3D(T, M.skin, 0.15, 0.11, 0.27, 0, -0.30, 0));
   g.add(armL); g.add(armR);
-
   g.add(makeBox3D(T, M.skin, 0.44, 0.30, 0.42, 0, 0.93, 0));
   g.add(makeBox3D(T, M.white,0.08, 0.11, 0.02, -0.09, 0.97, 0.215));
   g.add(makeBox3D(T, M.white,0.08, 0.11, 0.02,  0.09, 0.97, 0.215));
@@ -2794,15 +2586,12 @@ function buildMarioFigure3D(T){
   g.add(makeBox3D(T, M.dark, 0.045,0.07, 0.02,  0.09, 0.965, 0.23));
   g.add(makeBox3D(T, M.dark, 0.30, 0.07, 0.02, 0, 0.865, 0.215));
   g.add(makeBox3D(T, M.skin, 0.13, 0.11, 0.10, 0, 0.92, 0.245));
-
   g.add(makeBox3D(T, M.red, 0.50, 0.13, 0.48, 0, 1.14, 0));
   g.add(makeBox3D(T, M.red, 0.26, 0.055, 0.16, 0, 1.06, 0.30));
   g.add(makeBox3D(T, M.gold,0.15, 0.11, 0.02, 0, 1.14, 0.245));
-
   g.userData.parts = { legL, legR, armL, armR, mats: M };
   return g;
 }
-
 function buildGoomba3D(T){
   const M = {
     body:  new T.MeshLambertMaterial({color: 0x8b4a12}),
@@ -2822,7 +2611,6 @@ function buildGoomba3D(T){
   g.add(makeBox3D(T, M.dark,  0.28, 0.14, 0.42,  0.25, 0.08, 0.06));
   return g;
 }
-
 function buildKoopa3D(T){
   const M = {
     shell: new T.MeshLambertMaterial({color: 0x0f7a0f}),
@@ -2849,7 +2637,6 @@ function buildKoopa3D(T){
   g.userData.head = head;
   return g;
 }
-
 function buildMushroom3D(T){
   const M = {
     cap:  new T.MeshLambertMaterial({color: 0xe52521}),
@@ -2859,8 +2646,7 @@ function buildMushroom3D(T){
   };
   const g = new T.Group();
   const cap = new T.Mesh(new T.SphereGeometry(0.46, 12, 8, 0, Math.PI*2, 0, Math.PI/2), M.cap);
-  cap.position.y = 0.42; cap.scale.y = 0.85;
-  g.add(cap);
+  cap.position.y = 0.42; cap.scale.y = 0.85; g.add(cap);
   g.add(makeBox3D(T, M.spot, 0.16, 0.16, 0.16, -0.22, 0.60, 0.22));
   g.add(makeBox3D(T, M.spot, 0.16, 0.16, 0.16,  0.22, 0.60, 0.22));
   g.add(makeBox3D(T, M.spot, 0.16, 0.16, 0.16,  0.00, 0.66, -0.20));
@@ -2869,11 +2655,9 @@ function buildMushroom3D(T){
   g.add(makeBox3D(T, M.dark, 0.08, 0.12, 0.03,  0.11, 0.28, 0.225));
   return g;
 }
-
 function buildCoin3D(T){
   const mat = new T.MeshLambertMaterial({color: 0xffd000, emissive: 0x604000});
-  const geo = new T.CylinderGeometry(0.34, 0.34, 0.09, 14);
-  const m = new T.Mesh(geo, mat);
+  const m = new T.Mesh(new T.CylinderGeometry(0.34, 0.34, 0.09, 14), mat);
   m.rotation.x = Math.PI / 2;
   return m;
 }
@@ -2882,43 +2666,32 @@ function buildTiles3D(){
   const T = THREE;
   if(!R3D.ready) return;
   for(const m of R3D.tileMeshes){
-    R3D.staticGroup.remove(m);
-    m.geometry.dispose();
-    m.material.dispose();
+    R3D.staticGroup.remove(m); m.geometry.dispose(); m.material.dispose();
   }
-  R3D.tileMeshes = [];
-  R3D.tileIndex = new Map();
-  R3D.prevBump = new Map();
+  R3D.tileMeshes = []; R3D.tileIndex = new Map(); R3D.prevBump = new Map();
 
   const level = G.level;
   const groups = new Map();
-  for(let ty=0; ty<ROWS; ty++){
+  for(let ty=0; ty<level.h; ty++){
     for(let tx=0; tx<level.w; tx++){
       const c = level.grid[ty][tx];
-      if(c === '.') continue;
-      if(!groups.has(c)){
-        groups.set(c, {color: TILE_COLORS_3D[c] || 0xcccccc, items: []});
-      }
+      if(c === '.' || c === 'C') continue;
+      if(!groups.has(c)) groups.set(c, {color: TILE_COLORS_3D[c] || 0xcccccc, items: []});
       groups.get(c).items.push({tx, ty});
     }
   }
-
   const dummy = new T.Object3D();
   for(const [key, grp] of groups){
     const geo = new T.BoxGeometry(1, 1, 1);
     const isQ = (key === '?' || key === 'M');
-    const mat = new T.MeshLambertMaterial({
-      color: grp.color,
-      emissive: isQ ? 0x3a2400 : 0x000000
-    });
+    const mat = new T.MeshLambertMaterial({ color: grp.color, emissive: isQ ? 0x3a2400 : 0x000000 });
     const mesh = new T.InstancedMesh(geo, mat, grp.items.length);
     mesh.instanceMatrix.setUsage(T.DynamicDrawUsage);
     mesh.frustumCulled = false;
     for(let i=0;i<grp.items.length;i++){
       const it = grp.items[i];
-      dummy.position.set(it.tx + 0.5, ROWS - it.ty - 0.5, 0);
-      dummy.scale.set(1, 1, 1);
-      dummy.rotation.set(0,0,0);
+      dummy.position.set(it.tx + 0.5, level.h - it.ty - 0.5, 0);
+      dummy.scale.set(1, 1, 1); dummy.rotation.set(0,0,0);
       dummy.updateMatrix();
       mesh.setMatrixAt(i, dummy.matrix);
       R3D.tileIndex.set(it.tx + ',' + it.ty, {mesh, index: i, tx: it.tx, ty: it.ty});
@@ -2931,32 +2704,27 @@ function buildTiles3D(){
 }
 
 const _bumpDummy = { obj: null };
-
 function updateBumpTiles3D(force){
   const T = THREE;
   if(!R3D.ready || !R3D.tileIndex) return;
   if(!_bumpDummy.obj) _bumpDummy.obj = new T.Object3D();
   const dummy = _bumpDummy.obj;
-
   const newOffsets = new Map();
   for(const b of G.bumps){
     const rec = R3D.tileIndex.get(b.x + ',' + b.y);
     if(!rec) continue;
     newOffsets.set(rec, Math.sin((b.t / 12) * Math.PI) * 0.45);
   }
-
   const keys = new Set();
   for(const k of R3D.prevBump.keys()) keys.add(k);
   for(const k of newOffsets.keys()) keys.add(k);
-
   const dirtyMeshes = new Set();
   for(const rec of keys){
     const o  = newOffsets.get(rec) || 0;
     const po = R3D.prevBump.get(rec) || 0;
     if(!force && Math.abs(o - po) < 0.0008) continue;
-    dummy.position.set(rec.tx + 0.5, ROWS - rec.ty - 0.5 + o, 0);
-    dummy.scale.set(1, 1, 1);
-    dummy.rotation.set(0,0,0);
+    dummy.position.set(rec.tx + 0.5, G.level.h - rec.ty - 0.5 + o, 0);
+    dummy.scale.set(1, 1, 1); dummy.rotation.set(0,0,0);
     dummy.updateMatrix();
     rec.mesh.setMatrixAt(rec.index, dummy.matrix);
     dirtyMeshes.add(rec.mesh);
@@ -2969,21 +2737,19 @@ function updateCamera3D(dt){
   const p = G.player;
   const o = R3D.opts;
   const cam = R3D.camera;
-
   const aspect = cam.aspect || 1;
   const fovY = o.fov * Math.PI / 180;
   const wantHalfW = 9.6;
   const needDist = wantHalfW / (Math.tan(fovY / 2) * aspect);
   const baseDist = Math.max(needDist, o.dist * 0.55);
 
-  let dist  = baseDist;
-  let yaw   = o.yaw   * Math.PI / 180;
+  let dist = baseDist;
+  let yaw = o.yaw * Math.PI / 180;
   let pitch = o.pitch * Math.PI / 180;
   let extraY = 0;
   let lookAheadX = 1.2;
 
-  const isTitle = (G.state === 'title');
-  if(isTitle){
+  if(G.state === 'title'){
     const t = G.frame * 0.0045;
     const px = 10 + Math.sin(t) * 6;
     const py = 5.2;
@@ -3014,11 +2780,9 @@ function updateCamera3D(dt){
 
   const px = (p.x + p.w / 2) / TILE;
   const py = (VIEW_H - (p.y + p.h / 2)) / TILE;
-
   let tx = px + lookAheadX;
   let ty = py + 0.5 + extraY;
   const tz = 0.6;
-
   const levelW = G.level.w;
   const halfWVisible = Math.max(6, wantHalfW);
   tx = clamp(tx, halfWVisible * 0.55, levelW - halfWVisible * 0.55);
@@ -3037,7 +2801,6 @@ function updateCamera3D(dt){
   R3D.cam.tx = lerp(R3D.cam.tx, tx, kk);
   R3D.cam.ty = lerp(R3D.cam.ty, ty, kk);
   R3D.cam.tz = lerp(R3D.cam.tz, tz, kk);
-
   cam.position.set(R3D.cam.x, R3D.cam.y, R3D.cam.z);
   cam.lookAt(R3D.cam.tx, R3D.cam.ty, R3D.cam.tz);
 }
@@ -3047,21 +2810,12 @@ function syncPool3D(pool, entities, createFn, updateFn){
   const seen = new Set();
   for(const e of entities){
     let m = pool.get(e);
-    if(!m){
-      m = createFn(e);
-      if(!m) continue;
-      pool.set(e, m);
-      R3D.dynamicGroup.add(m);
-    }
+    if(!m){ m = createFn(e); if(!m) continue; pool.set(e, m); R3D.dynamicGroup.add(m); }
     updateFn(m, e, G.frame);
     seen.add(e);
   }
   for(const [e, m] of pool){
-    if(!seen.has(e)){
-      R3D.dynamicGroup.remove(m);
-      disposeTree3D(m);
-      pool.delete(e);
-    }
+    if(!seen.has(e)){ R3D.dynamicGroup.remove(m); disposeTree3D(m); pool.delete(e); }
   }
 }
 
@@ -3071,8 +2825,7 @@ function syncPlayer3D(){
   const g = R3D.playerGroup;
   const px = (p.x + p.w / 2) / TILE;
   const pyFeet = (VIEW_H - (p.y + p.h)) / TILE;
-  const w = p.w / TILE;
-  const h = p.h / TILE;
+  const w = p.w / TILE, h = p.h / TILE;
 
   if(g.userData && g.userData.isSprite){
     g.position.set(px, pyFeet + h * 0.5, 0.75);
@@ -3092,7 +2845,6 @@ function syncPlayer3D(){
     return;
   }
 
-  /* Procedural player */
   const parts = g.userData.parts;
   g.position.set(px, pyFeet, 0.75);
   const targetH = p.h / TILE;
@@ -3101,26 +2853,18 @@ function syncPlayer3D(){
   g.rotation.y = (p.dir > 0) ? 0 : Math.PI;
   if(p.invuln > 0 && Math.floor(G.frame / 3) % 2 === 0){ g.visible = false; return; }
   g.visible = (p.state !== 'dying') || (p.deadT < 150);
-
   const walking = p.onGround && Math.abs(p.vx) > 0.15;
   const airborne = !p.onGround;
   let swing = walking ? Math.sin(p.walkAnim * 1.5) * 0.55 : 0;
-
   if(airborne){
-    parts.legL.rotation.x = -0.45;
-    parts.legR.rotation.x =  0.30;
-    parts.armL.rotation.x = -1.0;
-    parts.armR.rotation.x = -0.5;
+    parts.legL.rotation.x = -0.45; parts.legR.rotation.x = 0.30;
+    parts.armL.rotation.x = -1.0; parts.armR.rotation.x = -0.5;
   } else if(walking){
-    parts.legL.rotation.x =  swing;
-    parts.legR.rotation.x = -swing;
-    parts.armL.rotation.x = -swing * 0.8;
-    parts.armR.rotation.x =  swing * 0.8;
+    parts.legL.rotation.x = swing; parts.legR.rotation.x = -swing;
+    parts.armL.rotation.x = -swing * 0.8; parts.armR.rotation.x = swing * 0.8;
   } else {
-    parts.legL.rotation.x = 0;
-    parts.legR.rotation.x = 0;
-    parts.armL.rotation.x = 0;
-    parts.armR.rotation.x = 0;
+    parts.legL.rotation.x = 0; parts.legR.rotation.x = 0;
+    parts.armL.rotation.x = 0; parts.armR.rotation.x = 0;
   }
   if(p.state === 'dying') g.rotation.z = Math.sin(p.deadT * 0.12) * 0.5;
   else g.rotation.z = 0;
@@ -3128,9 +2872,7 @@ function syncPlayer3D(){
 }
 
 function syncEnemies3D(){
-  const list = G.enemies.filter(function(e){
-    return e.active && e.x > G.camX - 120 && e.x < G.camX + VIEW_W + 120;
-  });
+  const list = G.enemies.filter(e => e.active && e.x > G.camX - 120 && e.x < G.camX + VIEW_W + 120);
   syncPool3D(R3D.enemyPool, list,
     function(e){
       const T = THREE;
@@ -3141,9 +2883,7 @@ function syncEnemies3D(){
     function(m, e){
       const cx = (e.x + e.w / 2) / TILE;
       const feetY = (VIEW_H - (e.y + e.h)) / TILE;
-      const w = e.w / TILE;
-      const h = e.h / TILE;
-
+      const w = e.w / TILE, h = e.h / TILE;
       if(m.userData && m.userData.isSprite){
         const key = (e.type === 'goomba') ? 'goomba' : 'koopa';
         let idx = 0;
@@ -3151,27 +2891,21 @@ function syncEnemies3D(){
         if(e.state === 'squashed'){
           m.scale.set(w * 1.15, h * 0.4, 1);
           m.position.set(cx, feetY + h * 0.2, 0.75);
-          setSpriteFrame(m, 0, e.dir < 0);
-          return;
+          setSpriteFrame(m, 0, e.dir < 0); return;
         }
         if(e.state === 'dead'){
           m.scale.set(w * 1.1, h * 1.1, 1);
           m.position.set(cx, feetY + h * 0.5, 0.75);
-          setSpriteFrame(m, 0, e.dir < 0);
-          return;
+          setSpriteFrame(m, 0, e.dir < 0); return;
         }
         m.scale.set(w * 1.1, h * 1.1, 1);
         m.position.set(cx, feetY + h * 0.5, 0.75);
         if(e.type === 'koopa' && (e.state === 'shell' || e.state === 'shellmove')){
           idx = Math.min(total - 1, 1);
-        } else {
-          idx = pickFrame(key, e.animT, true);
-        }
+        } else idx = pickFrame(key, e.animT, true);
         setSpriteFrame(m, idx, e.dir < 0);
         return;
       }
-
-      /* Procedural */
       const scale = e.h / TILE / ((e.type === 'goomba') ? 0.78 : 0.95);
       m.position.set(cx, feetY, 0.75);
       m.rotation.y = (e.dir > 0) ? 0 : Math.PI;
@@ -3180,11 +2914,8 @@ function syncEnemies3D(){
         m.scale.set(scale * 1.15, scale * 0.30, scale * 1.15);
         m.position.y = feetY - (e.h / TILE) * 0.65;
       } else if(e.state === 'dead'){
-        m.rotation.z = Math.PI;
-        m.scale.set(scale, scale, scale);
-      } else {
-        m.scale.set(scale, scale, scale);
-      }
+        m.rotation.z = Math.PI; m.scale.set(scale, scale, scale);
+      } else m.scale.set(scale, scale, scale);
       if(e.type === 'koopa'){
         const shellOnly = (e.state === 'shell' || e.state === 'shellmove');
         if(m.userData.head) m.userData.head.visible = !shellOnly;
@@ -3195,9 +2926,7 @@ function syncEnemies3D(){
 }
 
 function syncItems3D(){
-  const list = G.items.filter(function(it){
-    return it.x > G.camX - 90 && it.x < G.camX + VIEW_W + 90;
-  });
+  const list = G.items.filter(it => it.x > G.camX - 90 && it.x < G.camX + VIEW_W + 90);
   syncPool3D(R3D.itemPool, list,
     function(){
       if(SpriteBank.mushroom.ready) return makeSpriteBillboard('mushroom');
@@ -3206,9 +2935,7 @@ function syncItems3D(){
     function(m, it){
       const cx = (it.x + it.w / 2) / TILE;
       const feetY = (VIEW_H - (it.y + it.h)) / TILE;
-      const w = it.w / TILE;
-      const h = it.h / TILE;
-
+      const w = it.w / TILE, h = it.h / TILE;
       if(m.userData && m.userData.isSprite){
         m.position.set(cx, feetY + h * 0.5, 0.75);
         m.scale.set(w * 1.05, h * 1.05, 1);
@@ -3216,7 +2943,6 @@ function syncItems3D(){
         setSpriteFrame(m, pickFrame('mushroom', it.animT, false), false);
         return;
       }
-
       m.position.set(cx, feetY, 0.75);
       m.scale.set(1, 1, 1);
       m.rotation.y = G.frame * 0.03;
@@ -3225,9 +2951,7 @@ function syncItems3D(){
 }
 
 function syncCoins3D(){
-  const list = G.coinEnts.filter(function(c){
-    return c.x > G.camX - 60 && c.x < G.camX + VIEW_W + 60;
-  });
+  const list = G.coinEnts.filter(c => c.x > G.camX - 60 && c.x < G.camX + VIEW_W + 60);
   syncPool3D(R3D.coinPool, list,
     function(){
       if(SpriteBank.coin.ready) return makeSpriteBillboard('coin');
@@ -3236,14 +2960,12 @@ function syncCoins3D(){
     function(m, c){
       const cx = (c.x + c.w / 2) / TILE;
       const cy = (VIEW_H - (c.y + c.h / 2)) / TILE;
-
       if(m.userData && m.userData.isSprite){
         m.position.set(cx, cy + Math.sin(c.t * 0.09) * 0.08, 0.75);
         m.scale.set(c.w / TILE * 1.3, c.h / TILE * 1.3, 1);
         setSpriteFrame(m, pickFrame('coin', c.t, true), false);
         return;
       }
-
       m.position.set(cx, cy + Math.sin(c.t * 0.09) * 0.08, 0.75);
       m.rotation.y = c.t * 0.16;
       m.rotation.x = Math.PI / 2;
@@ -3251,9 +2973,7 @@ function syncCoins3D(){
 }
 
 function syncParticles3D(){
-  const list = G.particles.filter(function(pt){
-    return pt.x > G.camX - 60 && pt.x < G.camX + VIEW_W + 60 && pt.kind !== 'text';
-  });
+  const list = G.particles.filter(pt => pt.x > G.camX - 60 && pt.x < G.camX + VIEW_W + 60 && pt.kind !== 'text');
   syncPool3D(R3D.particlePool, list,
     function(pt){
       const T = THREE;
@@ -3291,8 +3011,7 @@ function resize3D(){
   const w = Math.max(2, Math.floor(rect.width * dprCap));
   const h = Math.max(2, Math.floor(rect.height * dprCap));
   if(w !== R3D.lastW || h !== R3D.lastH){
-    R3D.lastW = w;
-    R3D.lastH = h;
+    R3D.lastW = w; R3D.lastH = h;
     R3D.renderer.setSize(w, h, false);
     R3D.camera.aspect = w / h;
     R3D.camera.updateProjectionMatrix();
@@ -3305,12 +3024,8 @@ function render3D(dt){
   if(R3D.tilesDirty){ buildTiles3D(); R3D.tilesDirty = false; }
   updateCamera3D(dt);
   updateBumpTiles3D(false);
-  syncPlayer3D();
-  syncEnemies3D();
-  syncItems3D();
-  syncCoins3D();
-  syncParticles3D();
-  syncFlag3D();
+  syncPlayer3D(); syncEnemies3D(); syncItems3D(); syncCoins3D();
+  syncParticles3D(); syncFlag3D();
   R3D.renderer.render(R3D.scene, R3D.camera);
 
   HUD = hudCtx;
@@ -3323,17 +3038,15 @@ function render3D(dt){
 }
 
 /* =========================================================================
-   25. MODE SWITCHING / CAPABILITY DETECTION
+   15. MODE SWITCHING / CAPABILITY DETECTION
    ========================================================================= */
 const IS_MOBILE = (function(){
   const ua = navigator.userAgent || '';
   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile/i.test(ua) ||
          (('ontouchstart' in window) && window.innerWidth < 900);
 })();
-
 const CAPS = (function(){
-  let webgl = false;
-  let webgl2 = false;
+  let webgl = false, webgl2 = false;
   try{
     const c = document.createElement('canvas');
     webgl = !!(window.WebGLRenderingContext && (c.getContext('webgl') || c.getContext('experimental-webgl')));
@@ -3342,10 +3055,8 @@ const CAPS = (function(){
   const cores = navigator.hardwareConcurrency || 4;
   const mem   = navigator.deviceMemory || 4;
   const lowPower = IS_MOBILE && (cores <= 4 || mem <= 2);
-  return {
-    webgl, webgl2, cores, mem, mobile: IS_MOBILE, lowPower,
-    recommended: (webgl && !lowPower) ? '3d' : '2d'
-  };
+  return { webgl, webgl2, cores, mem, mobile: IS_MOBILE, lowPower,
+           recommended: (webgl && !lowPower) ? '3d' : '2d' };
 })();
 
 let modeSetting = 'auto';
@@ -3361,7 +3072,6 @@ function updateCapsText(){
     ' · Memory: <b>' + CAPS.mem + ' GB</b>' +
     ' · Recommended: <b style="color:#4dd8ff">' + CAPS.recommended.toUpperCase() + '</b>';
 }
-
 function updateModeButtons(){
   document.getElementById('mode2d').classList.toggle('on', modeSetting === '2d');
   document.getElementById('mode3d').classList.toggle('on', modeSetting === '3d');
@@ -3372,7 +3082,6 @@ function updateModeButtons(){
                      (R3D.loading ? ' (loading…)' : '');
   }
 }
-
 async function applyMode(mode){
   modeSetting = mode;
   let target = mode;
@@ -3390,27 +3099,21 @@ async function applyMode(mode){
       }catch(err){
         console.warn('3D init failed:', err);
         R3D.loading = false;
-        modeSetting = '2d';
-        currentMode = '2d';
-        setDomMode('2d');
-        updateModeButtons();
+        modeSetting = '2d'; currentMode = '2d';
+        setDomMode('2d'); updateModeButtons();
         return;
       }
       R3D.loading = false;
     }
     currentMode = '3d';
-    R3D.active = true;
-    R3D.tilesDirty = true;
-    R3D.cam.init = false;
+    R3D.active = true; R3D.tilesDirty = true; R3D.cam.init = false;
     setDomMode('3d');
   } else {
-    currentMode = '2d';
-    R3D.active = false;
+    currentMode = '2d'; R3D.active = false;
     setDomMode('2d');
   }
   updateModeButtons();
 }
-
 function setDomMode(m){
   if(m === '3d'){
     canvas.classList.add('hide');
@@ -3422,16 +3125,14 @@ function setDomMode(m){
     hudCanvas.classList.add('hide');
   }
 }
-
 function cycleMode(){
   if(modeSetting === '2d') applyMode('3d');
   else if(modeSetting === '3d') applyMode('auto');
   else applyMode('2d');
 }
-
-document.getElementById('mode2d').addEventListener('click', function(){ applyMode('2d'); });
-document.getElementById('mode3d').addEventListener('click', function(){ applyMode('3d'); });
-document.getElementById('modeAuto').addEventListener('click', function(){ applyMode('auto'); });
+document.getElementById('mode2d').addEventListener('click', ()=>applyMode('2d'));
+document.getElementById('mode3d').addEventListener('click', ()=>applyMode('3d'));
+document.getElementById('modeAuto').addEventListener('click', ()=>applyMode('auto'));
 
 function bindSlider(id, valId, fn, fmt){
   const el = document.getElementById(id);
@@ -3445,43 +3146,28 @@ function bindSlider(id, valId, fn, fmt){
   el.addEventListener('input', upd);
   upd();
 }
-
-bindSlider('camYaw',   'camYawV',   function(v){ R3D.opts.yaw   = v; }, function(v){ return v + '°'; });
-bindSlider('camPitch', 'camPitchV', function(v){ R3D.opts.pitch = v; }, function(v){ return v + '°'; });
-bindSlider('camFov',   'camFovV',   function(v){
-  R3D.opts.fov = v;
-  if(R3D.camera){ R3D.camera.fov = v; R3D.camera.updateProjectionMatrix(); }
-}, function(v){ return v + '°'; });
-bindSlider('camDist',  'camDistV',  function(v){ R3D.opts.dist  = v; }, function(v){ return v; });
-bindSlider('camDpr',   'camDprV',   function(v){
-  R3D.opts.dpr = v;
-  R3D.lastW = 0; R3D.lastH = 0;
-}, function(v){ return v + '×'; });
+bindSlider('camYaw','camYawV', v=>{ R3D.opts.yaw = v; }, v=>v+'°');
+bindSlider('camPitch','camPitchV', v=>{ R3D.opts.pitch = v; }, v=>v+'°');
+bindSlider('camFov','camFovV', v=>{ R3D.opts.fov = v; if(R3D.camera){ R3D.camera.fov = v; R3D.camera.updateProjectionMatrix(); } }, v=>v+'°');
+bindSlider('camDist','camDistV', v=>{ R3D.opts.dist = v; }, v=>v);
+bindSlider('camDpr','camDprV', v=>{ R3D.opts.dpr = v; R3D.lastW = 0; R3D.lastH = 0; }, v=>v+'×');
 
 const autoBtn = document.getElementById('toggleAuto');
 autoBtn.addEventListener('click', function(){
   R3D.opts.autoAdjust = !R3D.opts.autoAdjust;
   autoBtn.classList.toggle('on', R3D.opts.autoAdjust);
-  /* Keep the Font Awesome icon while updating the label */
   autoBtn.innerHTML = '<i class="fa-solid fa-sliders"></i> ' + (R3D.opts.autoAdjust ? 'ON' : 'OFF');
 });
-
-window.addEventListener('resize', function(){
-  R3D.lastW = 0;
-  R3D.lastH = 0;
-});
+window.addEventListener('resize', function(){ R3D.lastW = 0; R3D.lastH = 0; });
 
 /* =========================================================================
-   26. MAIN RENDER DISPATCH
+   16. RENDER DISPATCH + LOOP
    ========================================================================= */
 function render(dt){
   if(R3D.active && R3D.ready) render3D(dt);
   else render2D();
 }
 
-/* =========================================================================
-   27. MAIN LOOP (fixed timestep @ 60Hz)
-   ========================================================================= */
 let lastTime = 0;
 let accumulator = 0;
 const STEP = 1 / 60;
@@ -3493,36 +3179,624 @@ function loop(timestamp){
   lastTime = timestamp;
   if(dt > 0.25) dt = 0.25;
   accumulator += dt;
-
   let guard = 0;
   while(accumulator >= STEP && guard < 5){
-    update();
+    if(document.getElementById('screen-game').classList.contains('active')){
+      update();
+    }
     accumulator -= STEP;
     guard++;
   }
   if(guard >= 5) accumulator = 0;
-
-  render(dt);
+  if(document.getElementById('screen-game').classList.contains('active')){
+    render(dt);
+  }
 }
 
 /* =========================================================================
-   28. BOOT
+   17. LEVEL EDITOR
    ========================================================================= */
-G.level = buildLevel();
-G.player = makePlayer();
-G.coinEnts = G.level.coins.map(function(c){
-  return {x:c.x, y:c.y, w:c.w, h:c.h, t:c.t, dead:false};
+const LevelStore = {
+  KEY_PREFIX: 'smb_level_',
+  COUNTER_KEY: 'smb_levelCounter',
+
+  list(){
+    const out = [];
+    for(let i=0;i<localStorage.length;i++){
+      const k = localStorage.key(i);
+      if(k && k.indexOf(this.KEY_PREFIX) === 0){
+        try{
+          const data = JSON.parse(localStorage.getItem(k));
+          out.push({key: k, name: data.name, date: data.date, grid: data.grid});
+        }catch(e){}
+      }
+    }
+    out.sort((a,b)=> (b.date || 0) - (a.date || 0));
+    return out;
+  },
+  save(name, grid){
+    const safe = String(name || 'Level').slice(0, 24);
+    const key = this.KEY_PREFIX + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2,7);
+    const data = { name: safe, date: Date.now(), grid: grid };
+    localStorage.setItem(key, JSON.stringify(data));
+    return key;
+  },
+  remove(key){ localStorage.removeItem(key); },
+  clearAll(){
+    const keys = [];
+    for(let i=0;i<localStorage.length;i++){
+      const k = localStorage.key(i);
+      if(k && k.indexOf(this.KEY_PREFIX) === 0) keys.push(k);
+    }
+    keys.forEach(k => localStorage.removeItem(k));
+  },
+  get(key){
+    try{ return JSON.parse(localStorage.getItem(key)); }catch(e){ return null; }
+  }
+};
+
+const Editor = {
+  el: null, ctx: null,
+  gridW: 128, gridH: ROWS, tilePx: 16,
+  grid: null,
+  selectedTile: 'X',
+  tool: 'paint', // paint | erase | fill | pick
+  painting: false,
+  hoverX: -1, hoverY: -1,
+  undoStack: [], redoStack: [],
+  maxUndo: 40,
+  inited: false,
+
+  init(){
+    if(this.inited) return;
+    this.el = document.getElementById('editorCanvas');
+    this.ctx = this.el.getContext('2d');
+    this.ctx.imageSmoothingEnabled = false;
+    this.grid = [];
+    for(let y=0;y<this.gridH;y++){
+      const row = [];
+      for(let x=0;x<this.gridW;x++){
+        if(y >= GROUND_ROW) row.push('X');
+        else row.push('.');
+      }
+      this.grid.push(row);
+    }
+    this.buildPalette();
+    this.bindEvents();
+    this.resize();
+    this.render();
+    this.inited = true;
+  },
+
+  buildPalette(){
+    const wrap = document.getElementById('tilePalette');
+    wrap.innerHTML = '';
+    EDITOR_TILES.forEach((t, i)=>{
+      const btn = document.createElement('button');
+      btn.className = 'toolbtn';
+      btn.title = t.name + ' (' + t.ch + ')';
+      btn.dataset.ch = t.ch;
+      const sw = document.createElement('span');
+      sw.className = 'swatch';
+      sw.style.background = t.color;
+      btn.appendChild(sw);
+      btn.addEventListener('click', ()=>{
+        Editor.selectedTile = t.ch;
+        Editor.tool = 'paint';
+        Editor.updatePaletteUI();
+        document.getElementById('edSelectedLabel').textContent = t.name;
+      });
+      wrap.appendChild(btn);
+    });
+    this.updatePaletteUI();
+  },
+
+  updatePaletteUI(){
+    const wrap = document.getElementById('tilePalette');
+    for(const b of wrap.children){
+      b.classList.toggle('active', b.dataset.ch === this.selectedTile && this.tool === 'paint');
+    }
+    document.getElementById('toolErase').classList.toggle('active', this.tool === 'erase');
+    document.getElementById('toolFill').classList.toggle('active',  this.tool === 'fill');
+    document.getElementById('toolPick').classList.toggle('active',  this.tool === 'pick');
+    if(this.tool !== 'paint'){
+      const t = EDITOR_TILES.find(t=>t.ch===this.selectedTile);
+      document.getElementById('edSelectedLabel').textContent =
+        (this.tool === 'erase' ? 'Erase' : (this.tool === 'fill' ? 'Fill' : 'Pick'));
+    }
+    document.getElementById('edSizeLabel').textContent = this.gridW + ' × ' + this.gridH;
+  },
+
+  bindEvents(){
+    const canvas = this.el;
+    const getCell = (ev)=>{
+      const r = canvas.getBoundingClientRect();
+      const scaleX = canvas.width / r.width;
+      const scaleY = canvas.height / r.height;
+      const x = Math.floor(((ev.clientX - r.left) * scaleX) / this.tilePx);
+      const y = Math.floor(((ev.clientY - r.top)  * scaleY) / this.tilePx);
+      return {x, y};
+    };
+
+    canvas.addEventListener('pointerdown', (ev)=>{
+      ev.preventDefault();
+      canvas.setPointerCapture(ev.pointerId);
+      const {x,y} = getCell(ev);
+      if(x < 0 || y < 0 || x >= this.gridW || y >= this.gridH) return;
+
+      if(this.tool === 'pick'){
+        const ch = this.grid[y][x];
+        this.selectedTile = ch;
+        this.tool = 'paint';
+        const t = EDITOR_TILES.find(t=>t.ch===ch);
+        document.getElementById('edSelectedLabel').textContent = t ? t.name : ch;
+        this.updatePaletteUI();
+        return;
+      }
+      this.pushUndo();
+      if(this.tool === 'fill'){
+        this.floodFill(x, y, this.grid[y][x], this.selectedTile);
+        this.render();
+        return;
+      }
+      this.painting = true;
+      this.paintCell(x, y, this.tool === 'erase' ? '.' : this.selectedTile);
+      this.render();
+    });
+
+    canvas.addEventListener('pointermove', (ev)=>{
+      const {x,y} = getCell(ev);
+      this.hoverX = x; this.hoverY = y;
+      if(this.painting && x >= 0 && y >= 0 && x < this.gridW && y < this.gridH){
+        this.paintCell(x, y, this.tool === 'erase' ? '.' : this.selectedTile);
+      }
+      this.render();
+    });
+
+    const stop = (ev)=>{
+      if(this.painting){
+        this.painting = false;
+      }
+    };
+    canvas.addEventListener('pointerup', stop);
+    canvas.addEventListener('pointercancel', stop);
+    canvas.addEventListener('pointerleave', ()=>{ this.hoverX = -1; this.hoverY = -1; this.render(); });
+
+    document.getElementById('toolErase').addEventListener('click', ()=>{ this.tool = 'erase'; this.updatePaletteUI(); });
+    document.getElementById('toolFill').addEventListener('click',  ()=>{ this.tool = 'fill';  this.updatePaletteUI(); });
+    document.getElementById('toolPick').addEventListener('click',  ()=>{ this.tool = 'pick';  this.updatePaletteUI(); });
+
+    document.getElementById('edUndo').addEventListener('click', ()=>this.undo());
+    document.getElementById('edRedo').addEventListener('click', ()=>this.redo());
+
+    document.getElementById('edClear').addEventListener('click', ()=>{
+      if(!confirm('Clear the whole level?')) return;
+      this.pushUndo();
+      for(let y=0;y<this.gridH;y++)
+        for(let x=0;x<this.gridW;x++)
+          this.grid[y][x] = (y >= GROUND_ROW) ? 'X' : '.';
+      this.render();
+    });
+
+    document.getElementById('edResize').addEventListener('click', ()=>{
+      const opts = [64, 96, 128, 160, 200, 240];
+      const idx = opts.indexOf(this.gridW);
+      const next = opts[(idx + 1) % opts.length];
+      this.pushUndo();
+      this.gridW = next;
+      const ng = [];
+      for(let y=0;y<this.gridH;y++){
+        const row = [];
+        for(let x=0;x<next;x++){
+          if(x < this.grid[x]) {}
+          if(x < this.grid[y].length) row.push(this.grid[y][x]);
+          else row.push((y >= GROUND_ROW) ? 'X' : '.');
+        }
+        ng.push(row);
+      }
+      this.grid = ng;
+      this.resize();
+      this.render();
+      this.updatePaletteUI();
+    });
+
+    document.getElementById('edSave').addEventListener('click', ()=> Editor.openSaveDialog());
+    document.getElementById('edPlay').addEventListener('click', ()=> Editor.playTest());
+
+    document.addEventListener('keydown', (e)=>{
+      if(!document.getElementById('screen-editor').classList.contains('active')) return;
+      if((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z' && !e.shiftKey){
+        e.preventDefault(); this.undo();
+      } else if((e.ctrlKey || e.metaKey) && (e.key.toLowerCase() === 'y' || (e.key.toLowerCase() === 'z' && e.shiftKey))){
+        e.preventDefault(); this.redo();
+      } else if(e.key === 'e'){ this.tool = 'erase'; this.updatePaletteUI(); }
+      else if(e.key === 'f'){ this.tool = 'fill'; this.updatePaletteUI(); }
+      else if(e.key === 'p'){ this.tool = 'pick'; this.updatePaletteUI(); }
+      else if(e.key === 'b'){ this.tool = 'paint'; this.updatePaletteUI(); }
+    });
+  },
+
+  pushUndo(){
+    const snap = this.grid.map(r=>r.slice());
+    this.undoStack.push(snap);
+    if(this.undoStack.length > this.maxUndo) this.undoStack.shift();
+    this.redoStack.length = 0;
+  },
+  undo(){
+    if(this.undoStack.length === 0) return;
+    this.redoStack.push(this.grid.map(r=>r.slice()));
+    this.grid = this.undoStack.pop();
+    this.render();
+  },
+  redo(){
+    if(this.redoStack.length === 0) return;
+    this.undoStack.push(this.grid.map(r=>r.slice()));
+    this.grid = this.redoStack.pop();
+    this.render();
+  },
+
+  paintCell(x, y, ch){
+    if(x < 0 || y < 0 || x >= this.gridW || y >= this.gridH) return;
+    this.grid[y][x] = ch;
+  },
+
+  floodFill(x, y, from, to){
+    if(from === to) return;
+    if(x < 0 || y < 0 || x >= this.gridW || y >= this.gridH) return;
+    const stack = [[x,y]];
+    const seen = new Set();
+    while(stack.length){
+      const [cx, cy] = stack.pop();
+      if(cx < 0 || cy < 0 || cx >= this.gridW || cy >= this.gridH) continue;
+      const k = cx + ',' + cy;
+      if(seen.has(k)) continue;
+      if(this.grid[cy][cx] !== from) continue;
+      seen.add(k);
+      this.grid[cy][cx] = to;
+      stack.push([cx+1,cy],[cx-1,cy],[cx,cy+1],[cx,cy-1]);
+    }
+  },
+
+  resize(){
+    this.el.width = this.gridW * this.tilePx;
+    this.el.height = this.gridH * this.tilePx;
+    this.ctx.imageSmoothingEnabled = false;
+  },
+
+  render(){
+    const c = this.ctx;
+    const tw = this.tilePx, th = this.tilePx;
+    c.fillStyle = '#0d0d14';
+    c.fillRect(0,0,this.el.width, this.el.height);
+
+    for(let y=0;y<this.gridH;y++){
+      for(let x=0;x<this.gridW;x++){
+        const ch = this.grid[y][x];
+        const px = x * tw, py = y * th;
+        this.drawTilePreview(ch, px, py, tw, th, x, y);
+      }
+    }
+    // Grid lines
+    c.strokeStyle = 'rgba(255,255,255,0.06)';
+    c.lineWidth = 1;
+    for(let x=0;x<=this.gridW;x++){
+      c.beginPath();
+      c.moveTo(x * tw + 0.5, 0);
+      c.lineTo(x * tw + 0.5, this.el.height);
+      c.stroke();
+    }
+    for(let y=0;y<=this.gridH;y++){
+      c.beginPath();
+      c.moveTo(0, y * th + 0.5);
+      c.lineTo(this.el.width, y * th + 0.5);
+      c.stroke();
+    }
+    // Hover highlight
+    if(this.hoverX >= 0 && this.hoverY >= 0 && this.hoverX < this.gridW && this.hoverY < this.gridH){
+      c.strokeStyle = 'rgba(77,216,255,0.9)';
+      c.lineWidth = 2;
+      c.strokeRect(this.hoverX * tw + 1, this.hoverY * th + 1, tw - 2, th - 2);
+    }
+  },
+
+  drawTilePreview(ch, px, py, tw, th, tx, ty){
+    const c = this.ctx;
+    if(ch === '.'){
+      if(ty >= GROUND_ROW){
+        c.fillStyle = 'rgba(200,76,12,0.12)';
+        c.fillRect(px, py, tw, th);
+      }
+      return;
+    }
+    // Reuse 2D tile draw, but scaled to tw
+    c.save();
+    c.translate(px, py);
+    const sx = tw / 16, sy = th / 16;
+    c.scale(sx, sy);
+    // Temporarily swap global ctx functions? Instead, quick inline switch.
+    // We'll draw directly with a lightweight switch mirroring drawTile.
+    drawTileAt(c, ch, 0, 0, tx, ty);
+    c.restore();
+  },
+
+  openSaveDialog(){
+    const modal = document.getElementById('saveModal');
+    const input = document.getElementById('saveNameInput');
+    input.value = 'Level ' + new Date().toLocaleDateString();
+    modal.classList.add('active');
+    setTimeout(()=>input.focus(), 40);
+  },
+
+  playTest(){
+    const lvl = buildLevelFromGrid(this.grid);
+    // Reset player spawn to leftmost solid ground
+    switchScreen('game');
+    setTimeout(()=>{ startGame(lvl); }, 40);
+  }
+};
+
+/* Lightweight tile preview used only in the editor canvas (scaled) */
+function drawTileAt(c, ch, px, py, tx, ty){
+  switch(ch){
+    case 'X':
+      c.fillStyle = '#c84c0c'; c.fillRect(px, py, 16, 16);
+      c.fillStyle = '#e08b50'; c.fillRect(px, py, 16, 2);
+      c.fillStyle = '#7a2a00';
+      c.fillRect(px, py + 7, 16, 1); c.fillRect(px + 7, py, 1, 7);
+      c.fillRect(px + 3, py + 8, 1, 8); c.fillRect(px + 11, py + 8, 1, 8);
+      break;
+    case 'S':
+      c.fillStyle = '#b06a1c'; c.fillRect(px, py, 16, 16);
+      c.fillStyle = '#d99a4e'; c.fillRect(px, py, 16, 2); c.fillRect(px, py, 2, 16);
+      c.fillStyle = '#7a4408'; c.fillRect(px, py + 14, 16, 2); c.fillRect(px + 14, py, 2, 16);
+      break;
+    case 'B':
+      c.fillStyle = '#000'; c.fillRect(px, py, 16, 16);
+      c.fillStyle = '#c84c0c'; c.fillRect(px + 1, py + 1, 14, 14);
+      c.fillStyle = '#000';
+      c.fillRect(px, py + 7, 16, 1); c.fillRect(px, py + 15, 16, 1);
+      c.fillRect(px + 7, py, 1, 8);
+      c.fillRect(px + 3, py + 8, 1, 7); c.fillRect(px + 11, py + 8, 1, 7);
+      c.fillStyle = '#e08b50'; c.fillRect(px + 1, py + 1, 14, 1);
+      break;
+    case '?': case 'M':
+      c.fillStyle = '#7a4400'; c.fillRect(px, py, 16, 16);
+      c.fillStyle = ch === 'M' ? '#ffb020' : '#e39b00';
+      c.fillRect(px + 1, py + 1, 14, 14);
+      c.fillStyle = '#ffe07a';
+      c.fillRect(px + 2, py + 2, 12, 2); c.fillRect(px + 2, py + 2, 2, 12);
+      c.fillStyle = '#7a4400';
+      c.fillRect(px + 3, py + 3, 2, 2); c.fillRect(px + 11, py + 3, 2, 2);
+      c.fillRect(px + 3, py + 11, 2, 2); c.fillRect(px + 11, py + 11, 2, 2);
+      c.fillRect(px + 6, py + 4, 4, 2); c.fillRect(px + 9, py + 6, 2, 3);
+      c.fillRect(px + 7, py + 8, 3, 2); c.fillRect(px + 7, py + 11, 2, 2);
+      break;
+    case 'U':
+      c.fillStyle = '#6b3d0a'; c.fillRect(px, py, 16, 16);
+      c.fillStyle = '#a05a12'; c.fillRect(px + 1, py + 1, 14, 14);
+      c.fillStyle = '#7a4400';
+      c.fillRect(px + 2, py + 2, 12, 2); c.fillRect(px + 2, py + 12, 12, 2);
+      c.fillRect(px + 2, py + 2, 2, 12); c.fillRect(px + 12, py + 2, 2, 12);
+      break;
+    case '[': case ']': case '{': case '}': {
+      const isTop = (ch === '[' || ch === ']');
+      const isLeft = (ch === '[' || ch === '{');
+      c.fillStyle = '#007800'; c.fillRect(px, py, 16, 16);
+      c.fillStyle = '#00a800'; c.fillRect(px + 1, py + 1, 14, 14);
+      c.fillStyle = '#58d854';
+      if(isLeft) c.fillRect(px + 2, py + (isTop ? 2 : 0), 3, 16);
+      else c.fillRect(px + 10, py + (isTop ? 2 : 0), 2, 16);
+      c.fillStyle = '#005000';
+      if(isLeft) c.fillRect(px, py, 2, 16);
+      else c.fillRect(px + 14, py, 2, 16);
+      if(isTop){
+        c.fillStyle = '#004000';
+        c.fillRect(px, py, 16, 2); c.fillRect(px, py + 14, 16, 2);
+        c.fillStyle = '#58d854';
+        c.fillRect(px + (isLeft ? 2 : 0), py + 3, isLeft ? 12 : 10, 2);
+        c.fillStyle = '#005000';
+        c.fillRect(px + (isLeft ? 0 : 2), py + 12, 14, 2);
+      }
+      break;
+    }
+    case 'F':
+      c.fillStyle = '#00a800'; c.fillRect(px + 6, py, 4, 16);
+      c.fillStyle = '#58d854'; c.fillRect(px + 6, py, 2, 16);
+      break;
+    case 'f':
+      c.fillStyle = '#7a4400'; c.fillRect(px, py, 16, 16);
+      c.fillStyle = '#00a800'; c.fillRect(px + 2, py + 2, 12, 12);
+      c.fillStyle = '#58d854'; c.fillRect(px + 3, py + 3, 10, 2);
+      break;
+    case 'C':
+      c.fillStyle = 'rgba(255,208,0,0.35)'; c.fillRect(px, py, 16, 16);
+      c.fillStyle = '#ffd000';
+      c.beginPath(); c.ellipse(px + 8, py + 8, 5, 6, 0, 0, Math.PI*2); c.fill();
+      c.fillStyle = '#b07000';
+      c.beginPath(); c.ellipse(px + 8, py + 8, 3, 4, 0, 0, Math.PI*2); c.fill();
+      break;
+  }
+}
+
+/* =========================================================================
+   18. SCREEN ROUTER
+   ========================================================================= */
+const screens = ['menu','game','editor','levels'];
+function switchScreen(name){
+  if(screens.indexOf(name) < 0) return;
+  screens.forEach(s=>{
+    const el = document.getElementById('screen-' + s);
+    if(el) el.classList.toggle('active', s === name);
+  });
+  document.querySelectorAll('.navbtn').forEach(b=>{
+    b.classList.toggle('active', b.dataset.screen === name);
+  });
+  if(name === 'editor'){
+    Editor.init();
+    Editor.updatePaletteUI();
+    Editor.render();
+  }
+  if(name === 'levels'){
+    renderSavedLevels();
+  }
+  if(name === 'game'){
+    // Pause update loop while not active — handled in loop()
+  }
+}
+
+document.querySelectorAll('.navbtn').forEach(btn=>{
+  btn.addEventListener('click', ()=> switchScreen(btn.dataset.screen));
 });
+document.querySelectorAll('.menubtn[data-screen]').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const s = btn.dataset.screen;
+    if(s === 'game'){
+      // Start main game with default level
+      switchScreen('game');
+      setTimeout(()=> startGame(), 30);
+    } else {
+      switchScreen(s);
+    }
+  });
+});
+document.getElementById('menuRandom').addEventListener('click', ()=>{
+  const list = LevelStore.list();
+  if(list.length === 0){ alert('No saved levels yet. Use the Level Editor first.'); return; }
+  const pick = list[Math.floor(Math.random()*list.length)];
+  const lvl = buildLevelFromGrid(pick.grid);
+  switchScreen('game');
+  setTimeout(()=> startGame(lvl), 30);
+});
+
+/* =========================================================================
+   19. SAVED LEVELS SCREEN
+   ========================================================================= */
+function renderSavedLevels(){
+  const list = document.getElementById('levelsList');
+  list.innerHTML = '';
+  const levels = LevelStore.list();
+  if(levels.length === 0){
+    list.innerHTML =
+      '<div class="emptyState">' +
+        '<i class="fa-solid fa-inbox"></i>' +
+        'No saved levels yet.<br>' +
+        'Open the <b>Level Editor</b> to build one, then hit <b>Save</b>.' +
+      '</div>';
+    return;
+  }
+  levels.forEach(item=>{
+    const card = document.createElement('div');
+    card.className = 'levelCard';
+
+    const name = document.createElement('div');
+    name.className = 'lname';
+    name.innerHTML = '<i class="fa-solid fa-map"></i>' + escapeHtml(item.name);
+
+    const meta = document.createElement('div');
+    meta.className = 'lmeta';
+    const d = new Date(item.date || Date.now());
+    const h = item.grid.length, w = item.grid[0] ? item.grid[0].length : 0;
+    meta.textContent = w + '×' + h + ' · ' + d.toLocaleString();
+
+    const acts = document.createElement('div');
+    acts.className = 'lacts';
+
+    const playBtn = document.createElement('button');
+    playBtn.className = 'miniBtn play';
+    playBtn.innerHTML = '<i class="fa-solid fa-play"></i> Play';
+    playBtn.addEventListener('click', ()=>{
+      const lvl = buildLevelFromGrid(item.grid);
+      switchScreen('game');
+      setTimeout(()=> startGame(lvl), 30);
+    });
+
+    const editBtn = document.createElement('button');
+    editBtn.className = 'miniBtn edit';
+    editBtn.innerHTML = '<i class="fa-solid fa-pen"></i> Edit';
+    editBtn.addEventListener('click', ()=>{
+      Editor.init();
+      Editor.gridW = item.grid[0] ? item.grid[0].length : 128;
+      Editor.gridH = item.grid.length;
+      Editor.grid = item.grid.map(r=>r.slice());
+      Editor.undoStack.length = 0;
+      Editor.redoStack.length = 0;
+      Editor.resize();
+      Editor.updatePaletteUI();
+      Editor.render();
+      switchScreen('editor');
+    });
+
+    const delBtn = document.createElement('button');
+    delBtn.className = 'miniBtn del';
+    delBtn.innerHTML = '<i class="fa-solid fa-trash"></i> Delete';
+    delBtn.addEventListener('click', ()=>{
+      if(!confirm('Delete "' + item.name + '"?')) return;
+      LevelStore.remove(item.key);
+      renderSavedLevels();
+    });
+
+    acts.appendChild(playBtn);
+    acts.appendChild(editBtn);
+    acts.appendChild(delBtn);
+
+    card.appendChild(name);
+    card.appendChild(meta);
+    card.appendChild(acts);
+    list.appendChild(card);
+  });
+}
+
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, c=>({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
+}
+
+document.getElementById('lvRefresh').addEventListener('click', renderSavedLevels);
+document.getElementById('lvDeleteAll').addEventListener('click', ()=>{
+  if(!confirm('Delete ALL saved levels? This cannot be undone.')) return;
+  LevelStore.clearAll();
+  renderSavedLevels();
+});
+
+/* Save dialog handlers */
+const saveModal = document.getElementById('saveModal');
+document.getElementById('saveCancel').addEventListener('click', ()=>{
+  saveModal.classList.remove('active');
+});
+document.getElementById('saveConfirm').addEventListener('click', ()=>{
+  const input = document.getElementById('saveNameInput');
+  const name = (input.value || 'Level').trim() || 'Level';
+  Editor.init();
+  const grid = Editor.grid.map(r=>r.slice());
+  LevelStore.save(name, grid);
+  saveModal.classList.remove('active');
+  // Toast-like feedback
+  const btn = document.getElementById('edSave');
+  const old = btn.innerHTML;
+  btn.innerHTML = '<i class="fa-solid fa-check"></i>';
+  btn.classList.add('active');
+  setTimeout(()=>{ btn.innerHTML = old; btn.classList.remove('active'); }, 900);
+});
+document.getElementById('saveNameInput').addEventListener('keydown', (e)=>{
+  if(e.key === 'Enter') document.getElementById('saveConfirm').click();
+  if(e.key === 'Escape') saveModal.classList.remove('active');
+});
+
+/* =========================================================================
+   20. BOOT
+   ========================================================================= */
+G.level = buildDefaultLevel();
+G.player = makePlayer();
+G.coinEnts = G.level.coins.map(c => ({x:c.x, y:c.y, w:c.w, h:c.h, t:c.t, dead:false}));
 resetEnemies();
 G.flagY = 0;
 
 updateCapsText();
 updateModeButtons();
-
 applyMode('auto');
 
 window.addEventListener('load', function(){
-  /* Auto-load any sprite URLs already present in the inputs */
   SPRITE_KEYS.forEach(function(key){
     const url = document.getElementById(key + 'Url').value.trim();
     if(url) loadSpriteFor(key, url);
