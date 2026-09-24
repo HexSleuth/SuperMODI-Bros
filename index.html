@@ -394,6 +394,384 @@
     .btn.small{width:50px;height:50px;font-size:15px;}
   }
 </style>
+
+<!-- ============================================================
+     LEGACY "CLASSIC MARIO MAKER" MODULE STYLES
+     (skinning for the Classic Mario Maker classes)
+     ============================================================ -->
+<style>
+  /* ---------- classic screen shell ---------- */
+  #screen-classic{
+    width:100%;
+    position:relative;
+    overflow:hidden;
+    border-radius:10px;
+  }
+  #classicScaler{
+    position:absolute;
+    top:0; left:0;
+    width:1280px; height:480px;
+    transform-origin: top left;
+  }
+  #screen-classic .main-wrapper{
+    position:absolute;
+    top:0; left:0;
+    width:1280px; height:480px;
+    overflow:hidden;
+    background:#5c94fc;
+    border:2px solid #2f2f42;
+    border-radius:8px;
+    box-shadow:0 12px 34px rgba(0,0,0,.65);
+    color:#fff;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Courier New",monospace;
+    user-select:none;
+  }
+
+  /* ---------- loading percentage ---------- */
+  .loading-percentage{
+    position:fixed;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#0b0b12;
+    color:#ffd34d;
+    font-family:ui-monospace,monospace;
+    font-size:44px;
+    letter-spacing:6px;
+    z-index:9999;
+  }
+
+  /* ---------- start screen ---------- */
+  .start-screen{
+    position:absolute;
+    inset:0;
+    z-index:25;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:16px;
+    background:
+      radial-gradient(circle at 50% 25%, #2b4c8f 0%, #101828 60%, #07070d 100%);
+  }
+  .start-screen::before{
+    content:'CLASSIC MARIO MAKER';
+    position:absolute;
+    top:56px; left:0; right:0;
+    text-align:center;
+    font-size:38px;
+    letter-spacing:10px;
+    color:#ffd34d;
+    text-shadow:0 5px 0 rgba(0,0,0,.6), 0 0 34px rgba(255,211,77,.35);
+  }
+  .start-screen::after{
+    content:'Build · Save · Play';
+    position:absolute;
+    top:108px; left:0; right:0;
+    text-align:center;
+    font-size:14px;
+    letter-spacing:6px;
+    color:#7fb6ff;
+  }
+  .start-btn, .editor-btn{
+    width:360px;
+    padding:16px 20px;
+    border-radius:10px;
+    border:2px solid #4dd8ff;
+    background:linear-gradient(180deg,#2a3f66,#16233a);
+    color:#eaf9ff;
+    font-family:inherit;
+    font-size:16px;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    cursor:pointer;
+    transition:background .12s, border-color .12s, transform .06s;
+  }
+  .start-btn:hover, .editor-btn:hover{
+    background:linear-gradient(180deg,#3a5a8c,#1f3352);
+    border-color:#ffd34d;
+  }
+  .start-btn:active, .editor-btn:active{ transform:translateY(2px); }
+
+  .created-btn{
+    width:360px;
+    padding:16px 20px;
+    border-radius:10px;
+    border:2px solid #4bd66b;
+    background:linear-gradient(180deg,#20442c,#12281a);
+    color:#dcffe3;
+    font-size:16px;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    text-align:center;
+    cursor:pointer;
+    transition:background .12s, border-color .12s, transform .06s;
+  }
+  .created-btn:hover{
+    background:linear-gradient(180deg,#2c6640,#173a24);
+    border-color:#8dffab;
+  }
+
+  /* ---------- back to menu ---------- */
+  .btn-wrapper{
+    position:absolute;
+    top:8px; right:8px;
+    z-index:60;
+  }
+  .back-btn{
+    display:none;
+    padding:9px 16px;
+    border-radius:8px;
+    border:1px solid #8f2f2f;
+    background:linear-gradient(180deg,#3a1f1f,#251212);
+    color:#ffd7d7;
+    font-family:inherit;
+    font-size:12px;
+    letter-spacing:2px;
+    cursor:pointer;
+  }
+  .back-btn::after{ content:'BACK TO MENU'; }
+  .back-btn:hover{ background:linear-gradient(180deg,#5a2828,#3a1414); }
+
+  /* ---------- score bar ---------- */
+  .score-wrapper{
+    position:absolute;
+    top:0; left:0;
+    width:100%;
+    height:34px;
+    line-height:34px;
+    background:#add1f3;
+    color:#101018;
+    font-size:15px;
+    font-weight:bold;
+    letter-spacing:1px;
+    z-index:20;
+    display:none;
+    text-align:center;
+    box-sizing:border-box;
+    border-bottom:2px solid rgba(0,0,0,.25);
+  }
+  .score-wrapper > div{
+    display:inline-block;
+    margin:0 16px;
+  }
+
+  /* ---------- game canvas ---------- */
+  #screen-classic .game-screen{
+    position:absolute;
+    top:0; left:0;
+    width:1280px;
+    height:480px;
+    display:none;
+    background:#5c94fc;
+    z-index:1;
+  }
+
+  /* ---------- level editor screen ---------- */
+  .editor-screen{
+    position:absolute;
+    top:0; left:0;
+    width:1280px;
+    height:480px;
+    overflow:hidden;
+    background:
+      linear-gradient(180deg,#5c94fc 0%, #7fb2ff 55%, #a8d0ff 100%);
+    display:none;
+    z-index:15;
+  }
+  .right-arrow, .left-arrow{
+    position:absolute;
+    top:0;
+    width:48px;
+    height:480px;
+    z-index:12;
+    cursor:pointer;
+    background:rgba(0,0,0,.34);
+    transition:background .12s;
+  }
+  .right-arrow:hover, .left-arrow:hover{ background:rgba(0,0,0,.55); }
+  .right-arrow{ right:0; }
+  .left-arrow{ left:0; }
+  .right-arrow::after{
+    content:'▶';
+    position:absolute;
+    top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    color:#fff;
+    font-size:24px;
+  }
+  .left-arrow::after{
+    content:'◀';
+    position:absolute;
+    top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    color:#fff;
+    font-size:24px;
+  }
+
+  .editor-screen table{
+    border-collapse:collapse;
+    table-layout:fixed;
+  }
+  .editor-screen td{
+    width:32px;
+    height:32px;
+    padding:0;
+    margin:0;
+    border:1px solid rgba(0,0,0,.13);
+    box-sizing:border-box;
+    background:transparent;
+  }
+  .editor-screen td.active{
+    outline:2px solid #ffd34d;
+    outline-offset:-2px;
+  }
+
+  /* ---------- element palette ---------- */
+  .element-wrapper{
+    position:absolute;
+    left:0; bottom:0;
+    width:1280px;
+    height:126px;
+    padding:10px 12px;
+    box-sizing:border-box;
+    background:linear-gradient(180deg,#1c1c29,#101018);
+    border-top:2px solid #2a2a3a;
+    display:none;
+    z-index:40;
+    overflow-x:auto;
+    white-space:nowrap;
+  }
+  .element-wrapper div,
+  .element-wrapper button{
+    display:inline-block;
+    width:44px;
+    height:44px;
+    margin:4px;
+    border-radius:6px;
+    border:2px solid #3d3d58;
+    box-sizing:border-box;
+    cursor:pointer;
+    vertical-align:middle;
+    font-family:inherit;
+    font-size:9px;
+    letter-spacing:1px;
+    color:#e9e9f2;
+    background:#22222f;
+    padding:0;
+    overflow:hidden;
+  }
+  .element-wrapper div:hover,
+  .element-wrapper button:hover{ border-color:#4dd8ff; }
+
+  .element-wrapper .lvl-size{
+    width:96px;
+    border:none;
+    background:transparent;
+    color:#7fb6ff;
+    font-size:10px;
+    letter-spacing:2px;
+    line-height:44px;
+    text-align:center;
+    cursor:default;
+  }
+  .element-wrapper .lvl-size::after{ content:'LEVEL SIZE'; }
+
+  .element-wrapper .grid-small-btn::after{ content:'S'; }
+  .element-wrapper .grid-medium-btn::after{ content:'M'; }
+  .element-wrapper .grid-large-btn::after{ content:'L'; }
+  .element-wrapper .save-map-btn::after{ content:'SAVE'; }
+  .element-wrapper .clear-map-btn::after{ content:'CLR'; }
+  .element-wrapper .save-map-btn{
+    background:linear-gradient(180deg,#1f5a2a,#123a1a);
+    border-color:#2f7f4a;
+    color:#dcffe3;
+    font-size:10px;
+  }
+  .element-wrapper .clear-map-btn{
+    background:linear-gradient(180deg,#5a2020,#3a1414);
+    border-color:#8f2f2f;
+    color:#ffecec;
+    font-size:10px;
+  }
+
+  /* ---------- created levels screen ---------- */
+  .levels-wrapper{
+    position:absolute;
+    top:0; left:0;
+    width:1280px;
+    height:480px;
+    padding:70px 40px 30px;
+    box-sizing:border-box;
+    overflow-y:auto;
+    background:radial-gradient(circle at 50% 0%, #1d2740, #0b0b12 70%);
+    display:none;
+    z-index:30;
+  }
+  .delete-all-btn{
+    display:block;
+    margin:0 auto 18px;
+    padding:10px 22px;
+    border-radius:8px;
+    border:1px solid #8f2f2f;
+    background:linear-gradient(180deg,#3a1f1f,#251212);
+    color:#ffd7d7;
+    font-family:inherit;
+    font-size:13px;
+    letter-spacing:2px;
+    cursor:pointer;
+  }
+  .delete-all-btn::after{ content:'DELETE ALL MAPS'; }
+  .delete-all-btn:hover{ background:linear-gradient(180deg,#5a2828,#3a1414); }
+
+  .level-btn{
+    display:block;
+    width:520px;
+    margin:8px auto;
+    padding:14px 18px;
+    text-align:center;
+    border-radius:10px;
+    border:1px solid #2a2a3a;
+    background:linear-gradient(180deg,#20202e,#15151f);
+    color:#eaeaf5;
+    font-size:14px;
+    letter-spacing:2px;
+    cursor:pointer;
+    transition:background .12s, border-color .12s, transform .06s;
+  }
+  .level-btn:hover{
+    background:linear-gradient(180deg,#2c4666,#1b2c42);
+    border-color:#4dd8ff;
+  }
+  .level-btn:active{ transform:translateY(2px); }
+
+  .no-maps{
+    width:620px;
+    margin:40px auto;
+    padding:26px;
+    text-align:center;
+    border:1px dashed #2a2a3a;
+    border-radius:12px;
+    color:#8f8fa6;
+    font-size:14px;
+    line-height:1.8;
+  }
+
+  /* ---------- tile colours (shared by palette + grid) ---------- */
+  .cell        { background:#0b0b12; }
+  .platform    { background:#c84c0c; }
+  .coin-box    { background:#e8a316; box-shadow:inset 0 0 0 3px #7a4400; }
+  .power-up-box{ background:#e8a316; box-shadow:inset 0 0 0 3px #b06a1c; }
+  .useless-box { background:#8a5a20; box-shadow:inset 0 0 0 3px #5a3a10; }
+  .flag-pole   { background:#00c000; }
+  .flag        { background:#e52521; }
+  .pipe-left   { background:#00a800; box-shadow:inset -6px 0 0 #007800; }
+  .pipe-right  { background:#00a800; box-shadow:inset 6px 0 0 #007800; }
+  .pipe-top-left  { background:#00b800; box-shadow:inset -6px 0 0 #008000; }
+  .pipe-top-right { background:#00b800; box-shadow:inset 6px 0 0 #008000; }
+  .goomba      { background:#8b4a12; box-shadow:inset 0 0 0 4px #5a2d0c; }
+</style>
 </head>
 <body>
 <div id="app">
@@ -406,6 +784,7 @@
       <button class="navbtn" data-screen="game"><i class="fa-solid fa-play"></i><span>Play</span></button>
       <button class="navbtn" data-screen="editor"><i class="fa-solid fa-pen-ruler"></i><span>Editor</span></button>
       <button class="navbtn" data-screen="levels"><i class="fa-solid fa-folder-open"></i><span>Saved</span></button>
+      <button class="navbtn" data-screen="classic"><i class="fa-solid fa-flag"></i><span>Classic</span></button>
     </div>
   </div>
 
@@ -422,6 +801,7 @@
         <button class="menubtn" data-screen="editor"><i class="fa-solid fa-pen-ruler"></i>Level Editor</button>
         <button class="menubtn green" data-screen="levels"><i class="fa-solid fa-folder-open"></i>Saved Levels</button>
         <button class="menubtn violet" id="menuRandom"><i class="fa-solid fa-dice"></i>Load Random Saved Level</button>
+        <button class="menubtn red" data-screen="classic"><i class="fa-solid fa-flag"></i>Classic Mario Maker</button>
       </div>
       <div class="menu-foot">
         <i class="fa-solid fa-keyboard"></i>
@@ -674,6 +1054,15 @@
         </div>
       </div>
       <div id="levelsList"></div>
+    </div>
+  </div>
+
+  <!-- ================= CLASSIC MARIO MAKER SCREEN ================= -->
+  <div id="screen-classic" class="screen">
+    <div id="classicScaler">
+      <div class="main-wrapper">
+        <canvas class="game-screen"></canvas>
+      </div>
     </div>
   </div>
 
@@ -3621,9 +4010,21 @@ function drawTileAt(c, ch, px, py, tx, ty){
 /* =========================================================================
    18. SCREEN ROUTER
    ========================================================================= */
-const screens = ['menu','game','editor','levels'];
+const screens = ['menu','game','editor','levels','classic'];
+let currentScreenName = 'menu';
+
 function switchScreen(name){
   if(screens.indexOf(name) < 0) return;
+
+  // Leaving the classic module -> cleanly pause the legacy game
+  if(currentScreenName === 'classic' && name !== 'classic'){
+    const back = document.querySelector('#screen-classic .back-btn');
+    if(back && getComputedStyle(back).display !== 'none'){
+      try{ back.click(); }catch(e){}
+    }
+  }
+  currentScreenName = name;
+
   screens.forEach(s=>{
     const el = document.getElementById('screen-' + s);
     if(el) el.classList.toggle('active', s === name);
@@ -3639,8 +4040,8 @@ function switchScreen(name){
   if(name === 'levels'){
     renderSavedLevels();
   }
-  if(name === 'game'){
-    // Pause update loop while not active — handled in loop()
+  if(name === 'classic' && typeof window.fitClassicMaker === 'function'){
+    window.fitClassicMaker();
   }
 }
 
@@ -3805,6 +4206,2251 @@ window.addEventListener('load', function(){
 
 requestAnimationFrame(loop);
 
+})();
+</script>
+
+<!-- =========================================================================
+     CLASSIC MARIO MAKER MODULE  (legacy engine, added verbatim)
+     ========================================================================= -->
+<script>
+/* =========================================================================
+   CreatedLevels — shows all maps saved by the classic level editor
+   ========================================================================= */
+function CreatedLevels() {
+  var view = View.getInstance();
+
+  var storage;
+  var levelsWrapper;
+
+  var that = this;
+
+  this.init = function() {
+    var mainWrapper = view.getMainWrapper();
+    var deleteAllBtn = view.create('button');
+    levelsWrapper = view.create('div');
+
+    view.addClass(levelsWrapper, 'levels-wrapper');
+    view.addClass(deleteAllBtn, 'delete-all-btn');
+    view.style(levelsWrapper, { display: 'block' });
+    view.append(levelsWrapper, deleteAllBtn);
+    view.append(mainWrapper, levelsWrapper);
+
+    deleteAllBtn.onclick = that.deleteAllMaps;
+
+    storage = new Storage();
+
+    that.showLevels();
+  };
+
+  this.showLevels = function() {
+    var totalStoredLevels = storage.getLength();
+
+    if (totalStoredLevels != 0) {
+      for (var i = 1; i < totalStoredLevels; i++) {
+        var levelButton = view.create('div');
+        var levelName = storage.getItemName(i);
+
+        view.setHTML(levelButton, levelName);
+        view.addClass(levelButton, 'level-btn');
+        view.append(levelsWrapper, levelButton);
+
+        levelButton.onclick = (function(i) {
+          return function() {
+            that.startLevel(i);
+            that.removeCreatedLevelsScreen();
+          };
+        })(i);
+      }
+    } else {
+      var noMapsMessage = view.create('div');
+
+      view.addClass(noMapsMessage, 'no-maps');
+      view.setHTML(noMapsMessage, 'No maps currently saved. Please use the Level Editor to create custom Maps');
+      view.append(levelsWrapper, noMapsMessage);
+    }
+  };
+
+  this.deleteAllMaps = function() {
+    storage.clear();
+
+    that.removeCreatedLevelsScreen();
+    that.init();
+  };
+
+  this.startLevel = function(i) {
+    var marioMakerInstance = MarioMaker.getInstance();
+    var levelName = storage.getItemName(i);
+    var level = storage.getItem(levelName);
+    var map = { 1: level }; //always only one level in saved maps.
+
+    marioMakerInstance.startGame(map);
+  };
+
+  this.showCreatedLevelsScreen = function() {
+    if (levelsWrapper) {
+      view.style(levelsWrapper, { display: 'block' });
+    }
+  };
+
+  this.removeCreatedLevelsScreen = function() {
+    if (levelsWrapper) {
+      view.style(levelsWrapper, { display: 'none' });
+
+      while (levelsWrapper.hasChildNodes()) {
+        //removes all the created levels on screen, so that it can be initiated again showing new levels that user creates
+        view.remove(levelsWrapper, levelsWrapper.lastChild);
+      }
+    }
+  };
+}
+
+/* =========================================================================
+   Editor — classic grid level editor (table-cell based)
+   ========================================================================= */
+function Editor() {
+  var view = View.getInstance();
+  var mainWrapper;
+
+  var gameWorld;
+  var viewPort;
+
+  var grid;
+  var elementwrapper;
+
+  var map;
+  var maxWidth;
+  var height = 480;
+  var tileSize = 32;
+  var scrollMargin = 0;
+
+  var selectedElement = [];
+
+  var that = this;
+
+  this.init = function() {
+    mainWrapper = view.getMainWrapper();
+    viewPort = view.create('div');
+
+    view.addClass(viewPort, 'editor-screen');
+    view.style(viewPort, { display: 'block' });
+    view.append(mainWrapper, viewPort);
+
+    that.createLevelEditor();
+    that.drawGrid(3840); //draws grid of size 3840px by default at start
+    that.showElements();
+  };
+
+  this.createLevelEditor = function() {
+    var rightArrow = view.create('div');
+    var leftArrow = view.create('div');
+    gameWorld = view.create('div');
+
+    view.style(gameWorld, { width: 6400 + 'px' });
+    view.style(gameWorld, { height: height + 'px' });
+
+    view.addClass(rightArrow, 'right-arrow');
+    view.addClass(leftArrow, 'left-arrow');
+
+    view.append(viewPort, rightArrow);
+    view.append(viewPort, leftArrow);
+    view.append(viewPort, gameWorld);
+
+    rightArrow.addEventListener('click', that.rightScroll);
+    leftArrow.addEventListener('click', that.leftScroll);
+  };
+
+  this.drawGrid = function(width) {
+    maxWidth = width;
+    grid = view.create('table');
+
+    var row = height / tileSize;
+    var column = maxWidth / tileSize;
+
+    var mousedown = false;
+    var selected = false;
+
+    for (i = 1; i <= row; i++) {
+      var tr = view.create('tr');
+      for (j = 1; j <= column; j++) {
+        var td = view.create('td');
+
+        view.addClass(td, 'cell');
+
+        td.addEventListener('mousedown', function(e) {
+          e.preventDefault(); //to stop the mouse pointer to change
+        });
+
+        td.onmousedown = (function(i, j) {
+          return function() {
+            selectedElement.push(this);
+            view.addClass(this, 'active');
+            mousedown = true;
+          };
+        })(i, j);
+
+        td.onmouseover = (function(i, j) {
+          return function() {
+            if (mousedown) {
+              selectedElement.push(this);
+              view.addClass(this, 'active');
+            }
+          };
+        })(i, j);
+
+        td.onmouseup = function() {
+          mousedown = false;
+        };
+
+        view.append(tr, td);
+      }
+
+      view.append(grid, tr);
+
+      grid.onmouseleave = function() {
+        //if mouse hovers over the editor screen
+        mousedown = false;
+      };
+    }
+
+    view.append(gameWorld, grid);
+  };
+
+  this.showElements = function() {
+    elementWrapper = view.create('div');
+
+    view.addClass(elementWrapper, 'element-wrapper');
+    view.append(mainWrapper, elementWrapper);
+
+    var elements = [
+      'cell',
+      'platform',
+      'coin-box',
+      'power-up-box',
+      'useless-box',
+      'flag',
+      'flag-pole',
+      'pipe-left',
+      'pipe-right',
+      'pipe-top-left',
+      'pipe-top-right',
+      'goomba'
+    ];
+    var element;
+
+    var saveMap = view.create('button');
+    var clearMap = view.create('button');
+    var lvlSize = view.create('div');
+    var gridSmallBtn = view.create('button');
+    var gridMediumBtn = view.create('button');
+    var gridLargeBtn = view.create('button');
+
+    //for every element in the 'elements' array, it creates a div and sets the class name
+    for (i = 0; i < elements.length; i++) {
+      element = view.create('div');
+
+      view.addClass(element, elements[i]);
+      view.append(elementWrapper, element);
+
+      element.onclick = (function(i) {
+        return function() {
+          that.drawElement(elements[i]);
+        };
+      })(i);
+    }
+
+    view.addClass(lvlSize, 'lvl-size');
+    view.addClass(gridSmallBtn, 'grid-small-btn');
+    view.addClass(gridMediumBtn, 'grid-medium-btn');
+    view.addClass(gridLargeBtn, 'grid-large-btn');
+    view.addClass(saveMap, 'save-map-btn');
+    view.addClass(clearMap, 'clear-map-btn');
+    view.style(elementWrapper, { display: 'block' });
+    view.append(elementWrapper, lvlSize);
+    view.append(elementWrapper, gridSmallBtn);
+    view.append(elementWrapper, gridMediumBtn);
+    view.append(elementWrapper, gridLargeBtn);
+    view.append(elementWrapper, clearMap);
+    view.append(elementWrapper, saveMap);
+
+    saveMap.addEventListener('click', that.saveMap);
+    clearMap.addEventListener('click', that.resetEditor);
+    gridSmallBtn.addEventListener('click', that.gridSmall);
+    gridMediumBtn.addEventListener('click', that.gridMedium);
+    gridLargeBtn.addEventListener('click', that.gridLarge);
+  };
+
+  that.gridSmall = function() {
+    view.remove(gameWorld, grid);
+    that.drawGrid(1280); //small grid size
+  };
+
+  that.gridMedium = function() {
+    view.remove(gameWorld, grid);
+    that.drawGrid(3840); //medium grid size
+  };
+
+  that.gridLarge = function() {
+    view.remove(gameWorld, grid);
+    that.drawGrid(6400); //large grid size
+  };
+
+  this.drawElement = function(element) {
+    /*
+      every element that is selected is pushed into 'selectedElement' array
+      after clicking the required element, it loops through the array and sets the class name
+      of that cell, changing the background of the cell.
+    */
+
+    for (var i = 0; i < selectedElement.length; i++) {
+      view.addClass(selectedElement[i], element);
+    }
+
+    selectedElement = [];
+  };
+
+  that.generateMap = function() {
+    var newMap = [];
+    var gridRows = grid.getElementsByTagName('tr');
+
+    //loops throught the table cells and checks for the class-name, puts the value according to its className;
+    for (var i = 0; i < gridRows.length; i++) {
+      var columns = [];
+      var gridColumns = gridRows[i].getElementsByTagName('td');
+      for (var j = 0; j < gridColumns.length; j++) {
+        var value;
+
+        switch (gridColumns[j].className) {
+          case 'platform':
+            value = 1;
+            break;
+
+          case 'coin-box':
+            value = 2;
+            break;
+
+          case 'power-up-box':
+            value = 3;
+            break;
+
+          case 'useless-box':
+            value = 4;
+            break;
+
+          case 'goomba':
+            value = 20;
+            break;
+
+          case 'flag-pole':
+            value = 5;
+            break;
+
+          case 'flag':
+            value = 6;
+            break;
+
+          case 'pipe-left':
+            value = 7;
+            break;
+
+          case 'pipe-right':
+            value = 8;
+            break;
+
+          case 'pipe-top-left':
+            value = 9;
+            break;
+
+          case 'pipe-top-right':
+            value = 10;
+            break;
+
+          default:
+            value = 0;
+            break;
+        }
+        columns.push(value);
+      }
+      newMap.push(columns);
+    }
+    map = newMap;
+  };
+
+  this.saveMap = function() {
+    var storage = new Storage();
+    var levelCounter = storage.getItem('levelCounter') || 0;
+
+    that.generateMap();
+
+    levelCounter++;
+
+    //for fixing the sorting of the localStorage, 01 02 ... 10 11, otherwise the sorting would be 1 10 11 .. 2 20 21 ..
+    if (levelCounter < 10) {
+      levelName = 'savedLevel' + '0' + levelCounter;
+    } else {
+      levelName = 'savedLevel' + levelCounter;
+    }
+
+    storage.setItem(levelName, map);
+    storage.setItem('levelCounter', levelCounter);
+
+    console.log(storage.getItem(levelName)); //for copying the generated map if required
+  };
+
+  this.rightScroll = function() {
+    if (scrollMargin > -(maxWidth - 1280)) {
+      scrollMargin += -160;
+      view.style(gameWorld, { 'margin-left': scrollMargin + 'px' });
+    }
+  };
+
+  this.leftScroll = function() {
+    if (scrollMargin != 0) {
+      scrollMargin += 160;
+      view.style(gameWorld, { 'margin-left': scrollMargin + 'px' });
+    }
+  };
+
+  this.resetEditor = function() {
+    var gridRows = grid.getElementsByTagName('tr');
+    for (var i = 0; i < gridRows.length; i++) {
+      var gridColumns = gridRows[i].getElementsByTagName('td');
+
+      for (var j = 0; j < gridColumns.length; j++) {
+        view.addClass(gridColumns[j], 'cell');
+      }
+    }
+
+    selectedElement = [];
+    scrollMargin = 0;
+    view.style(gameWorld, { 'margin-left': scrollMargin + 'px' });
+  };
+
+  this.removeEditorScreen = function() {
+    if (viewPort) {
+      that.resetEditor();
+      view.style(viewPort, { display: 'none' });
+      view.style(elementWrapper, { display: 'none' });
+    }
+  };
+
+  this.showEditorScreen = function() {
+    if (viewPort) {
+      view.style(viewPort, { display: 'block' });
+      view.style(elementWrapper, { display: 'block' });
+    }
+  };
+}
+
+/* =========================================================================
+   Storage — localStorage helper for the classic module
+   ========================================================================= */
+function Storage() {
+  this.getItem = function(itemName) {
+    var item = localStorage.getItem(itemName);
+
+    return item;
+  };
+
+  this.getLength = function() {
+    var length = localStorage.length;
+
+    return length;
+  };
+
+  this.getItemName = function(keyValue) {
+    var name = localStorage.key(keyValue);
+
+    return name;
+  };
+
+  this.setItem = function(itemName, itemData) {
+    localStorage.setItem(itemName, JSON.stringify(itemData));
+  };
+
+  this.clear = function() {
+    localStorage.clear();
+  };
+}
+
+/* =========================================================================
+   Bullet — fire-mario projectile
+   ========================================================================= */
+function Bullet() {
+  var gameUI = GameUI.getInstance();
+
+  var element = new Image();
+  element.src = 'images/bullet.png';
+
+  this.x;
+  this.y;
+  this.velX;
+  this.velY;
+  this.grounded = false;
+  this.sX;
+  this.sY = 0;
+  this.width = 16;
+  this.height = 16;
+
+  var that = this;
+
+  this.init = function(x, y, direction) {
+    that.velX = 8 * direction; //changing the direction of the bullet if mario faces another side
+    that.velY = 0;
+    that.x = x + that.width;
+    that.y = y + 30;
+    that.type = 30;
+    that.sX = 0;
+  };
+
+  this.draw = function() {
+    gameUI.draw(element, that.sX, that.sY, that.width, that.height, that.x, that.y, that.width, that.height);
+  };
+
+  this.update = function() {
+    var gravity = 0.2;
+
+    if (that.grounded) {
+      //bouncing the bullet as it touches the ground
+      that.velY = -4;
+      that.grounded = false;
+    }
+
+    that.velY += gravity;
+
+    that.x += that.velX;
+    that.y += that.velY;
+  };
+}
+
+/* =========================================================================
+   Element — a map tile
+   ========================================================================= */
+function Element() {
+  var gameUI = GameUI.getInstance();
+
+  var element = new Image();
+  element.src = 'images/elements.png';
+
+  this.type;
+  this.sX;
+  this.sY = 0;
+  this.x;
+  this.y;
+  this.width = 32;
+  this.height = 32;
+
+  var that = this;
+
+  this.platform = function() {
+    that.type = 1;
+    that.sX = 0;
+  };
+
+  this.coinBox = function() {
+    that.type = 2;
+    that.sX = 1 * that.width;
+  };
+
+  this.powerUpBox = function() {
+    that.type = 3;
+    that.sX = 2 * that.width;
+  };
+
+  this.uselessBox = function() {
+    that.type = 4;
+    that.sX = 3 * that.width;
+  };
+
+  this.flagPole = function() {
+    that.type = 5;
+    that.sX = 4 * that.width;
+  };
+
+  this.flag = function() {
+    that.type = 6;
+    that.sX = 5 * that.width;
+  };
+
+  this.pipeLeft = function() {
+    that.type = 7;
+    that.sX = 6 * that.width;
+  };
+
+  this.pipeRight = function() {
+    that.type = 8;
+    that.sX = 7 * that.width;
+  };
+
+  this.pipeTopLeft = function() {
+    that.type = 9;
+    that.sX = 8 * that.width;
+  };
+
+  this.pipeTopRight = function() {
+    that.type = 10;
+    that.sX = 9 * that.width;
+  };
+
+  this.draw = function() {
+    gameUI.draw(element, that.sX, that.sY, that.width, that.height, that.x, that.y, that.width, that.height);
+  };
+}
+
+/* =========================================================================
+   Enemy — goomba
+   ========================================================================= */
+function Enemy() {
+  var gameUI = GameUI.getInstance();
+
+  var tickCounter = 0; //for animating enemy
+  var maxTick = 10; //max number for ticks to show enemy sprite
+
+  var element = new Image();
+  element.src = 'images/enemies.png';
+
+  this.x;
+  this.y;
+  this.velX = 1;
+  this.velY = 0;
+  this.grounded = false;
+  this.type;
+  this.state;
+
+  this.sX;
+  this.sY = 0;
+  this.width = 32;
+  this.height = 32;
+
+  this.frame = 0;
+
+  var that = this;
+
+  this.goomba = function() {
+    this.type = 20;
+    that.sX = 0;
+  };
+
+  this.draw = function() {
+    that.sX = that.width * that.frame;
+    gameUI.draw(element, that.sX, that.sY, that.width, that.height, that.x, that.y, that.width, that.height);
+  };
+
+  this.update = function() {
+    var gravity = 0.2;
+
+    if (that.grounded) {
+      that.velY = 0;
+    }
+
+    if (that.state == 'dead') {
+      that.frame = 2; //squashed goomba
+
+      tickCounter++;
+      if (tickCounter >= 60) {
+        that.frame = 4;
+      }
+    } else if (that.state == 'deadFromBullet') {
+      //falling goomba
+      that.frame = 3;
+      that.velY += gravity;
+      that.y += that.velY;
+    } else {
+      //only animate when not dead
+      that.velY += gravity;
+      that.x += that.velX;
+      that.y += that.velY;
+
+      //for animating
+      tickCounter += 1;
+
+      if (tickCounter > maxTick) {
+        tickCounter = 0;
+        if (that.frame == 0) {
+          that.frame = 1;
+        } else {
+          that.frame = 0;
+        }
+      }
+    }
+  };
+}
+
+/* =========================================================================
+   Mario — the classic player
+   ========================================================================= */
+function Mario() {
+  var gameUI = GameUI.getInstance();
+
+  this.type = 'small';
+  this.x;
+  this.y;
+  this.width = 32;
+  this.height = 44;
+  this.speed = 3;
+  this.velX = 0;
+  this.velY = 0;
+  this.jumping = false;
+  this.grounded = false;
+  this.invulnerable = false;
+  this.sX = 0; // sprite x
+  this.sY = 4; // sprite y
+  this.frame = 0;
+
+  var that = this;
+
+  this.init = function() {
+    that.x = 10;
+    that.y = gameUI.getHeight() - 40 - 40;
+
+    marioSprite = new Image();
+    marioSprite.src = 'images/mario-sprites.png';
+  };
+
+  this.draw = function() {
+    that.sX = that.width * that.frame;
+    gameUI.draw(marioSprite, that.sX, that.sY, that.width, that.height, that.x, that.y, that.width, that.height);
+  };
+
+  this.checkMarioType = function() {
+    if (that.type == 'big') {
+      that.height = 60;
+
+      //big mario sprite position
+      if (that.invulnerable) {
+        that.sY = 276; //if invulnerable, show transparent mario
+      } else {
+        that.sY = 90;
+      }
+    } else if (that.type == 'small') {
+      that.height = 44;
+
+      //small mario sprite
+      if (that.invulnerable) {
+        that.sY = 222; //if invulnerable, show transparent mario
+      } else {
+        that.sY = 4;
+      }
+    } else if (that.type == 'fire') {
+      that.height = 60;
+
+      //fire mario sprite
+      that.sY = 150;
+    }
+  };
+
+  this.resetPos = function() {
+    that.x = canvas.width / 10;
+    that.y = canvas.height - 40;
+    that.frame = 0;
+  };
+}
+
+/* =========================================================================
+   MarioGame — the classic game loop
+   ========================================================================= */
+function MarioGame() {
+  var gameUI = GameUI.getInstance();
+
+  var maxWidth; //width of the game world
+  var height;
+  var viewPort; //width of canvas, viewPort that can be seen
+  var tileSize;
+  var map;
+  var originalMaps;
+
+  var translatedDist; //distance translated(side scrolled) as mario moves to the right
+  var centerPos; //center position of the viewPort, viewable screen
+  var marioInGround;
+
+  //instances
+  var mario;
+  var element;
+  var gameSound;
+  var score;
+
+  var keys = [];
+  var goombas;
+  var powerUps;
+  var bullets;
+  var bulletFlag = false;
+
+  var currentLevel;
+
+  var animationID;
+  var timeOutId;
+
+  var tickCounter = 0; //for animating mario
+  var maxTick = 25; //max number for ticks to show mario sprite
+  var instructionTick = 0; //showing instructions counter
+  var that = this;
+
+  this.init = function(levelMaps, level) {
+    height = 480;
+    maxWidth = 0;
+    viewPort = 1280;
+    tileSize = 32;
+    translatedDist = 0;
+    goombas = [];
+    powerUps = [];
+    bullets = [];
+
+    gameUI.setWidth(viewPort);
+    gameUI.setHeight(height);
+    gameUI.show();
+
+    currentLevel = level;
+    originalMaps = levelMaps;
+    map = JSON.parse(levelMaps[currentLevel]);
+
+    if (!score) {
+      //so that when level changes, it uses the same instance
+      score = new Score();
+      score.init();
+    }
+    score.displayScore();
+    score.updateLevelNum(currentLevel);
+
+    if (!mario) {
+      //so that when level changes, it uses the same instance
+      mario = new Mario();
+      mario.init();
+    } else {
+      mario.x = 10;
+      mario.frame = 0;
+    }
+    element = new Element();
+    gameSound = new GameSound();
+    gameSound.init();
+
+    that.calculateMaxWidth();
+    that.bindKeyPress();
+    that.startGame();
+  };
+
+  that.calculateMaxWidth = function() {
+    //calculates the max width of the game according to map size
+    for (var row = 0; row < map.length; row++) {
+      for (var column = 0; column < map[row].length; column++) {
+        if (maxWidth < map[row].length * 32) {
+          maxWidth = map[column].length * 32;
+        }
+      }
+    }
+  };
+
+  that.bindKeyPress = function() {
+    var canvas = gameUI.getCanvas(); //for use with touch events
+
+    //key binding
+    document.body.addEventListener('keydown', function(e) {
+      keys[e.keyCode] = true;
+    });
+
+    document.body.addEventListener('keyup', function(e) {
+      keys[e.keyCode] = false;
+    });
+
+    //key binding for touch events
+    canvas.addEventListener('touchstart', function(e) {
+      var touches = e.changedTouches;
+      e.preventDefault();
+
+      for (var i = 0; i < touches.length; i++) {
+        if (touches[i].pageX <= 200) {
+          keys[37] = true; //left arrow
+        }
+        if (touches[i].pageX > 200 && touches[i].pageX < 400) {
+          keys[39] = true; //right arrow
+        }
+        if (touches[i].pageX > 640 && touches[i].pageX <= 1080) {
+          //in touch events, same area acts as sprint and bullet key
+          keys[16] = true; //shift key
+          keys[17] = true; //ctrl key
+        }
+        if (touches[i].pageX > 1080 && touches[i].pageX < 1280) {
+          keys[32] = true; //space
+        }
+      }
+    });
+
+    canvas.addEventListener('touchend', function(e) {
+      var touches = e.changedTouches;
+      e.preventDefault();
+
+      for (var i = 0; i < touches.length; i++) {
+        if (touches[i].pageX <= 200) {
+          keys[37] = false;
+        }
+        if (touches[i].pageX > 200 && touches[i].pageX <= 640) {
+          keys[39] = false;
+        }
+        if (touches[i].pageX > 640 && touches[i].pageX <= 1080) {
+          keys[16] = false;
+          keys[17] = false;
+        }
+        if (touches[i].pageX > 1080 && touches[i].pageX < 1280) {
+          keys[32] = false;
+        }
+      }
+    });
+
+    canvas.addEventListener('touchmove', function(e) {
+      var touches = e.changedTouches;
+      e.preventDefault();
+
+      for (var i = 0; i < touches.length; i++) {
+        if (touches[i].pageX <= 200) {
+          keys[37] = true;
+          keys[39] = false;
+        }
+        if (touches[i].pageX > 200 && touches[i].pageX < 400) {
+          keys[39] = true;
+          keys[37] = false;
+        }
+        if (touches[i].pageX > 640 && touches[i].pageX <= 1080) {
+          keys[16] = true;
+          keys[32] = false;
+        }
+        if (touches[i].pageX > 1080 && touches[i].pageX < 1280) {
+          keys[32] = true;
+          keys[16] = false;
+          keys[17] = false;
+        }
+      }
+    });
+  };
+
+  //Main Game Loop
+  this.startGame = function() {
+    animationID = window.requestAnimationFrame(that.startGame);
+
+    gameUI.clear(0, 0, maxWidth, height);
+
+    if (instructionTick < 1000) {
+      that.showInstructions(); //showing control instructions
+      instructionTick++;
+    }
+
+    that.renderMap();
+
+    for (var i = 0; i < powerUps.length; i++) {
+      powerUps[i].draw();
+      powerUps[i].update();
+    }
+
+    for (var i = 0; i < bullets.length; i++) {
+      bullets[i].draw();
+      bullets[i].update();
+    }
+
+    for (var i = 0; i < goombas.length; i++) {
+      goombas[i].draw();
+      goombas[i].update();
+    }
+
+    that.checkPowerUpMarioCollision();
+    that.checkBulletEnemyCollision();
+    that.checkEnemyMarioCollision();
+
+    mario.draw();
+    that.updateMario();
+    that.wallCollision();
+    marioInGround = mario.grounded; //for use with flag sliding
+  };
+
+  this.showInstructions = function() {
+    gameUI.writeText('Controls: Arrow keys for direction, shift to run, ctrl for bullets', 30, 30);
+    gameUI.writeText('Tip: Jumping while running makes you jump higher', 30, 60);
+  };
+
+  this.renderMap = function() {
+    //setting false each time the map renders so that elements fall off a platform and not hover around
+    mario.grounded = false;
+
+    for (var i = 0; i < powerUps.length; i++) {
+      powerUps[i].grounded = false;
+    }
+    for (var i = 0; i < goombas.length; i++) {
+      goombas[i].grounded = false;
+    }
+
+    for (var row = 0; row < map.length; row++) {
+      for (var column = 0; column < map[row].length; column++) {
+        switch (map[row][column]) {
+          case 1: //platform
+            element.x = column * tileSize;
+            element.y = row * tileSize;
+            element.platform();
+            element.draw();
+
+            that.checkElementMarioCollision(element, row, column);
+            that.checkElementPowerUpCollision(element);
+            that.checkElementEnemyCollision(element);
+            that.checkElementBulletCollision(element);
+            break;
+
+          case 2: //coinBox
+            element.x = column * tileSize;
+            element.y = row * tileSize;
+            element.coinBox();
+            element.draw();
+
+            that.checkElementMarioCollision(element, row, column);
+            that.checkElementPowerUpCollision(element);
+            that.checkElementEnemyCollision(element);
+            that.checkElementBulletCollision(element);
+            break;
+
+          case 3: //powerUp Box
+            element.x = column * tileSize;
+            element.y = row * tileSize;
+            element.powerUpBox();
+            element.draw();
+
+            that.checkElementMarioCollision(element, row, column);
+            that.checkElementPowerUpCollision(element);
+            that.checkElementEnemyCollision(element);
+            that.checkElementBulletCollision(element);
+            break;
+
+          case 4: //uselessBox
+            element.x = column * tileSize;
+            element.y = row * tileSize;
+            element.uselessBox();
+            element.draw();
+
+            that.checkElementMarioCollision(element, row, column);
+            that.checkElementPowerUpCollision(element);
+            that.checkElementEnemyCollision(element);
+            that.checkElementBulletCollision(element);
+            break;
+
+          case 5: //flagPole
+            element.x = column * tileSize;
+            element.y = row * tileSize;
+            element.flagPole();
+            element.draw();
+
+            that.checkElementMarioCollision(element, row, column);
+            break;
+
+          case 6: //flag
+            element.x = column * tileSize;
+            element.y = row * tileSize;
+            element.flag();
+            element.draw();
+            break;
+
+          case 7: //pipeLeft
+            element.x = column * tileSize;
+            element.y = row * tileSize;
+            element.pipeLeft();
+            element.draw();
+
+            that.checkElementMarioCollision(element, row, column);
+            that.checkElementPowerUpCollision(element);
+            that.checkElementEnemyCollision(element);
+            that.checkElementBulletCollision(element);
+            break;
+
+          case 8: //pipeRight
+            element.x = column * tileSize;
+            element.y = row * tileSize;
+            element.pipeRight();
+            element.draw();
+
+            that.checkElementMarioCollision(element, row, column);
+            that.checkElementPowerUpCollision(element);
+            that.checkElementEnemyCollision(element);
+            that.checkElementBulletCollision(element);
+            break;
+
+          case 9: //pipeTopLeft
+            element.x = column * tileSize;
+            element.y = row * tileSize;
+            element.pipeTopLeft();
+            element.draw();
+
+            that.checkElementMarioCollision(element, row, column);
+            that.checkElementPowerUpCollision(element);
+            that.checkElementEnemyCollision(element);
+            that.checkElementBulletCollision(element);
+            break;
+
+          case 10: //pipeTopRight
+            element.x = column * tileSize;
+            element.y = row * tileSize;
+            element.pipeTopRight();
+            element.draw();
+
+            that.checkElementMarioCollision(element, row, column);
+            that.checkElementPowerUpCollision(element);
+            that.checkElementEnemyCollision(element);
+            that.checkElementBulletCollision(element);
+            break;
+
+          case 20: //goomba
+            var enemy = new Enemy();
+            enemy.x = column * tileSize;
+            enemy.y = row * tileSize;
+            enemy.goomba();
+            enemy.draw();
+
+            goombas.push(enemy);
+            map[row][column] = 0;
+        }
+      }
+    }
+  };
+
+  this.collisionCheck = function(objA, objB) {
+    // get the vectors to check against
+    var vX = objA.x + objA.width / 2 - (objB.x + objB.width / 2);
+    var vY = objA.y + objA.height / 2 - (objB.y + objB.height / 2);
+
+    // add the half widths and half heights of the objects
+    var hWidths = objA.width / 2 + objB.width / 2;
+    var hHeights = objA.height / 2 + objB.height / 2;
+    var collisionDirection = null;
+
+    // if the x and y vector are less than the half width or half height, then we must be inside the object, causing a collision
+    if (Math.abs(vX) < hWidths && Math.abs(vY) < hHeights) {
+      // figures out on which side we are colliding (top, bottom, left, or right)
+      var offsetX = hWidths - Math.abs(vX);
+      var offsetY = hHeights - Math.abs(vY);
+
+      if (offsetX >= offsetY) {
+        if (vY > 0 && vY < 37) {
+          collisionDirection = 't';
+          if (objB.type != 5) {
+            //if flagpole then pass through it
+            objA.y += offsetY;
+          }
+        } else if (vY < 0) {
+          collisionDirection = 'b';
+          if (objB.type != 5) {
+            //if flagpole then pass through it
+            objA.y -= offsetY;
+          }
+        }
+      } else {
+        if (vX > 0) {
+          collisionDirection = 'l';
+          objA.x += offsetX;
+        } else {
+          collisionDirection = 'r';
+          objA.x -= offsetX;
+        }
+      }
+    }
+    return collisionDirection;
+  };
+
+  this.checkElementMarioCollision = function(element, row, column) {
+    var collisionDirection = that.collisionCheck(mario, element);
+
+    if (collisionDirection == 'l' || collisionDirection == 'r') {
+      mario.velX = 0;
+      mario.jumping = false;
+
+      if (element.type == 5) {
+        //flag pole
+        that.levelFinish(collisionDirection);
+      }
+    } else if (collisionDirection == 'b') {
+      if (element.type != 5) {
+        //only if not flag pole
+        mario.grounded = true;
+        mario.jumping = false;
+      }
+    } else if (collisionDirection == 't') {
+      if (element.type != 5) {
+        mario.velY *= -1;
+      }
+
+      if (element.type == 3) {
+        //PowerUp Box
+        var powerUp = new PowerUp();
+
+        //gives mushroom if mario is small, otherwise gives flower
+        if (mario.type == 'small') {
+          powerUp.mushroom(element.x, element.y);
+          powerUps.push(powerUp);
+        } else {
+          powerUp.flower(element.x, element.y);
+          powerUps.push(powerUp);
+        }
+
+        map[row][column] = 4; //sets to useless box after powerUp appears
+
+        //sound when mushroom appears
+        gameSound.play('powerUpAppear');
+      }
+
+      if (element.type == 11) {
+        //Flower Box
+        var powerUp = new PowerUp();
+        powerUp.flower(element.x, element.y);
+        powerUps.push(powerUp);
+
+        map[row][column] = 4; //sets to useless box after powerUp appears
+
+        //sound when flower appears
+        gameSound.play('powerUpAppear');
+      }
+
+      if (element.type == 2) {
+        //Coin Box
+        score.coinScore++;
+        score.totalScore += 100;
+
+        score.updateCoinScore();
+        score.updateTotalScore();
+        map[row][column] = 4; //sets to useless box after coin appears
+
+        //sound when coin block is hit
+        gameSound.play('coin');
+      }
+    }
+  };
+
+  this.checkElementPowerUpCollision = function(element) {
+    for (var i = 0; i < powerUps.length; i++) {
+      var collisionDirection = that.collisionCheck(powerUps[i], element);
+
+      if (collisionDirection == 'l' || collisionDirection == 'r') {
+        powerUps[i].velX *= -1; //change direction if collision with any element from the sidr
+      } else if (collisionDirection == 'b') {
+        powerUps[i].grounded = true;
+      }
+    }
+  };
+
+  this.checkElementEnemyCollision = function(element) {
+    for (var i = 0; i < goombas.length; i++) {
+      if (goombas[i].state != 'deadFromBullet') {
+        //so that goombas fall from the map when dead from bullet
+        var collisionDirection = that.collisionCheck(goombas[i], element);
+
+        if (collisionDirection == 'l' || collisionDirection == 'r') {
+          goombas[i].velX *= -1;
+        } else if (collisionDirection == 'b') {
+          goombas[i].grounded = true;
+        }
+      }
+    }
+  };
+
+  this.checkElementBulletCollision = function(element) {
+    for (var i = 0; i < bullets.length; i++) {
+      var collisionDirection = that.collisionCheck(bullets[i], element);
+
+      if (collisionDirection == 'b') {
+        //if collision is from bottom of the bullet, it is grounded, so that it can be bounced
+        bullets[i].grounded = true;
+      } else if (collisionDirection == 't' || collisionDirection == 'l' || collisionDirection == 'r') {
+        bullets.splice(i, 1);
+      }
+    }
+  };
+
+  this.checkPowerUpMarioCollision = function() {
+    for (var i = 0; i < powerUps.length; i++) {
+      var collWithMario = that.collisionCheck(powerUps[i], mario);
+      if (collWithMario) {
+        if (powerUps[i].type == 30 && mario.type == 'small') {
+          //mushroom
+          mario.type = 'big';
+        } else if (powerUps[i].type == 31) {
+          //flower
+          mario.type = 'fire';
+        }
+        powerUps.splice(i, 1);
+
+        score.totalScore += 1000;
+        score.updateTotalScore();
+
+        //sound when mushroom appears
+        gameSound.play('powerUp');
+      }
+    }
+  };
+
+  this.checkEnemyMarioCollision = function() {
+    for (var i = 0; i < goombas.length; i++) {
+      if (!mario.invulnerable && goombas[i].state != 'dead' && goombas[i].state != 'deadFromBullet') {
+        //if mario is invulnerable or goombas state is dead, collision doesnt occur
+        var collWithMario = that.collisionCheck(goombas[i], mario);
+
+        if (collWithMario == 't') {
+          //kill goombas if collision is from top
+          goombas[i].state = 'dead';
+
+          mario.velY = -mario.speed;
+
+          score.totalScore += 1000;
+          score.updateTotalScore();
+
+          //sound when enemy dies
+          gameSound.play('killEnemy');
+        } else if (collWithMario == 'r' || collWithMario == 'l' || collWithMario == 'b') {
+          goombas[i].velX *= -1;
+
+          if (mario.type == 'big') {
+            mario.type = 'small';
+            mario.invulnerable = true;
+            collWithMario = undefined;
+
+            //sound when mario powerDowns
+            gameSound.play('powerDown');
+
+            setTimeout(function() {
+              mario.invulnerable = false;
+            }, 1000);
+          } else if (mario.type == 'fire') {
+            mario.type = 'big';
+            mario.invulnerable = true;
+
+            collWithMario = undefined;
+
+            //sound when mario powerDowns
+            gameSound.play('powerDown');
+
+            setTimeout(function() {
+              mario.invulnerable = false;
+            }, 1000);
+          } else if (mario.type == 'small') {
+            //kill mario if collision occurs when he is small
+            that.pauseGame();
+
+            mario.frame = 13;
+            collWithMario = undefined;
+
+            score.lifeCount--;
+            score.updateLifeCount();
+
+            //sound when mario dies
+            gameSound.play('marioDie');
+
+            timeOutId = setTimeout(function() {
+              if (score.lifeCount == 0) {
+                that.gameOver();
+              } else {
+                that.resetGame();
+              }
+            }, 3000);
+            break;
+          }
+        }
+      }
+    }
+  };
+
+  this.checkBulletEnemyCollision = function() {
+    for (var i = 0; i < goombas.length; i++) {
+      for (var j = 0; j < bullets.length; j++) {
+        if (goombas[i] && goombas[i].state != 'dead') {
+          //check for collision only if goombas exist and is not dead
+          var collWithBullet = that.collisionCheck(goombas[i], bullets[j]);
+        }
+
+        if (collWithBullet) {
+          bullets[j] = null;
+          bullets.splice(j, 1);
+
+          goombas[i].state = 'deadFromBullet';
+
+          score.totalScore += 1000;
+          score.updateTotalScore();
+
+          //sound when enemy dies
+          gameSound.play('killEnemy');
+        }
+      }
+    }
+  };
+
+  this.wallCollision = function() {
+    //for walls (vieport walls)
+    if (mario.x >= maxWidth - mario.width) {
+      mario.x = maxWidth - mario.width;
+    } else if (mario.x <= translatedDist) {
+      mario.x = translatedDist + 1;
+    }
+
+    //for ground (viewport ground)
+    if (mario.y >= height) {
+      that.pauseGame();
+
+      //sound when mario dies
+      gameSound.play('marioDie');
+
+      score.lifeCount--;
+      score.updateLifeCount();
+
+      timeOutId = setTimeout(function() {
+        if (score.lifeCount == 0) {
+          that.gameOver();
+        } else {
+          that.resetGame();
+        }
+      }, 3000);
+    }
+  };
+
+  //controlling mario with key events
+  this.updateMario = function() {
+    var friction = 0.9;
+    var gravity = 0.2;
+
+    mario.checkMarioType();
+
+    if (keys[38] || keys[32]) {
+      //up arrow
+      if (!mario.jumping && mario.grounded) {
+        mario.jumping = true;
+        mario.grounded = false;
+        mario.velY = -(mario.speed / 2 + 5.5);
+
+        // mario sprite position
+        if (mario.frame == 0 || mario.frame == 1) {
+          mario.frame = 3; //right jump
+        } else if (mario.frame == 8 || mario.frame == 9) {
+          mario.frame = 2; //left jump
+        }
+
+        //sound when mario jumps
+        gameSound.play('jump');
+      }
+    }
+
+    if (keys[39]) {
+      //right arrow
+      that.checkMarioPos(); //if mario goes to the center of the screen, sidescroll the map
+
+      if (mario.velX < mario.speed) {
+        mario.velX++;
+      }
+
+      //mario sprite position
+      if (!mario.jumping) {
+        tickCounter += 1;
+
+        if (tickCounter > maxTick / mario.speed) {
+          tickCounter = 0;
+
+          if (mario.frame != 1) {
+            mario.frame = 1;
+          } else {
+            mario.frame = 0;
+          }
+        }
+      }
+    }
+
+    if (keys[37]) {
+      //left arrow
+      if (mario.velX > -mario.speed) {
+        mario.velX--;
+      }
+
+      //mario sprite position
+      if (!mario.jumping) {
+        tickCounter += 1;
+
+        if (tickCounter > maxTick / mario.speed) {
+          tickCounter = 0;
+
+          if (mario.frame != 9) {
+            mario.frame = 9;
+          } else {
+            mario.frame = 8;
+          }
+        }
+      }
+    }
+
+    if (keys[16]) {
+      //shift key
+      mario.speed = 4.5;
+    } else {
+      mario.speed = 3;
+    }
+
+    if (keys[17] && mario.type == 'fire') {
+      //ctrl key
+      if (!bulletFlag) {
+        bulletFlag = true;
+        var bullet = new Bullet();
+        if (mario.frame == 9 || mario.frame == 8 || mario.frame == 2) {
+          var direction = -1;
+        } else {
+          var direction = 1;
+        }
+        bullet.init(mario.x, mario.y, direction);
+        bullets.push(bullet);
+
+        //bullet sound
+        gameSound.play('bullet');
+
+        setTimeout(function() {
+          bulletFlag = false; //only lets mario fire bullet after 500ms
+        }, 500);
+      }
+    }
+
+    //velocity 0 sprite position
+    if (mario.velX > 0 && mario.velX < 1 && !mario.jumping) {
+      mario.frame = 0;
+    } else if (mario.velX > -1 && mario.velX < 0 && !mario.jumping) {
+      mario.frame = 8;
+    }
+
+    if (mario.grounded) {
+      mario.velY = 0;
+
+      //grounded sprite position
+      if (mario.frame == 3) {
+        mario.frame = 0; //looking right
+      } else if (mario.frame == 2) {
+        mario.frame = 8; //looking left
+      }
+    }
+
+    //change mario position
+    mario.velX *= friction;
+    mario.velY += gravity;
+
+    mario.x += mario.velX;
+    mario.y += mario.velY;
+  };
+
+  this.checkMarioPos = function() {
+    centerPos = translatedDist + viewPort / 2;
+
+    //side scrolling as mario reaches center of the viewPort
+    if (mario.x > centerPos && centerPos + viewPort / 2 < maxWidth) {
+      gameUI.scrollWindow(-mario.speed, 0);
+      translatedDist += mario.speed;
+    }
+  };
+
+  this.levelFinish = function(collisionDirection) {
+    //game finishes when mario slides the flagPole and collides with the ground
+    if (collisionDirection == 'r') {
+      mario.x += 10;
+      mario.velY = 2;
+      mario.frame = 11;
+    } else if (collisionDirection == 'l') {
+      mario.x -= 32;
+      mario.velY = 2;
+      mario.frame = 10;
+    }
+
+    if (marioInGround) {
+      mario.x += 20;
+      mario.frame = 10;
+      tickCounter += 1;
+      if (tickCounter > maxTick) {
+        that.pauseGame();
+
+        mario.x += 10;
+        tickCounter = 0;
+        mario.frame = 12;
+
+        //sound when stage clears
+        gameSound.play('stageClear');
+
+        timeOutId = setTimeout(function() {
+          currentLevel++;
+          if (originalMaps[currentLevel]) {
+            that.init(originalMaps, currentLevel);
+            score.updateLevelNum(currentLevel);
+          } else {
+            that.gameOver();
+          }
+        }, 5000);
+      }
+    }
+  };
+
+  this.pauseGame = function() {
+    window.cancelAnimationFrame(animationID);
+  };
+
+  this.gameOver = function() {
+    score.gameOverView();
+    gameUI.makeBox(0, 0, maxWidth, height);
+    gameUI.writeText('Game Over', centerPos - 80, height - 300);
+    gameUI.writeText('Thanks For Playing', centerPos - 122, height / 2);
+  };
+
+  this.resetGame = function() {
+    that.clearInstances();
+    that.init(originalMaps, currentLevel);
+  };
+
+  this.clearInstances = function() {
+    mario = null;
+    element = null;
+    gameSound = null;
+
+    goombas = [];
+    bullets = [];
+    powerUps = [];
+  };
+
+  this.clearTimeOut = function() {
+    clearTimeout(timeOutId);
+  };
+
+  this.removeGameScreen = function() {
+    gameUI.hide();
+
+    if (score) {
+      score.hideScore();
+    }
+  };
+
+  this.showGameScreen = function() {
+    gameUI.show();
+  };
+}
+
+/* =========================================================================
+   PowerUp — mushroom / flower
+   ========================================================================= */
+function PowerUp() {
+  var gameUI = GameUI.getInstance();
+
+  var element = new Image();
+  element.src = 'images/powerups.png';
+
+  this.type;
+  this.x;
+  this.y;
+  this.velX = 2;
+  this.velY = 0;
+  this.grounded = false;
+  this.sX;
+  this.sY = 0;
+  this.width = 32;
+  this.height = 32;
+
+  var that = this;
+
+  this.mushroom = function(x, y) {
+    that.x = x;
+    that.y = y - that.height;
+    that.type = 30;
+    that.sX = 0;
+  };
+
+  this.flower = function(x, y) {
+    that.x = x;
+    that.y = y - that.height;
+    that.type = 31;
+    that.sX = 32;
+  };
+
+  this.draw = function() {
+    gameUI.draw(element, that.sX, that.sY, that.width, that.height, that.x, that.y, that.width, that.height);
+  };
+
+  this.update = function() {
+    if (that.type == 30) {
+      var gravity = 0.2;
+
+      if (that.grounded) {
+        that.velY = 0;
+      }
+
+      that.velY += gravity;
+
+      that.x += that.velX;
+      that.y += that.velY;
+    }
+  };
+}
+
+/* =========================================================================
+   Score — classic HUD
+   ========================================================================= */
+function Score() {
+  var view = View.getInstance();
+
+  var mainWrapper;
+  var scoreWrapper;
+  var coinScoreWrapper;
+  var totalScoreWrapper;
+  var lifeCountWrapper;
+  var levelWrapper;
+
+  this.coinScore;
+  this.totalScore;
+  this.lifeCount;
+
+  var that = this;
+
+  this.init = function() {
+    that.coinScore = 0;
+    that.totalScore = 0;
+    that.lifeCount = 5;
+
+    mainWrapper = view.getMainWrapper();
+
+    scoreWrapper = view.create('div');
+    coinScoreWrapper = view.create('div');
+    totalScoreWrapper = view.create('div');
+    lifeCountWrapper = view.create('div');
+    levelWrapper = view.create('div');
+
+    view.addClass(scoreWrapper, 'score-wrapper');
+    view.addClass(coinScoreWrapper, 'coin-score');
+    view.addClass(totalScoreWrapper, 'total-score');
+    view.addClass(lifeCountWrapper, 'life-count');
+    view.addClass(levelWrapper, 'level-num');
+
+    view.append(scoreWrapper, levelWrapper);
+    view.append(scoreWrapper, lifeCountWrapper);
+    view.append(scoreWrapper, coinScoreWrapper);
+    view.append(scoreWrapper, totalScoreWrapper);
+    view.append(mainWrapper, scoreWrapper);
+
+    that.updateCoinScore();
+    that.updateTotalScore();
+    that.updateLifeCount();
+    that.updateLevelNum(1);
+  };
+
+  this.updateCoinScore = function() {
+    if (that.coinScore == 100) {
+      that.coinScore = 0;
+      that.lifeCount++;
+      that.updateLifeCount();
+    }
+
+    view.setHTML(coinScoreWrapper, 'Coins: ' + that.coinScore);
+  };
+
+  this.updateTotalScore = function() {
+    view.setHTML(totalScoreWrapper, 'Score: ' + that.totalScore);
+  };
+
+  this.updateLifeCount = function() {
+    view.setHTML(lifeCountWrapper, 'x ' + that.lifeCount);
+  };
+
+  this.updateLevelNum = function(level) {
+    view.setHTML(levelWrapper, 'Level: ' + level);
+  };
+
+  this.displayScore = function() {
+    view.style(scoreWrapper, { display: 'block', background: '#add1f3' });
+  };
+
+  this.hideScore = function() {
+    view.style(scoreWrapper, { display: 'none' });
+
+    that.coinScore = 0;
+    that.lifeCount = 5;
+    that.totalScore = 0;
+    that.updateCoinScore();
+    that.updateTotalScore();
+    that.updateLifeCount();
+  };
+
+  this.gameOverView = function() {
+    view.style(scoreWrapper, { background: 'black' });
+  };
+}
+
+/* =========================================================================
+   GameUI — canvas wrapper for the classic module
+   ========================================================================= */
+var GameUI = (function() {
+  var instance;
+
+  function GameUI() {
+    var canvas = document.getElementsByClassName('game-screen')[0];
+    var ctx = canvas.getContext('2d');
+
+    var that = this;
+
+    this.setWidth = function(width) {
+      canvas.width = width;
+    };
+
+    this.setHeight = function(height) {
+      canvas.height = height;
+    };
+
+    this.getWidth = function() {
+      return canvas.width;
+    };
+
+    this.getHeight = function() {
+      return canvas.height;
+    };
+
+    this.getCanvas = function() {
+      return canvas;
+    };
+
+    this.show = function() {
+      canvas.style.display = 'block';
+    };
+
+    this.hide = function() {
+      canvas.style.display = 'none';
+    };
+
+    this.clear = function(x, y, width, height) {
+      ctx.clearRect(x, y, width, height);
+    };
+
+    this.scrollWindow = function(x, y) {
+      ctx.translate(x, y);
+    };
+
+    this.draw = function(image, sx, sy, width, height, x, y, width, height) {
+      ctx.drawImage(image, sx, sy, width, height, x, y, width, height);
+    };
+
+    this.makeBox = function(x, y, width, height) {
+      ctx.rect(x, y, width, height);
+      ctx.fillStyle = 'black';
+      ctx.fill();
+    };
+
+    this.writeText = function(text, x, y) {
+      ctx.font = '20px SuperMario256';
+      ctx.fillStyle = 'white';
+      ctx.fillText(text, x, y);
+    };
+  }
+
+  return {
+    getInstance: function() {
+      if (instance == null) {
+        instance = new GameUI();
+      }
+
+      return instance;
+    }
+  };
+})();
+
+/* =========================================================================
+   MarioMaker — top level controller of the classic module
+   ========================================================================= */
+var MarioMaker = (function() {
+  var instance;
+
+  function MarioMaker() {
+    var view = View.getInstance();
+
+    var mainWrapper;
+    var startScreen;
+    var btnWrapper;
+
+    var editorButton;
+    var startGameButton;
+    var createdLevelsButton;
+
+    var editorStarted = 0;
+
+    var backToMenuBtn;
+
+    //instances
+    var marioGame;
+    var editor;
+    var createdLevels;
+
+    var that = this;
+
+    this.init = function() {
+      marioGame = new MarioGame();
+      editor = new Editor();
+      createdLevels = new CreatedLevels();
+
+      //main menu screen
+      mainWrapper = view.getMainWrapper();
+      startScreen = view.create('div');
+      btnWrapper = view.create('div');
+      editorButton = view.create('button');
+      startGameButton = view.create('button');
+      createdLevelsButton = view.create('div');
+      backToMenuBtn = view.create('button');
+
+      view.addClass(btnWrapper, 'btn-wrapper');
+      view.addClass(startScreen, 'start-screen');
+      view.addClass(editorButton, 'editor-btn');
+      view.addClass(startGameButton, 'start-btn');
+      view.addClass(createdLevelsButton, 'created-btn');
+      view.addClass(backToMenuBtn, 'back-btn');
+
+      view.append(startScreen, editorButton);
+      view.append(startScreen, startGameButton);
+      view.append(startScreen, createdLevelsButton);
+      view.append(btnWrapper, backToMenuBtn);
+      view.append(mainWrapper, startScreen);
+      view.append(mainWrapper, btnWrapper);
+
+      editorButton.onclick = that.startEditor;
+
+      createdLevelsButton.onclick = that.startCreatedLevels;
+
+      backToMenuBtn.onclick = that.backToMenu;
+
+      startGameButton.onclick = function() {
+        map = that.loadMainGameMap();
+        that.startGame(map);
+      };
+    };
+
+    this.loadMainGameMap = function() {
+      var map = {
+        1: '[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,5,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,20,0,0,0,0,20,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,4,4,4,0,0,0,0,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,2,3,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,3,2,2,2,2,0,0,0,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,10,0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,9,10,0,0,0,0,0,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,4,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,4,4,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,20,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,7,8,20,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,4,4,4,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]]',
+        2: '[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,5,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,2,0,0,2,0,0,3,0,0,2,0,0,2,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,9,10,0,0,0,0,0,0,9,10,0,0,0,2,0,0,2,0,0,2,0,0,2,0,0,2,0,0,0,0,0,9,10,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,0,0,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,0,0,0,4,4,4,0,0,0,0,5,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,10,7,8,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,7,8,20,0,0,0,0,20,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,7,8,7,8,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,20,20,0,0,20,20,0,0,20,20,0,20,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,7,8,7,8,7,8,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]]',
+        3: '[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]]',
+        4: '[[0,0,4,4,4,4,0,4,4,4,4,0,4,0,0,0,4,0,4,0,0,4,0,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,4,0,0,4,0,4,0,0,4,0,4,4,0,0,4,0,4,0,0,4,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,4,4,4,4,0,4,0,0,4,0,4,0,4,0,4,0,4,0,0,4,0,4,4,4,4,4,0,0,0,0,0,0,0,6,5,0,0,0],[0,0,4,0,0,4,0,4,0,0,4,0,4,0,0,4,4,0,4,0,0,4,0,0,0,0,0,4,0,0,0,0,0,0,0,0,5,0,0,0],[0,0,4,4,4,4,0,4,4,4,4,0,4,0,0,0,4,0,4,4,4,4,0,4,4,4,4,4,0,0,0,0,0,0,0,0,5,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0],[0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0],[0,0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,5,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]]',
+        5: '[[0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,7,8,0,0,0,7,8,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,7,8,0,0,0,7,8,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,7,8,0,0,0,7,8,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,7,8,0,0,0,7,8,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,5,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,9,10,0,0,0,0,0,7,8,0,0,0,9,10,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,20,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,10,0,0,0,9,10,0,0,0,0,0,2,2,2,2,2,2,2,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,10,0,0,0,0,0,0,0,0,2,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,10,0,0,0,0,0,0,0,0,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,20,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,20,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,4,4,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,4,4,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,2,0,0,2,0,0,3,0,0,2,0,0,2,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,4,4,0,0,0,0,9,10,0,0,0,0,0,0,0,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,0,0,0,0,0,9,10,0,0,0,0,0,0,0,0,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,4,4,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0],[0,0,0,0,0,0,2,3,2,7,8,0,0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,4,4,0,0,0,0,7,8,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,4,0,20,0,0,0,20,0,4,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,4,0,0,0,4,4,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,9,10,0,0,0,7,8,0,0,0,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,4,4,0,0,0,0,7,8,0,20,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,4,0,0,0,4,4,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,7,8,0,0,0,7,8,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,4,0,0,4,4,0,0,0,0,0,7,8,0,0,0,0,0,0,20,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,20,0,0,20,0,0,20,0,7,8,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,4,0,0,0,4,4,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0],[1,1,1,1,1,1,1,1,1,7,8,1,1,1,1,1,7,8,0,0,0,7,8,0,0,0,7,8,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,4,0,0,4,0,0,4,4,0,0,0,0,0,0,7,8,1,1,1,1,1,1,1,7,8,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,7,8,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,0,0,0,0,1,0,0,0,4,0,0,4,0,0,0,4,4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]]'
+      };
+
+      return map;
+    };
+
+    this.startGame = function(levelMap) {
+      view.style(backToMenuBtn, { display: 'block' });
+
+      marioGame.clearInstances();
+      marioGame.init(levelMap, 1); //initiate level 1 of map
+
+      that.hideMainMenu();
+      editor.removeEditorScreen();
+      createdLevels.removeCreatedLevelsScreen();
+    };
+
+    this.startEditor = function() {
+      view.style(backToMenuBtn, { display: 'block' });
+
+      if (editorStarted == 0) {
+        //instantiate only once, after that just show and hide the editor screen
+        editor.init();
+        editorStarted = 1;
+      } else {
+        editor.showEditorScreen();
+      }
+
+      that.hideMainMenu();
+      marioGame.removeGameScreen();
+      createdLevels.removeCreatedLevelsScreen();
+    };
+
+    this.startCreatedLevels = function() {
+      view.style(backToMenuBtn, { display: 'block' });
+
+      createdLevels.init();
+      that.hideMainMenu();
+      marioGame.removeGameScreen();
+      editor.removeEditorScreen();
+    };
+
+    this.backToMenu = function() {
+      marioGame.pauseGame(); //pause game when the back button is pressed so that the gameloop doesnt run more than once
+      marioGame.clearTimeOut(); //when mario dies, a timeout starts for resetting the game. Pressing the back button clears that timeout
+      marioGame.removeGameScreen();
+
+      editor.removeEditorScreen();
+
+      createdLevels.removeCreatedLevelsScreen();
+      that.showMainMenu();
+
+      view.style(backToMenuBtn, { display: 'none' });
+    };
+
+    this.hideMainMenu = function() {
+      view.style(startScreen, { display: 'none' });
+    };
+
+    this.showMainMenu = function() {
+      view.style(startScreen, { display: 'block' });
+    };
+  }
+
+  return {
+    getInstance: function() {
+      if (instance == null) {
+        instance = new MarioMaker();
+      }
+
+      return instance;
+    }
+  };
+})();
+
+/* =========================================================================
+   Preloader — loads classic module assets before starting
+   (onerror added so a missing asset can never stall the boot sequence)
+   ========================================================================= */
+function Preloader() {
+  var view = View.getInstance();
+
+  var loadingPercentage;
+
+  var imageSources;
+  var soundSources;
+
+  var that = this;
+
+  this.init = function() {
+    loadingPercentage = view.create('div');
+
+    view.addClass(loadingPercentage, 'loading-percentage');
+    view.setHTML(loadingPercentage, '0%');
+    view.appendToBody(loadingPercentage);
+
+    imageSources = {
+      1: 'images/back-btn.png',
+      2: 'images/bg.png',
+      3: 'images/bullet.png',
+      4: 'images/clear-map-btn.png',
+      5: 'images/coin.png',
+      6: 'images/delete-all-btn.png',
+      7: 'images/editor-btn.png',
+      8: 'images/elements.png',
+      9: 'images/enemies.png',
+      10: 'images/flag-pole.png',
+      11: 'images/flag.png',
+      12: 'images/start-screen.png',
+      13: 'images/grid-large-btn.png',
+      14: 'images/grid-medium-btn.png',
+      15: 'images/grid-small-btn.png',
+      16: 'images/grid.png',
+      17: 'images/lvl-size.png',
+      18: 'images/mario-head.png',
+      19: 'images/mario-sprites.png',
+      20: 'images/powerups.png',
+      21: 'images/save-map-btn.png',
+      22: 'images/saved-btn.png',
+      23: 'images/slider-left.png',
+      24: 'images/slider-right.png',
+      25: 'images/start-btn.png'
+    };
+
+    that.loadImages(imageSources);
+  };
+
+  this.loadImages = function(imageSources) {
+    var images = {};
+    var loadedImages = 0;
+    var totalImages = 0;
+
+    for (var key in imageSources) {
+      totalImages++;
+    }
+
+    function progress() {
+      loadedImages++;
+      percentage = Math.floor(loadedImages * 100 / totalImages);
+
+      view.setHTML(loadingPercentage, percentage + '%'); //displaying percentage
+
+      if (loadedImages >= totalImages) {
+        view.removeFromBody(loadingPercentage);
+        that.initMainApp();
+      }
+    }
+
+    for (var key in imageSources) {
+      images[key] = new Image();
+      images[key].src = imageSources[key];
+
+      images[key].onload = function() {
+        progress();
+      };
+
+      // if an asset is missing (or blocked) treat it as loaded so the
+      // classic module still boots — the module falls back to its own
+      // procedural/blank rendering for that asset.
+      images[key].onerror = function() {
+        progress();
+      };
+    }
+  };
+
+  this.initMainApp = function() {
+    var marioMakerInstance = MarioMaker.getInstance();
+    marioMakerInstance.init();
+  };
+}
+
+window.onload = function() {
+  var preloader = new Preloader();
+  preloader.init();
+};
+
+/* =========================================================================
+   View — tiny DOM helper used by the classic module
+   ========================================================================= */
+var View = (function() {
+  var instance;
+
+  function View() {
+    this.getMainWrapper = function() {
+      var element = document.getElementsByClassName('main-wrapper')[0];
+
+      return element;
+    };
+
+    this.create = function(elementName) {
+      var element = document.createElement(elementName);
+
+      return element;
+    };
+
+    this.addClass = function(element, className) {
+      element.className = className;
+    };
+
+    this.append = function(parentElement, childElement) {
+      //appends everything before the back button, score wrapper in top and everything else in between
+      if (childElement.className == 'score-wrapper') {
+        parentElement.insertBefore(childElement, parentElement.firstChild);
+      } else if (parentElement.lastChild && parentElement.lastChild.className == 'btn-wrapper') {
+        parentElement.insertBefore(childElement, parentElement.lastChild);
+      } else {
+        parentElement.appendChild(childElement);
+      }
+    };
+
+    this.appendToBody = function(childElement) {
+      document.body.appendChild(childElement);
+    };
+
+    this.remove = function(parentElement, childElement) {
+      parentElement.removeChild(childElement);
+    };
+
+    this.removeFromBody = function(childElement) {
+      document.body.removeChild(childElement);
+    };
+
+    //style = {display: 'block', position: 'absolute', ...}
+    this.style = function(element, styles) {
+      for (var property in styles) {
+        element.style[property] = styles[property];
+      }
+    };
+
+    this.setHTML = function(element, content) {
+      element.innerHTML = content;
+    };
+  }
+
+  return {
+    getInstance: function() {
+      if (instance == null) {
+        instance = new View();
+      }
+
+      return instance;
+    }
+  };
+})();
+
+/* =========================================================================
+   GameSound — classic module audio
+   ========================================================================= */
+function GameSound() {
+  var coin;
+  var powerUpAppear;
+  var powerUp;
+  var marioDie;
+  var killEnemy;
+  var stageClear;
+  var bullet;
+  var powerDown;
+  var jump;
+
+  var that = this;
+
+  this.init = function() {
+    coin = new Audio('sounds/coin.wav');
+    powerUpAppear = new Audio('sounds/power-up-appear.wav');
+    powerUp = new Audio('sounds/power-up.wav');
+    marioDie = new Audio('sounds/mario-die.wav');
+    killEnemy = new Audio('sounds/kill-enemy.wav');
+    stageClear = new Audio('sounds/stage-clear.wav');
+    bullet = new Audio('sounds/bullet.wav');
+    powerDown = new Audio('sounds/power-down.wav');
+    jump = new Audio('sounds/jump.wav');
+  };
+
+  this.play = function(element) {
+    if (element == 'coin') {
+      coin.pause();
+      coin.currentTime = 0;
+      coin.play();
+    } else if (element == 'powerUpAppear') {
+      powerUpAppear.pause();
+      powerUpAppear.currentTime = 0;
+      powerUpAppear.play();
+    } else if (element == 'powerUp') {
+      powerUp.pause();
+      powerUp.currentTime = 0;
+      powerUp.play();
+    } else if (element == 'marioDie') {
+      marioDie.pause();
+      marioDie.currentTime = 0;
+      marioDie.play();
+    } else if (element == 'killEnemy') {
+      killEnemy.pause();
+      killEnemy.currentTime = 0;
+      killEnemy.play();
+    } else if (element == 'stageClear') {
+      stageClear.pause();
+      stageClear.currentTime = 0;
+      stageClear.play();
+    } else if (element == 'bullet') {
+      bullet.pause();
+      bullet.currentTime = 0;
+      bullet.play();
+    } else if (element == 'powerDown') {
+      powerDown.pause();
+      powerDown.currentTime = 0;
+      powerDown.play();
+    } else if (element == 'jump') {
+      jump.pause();
+      jump.currentTime = 0;
+      jump.play();
+    }
+  };
+}
+
+/* =========================================================================
+   Bridge: scale the fixed 1280x480 classic stage into the responsive shell
+   ========================================================================= */
+(function(){
+  function fitClassic(){
+    var host = document.getElementById('screen-classic');
+    var scaler = document.getElementById('classicScaler');
+    if(!host || !scaler) return;
+
+    var avail = host.clientWidth;
+    if(!avail && host.parentElement) avail = host.parentElement.clientWidth;
+    if(!avail) avail = 960;
+
+    var s = Math.min(1, avail / 1280);
+    scaler.style.transform = 'scale(' + s + ')';
+    host.style.height = Math.round(480 * s) + 'px';
+  }
+
+  window.fitClassicMaker = fitClassic;
+  window.addEventListener('resize', fitClassic);
+  window.addEventListener('load', fitClassic);
+  fitClassic();
 })();
 </script>
 </body>
