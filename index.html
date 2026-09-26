@@ -121,6 +121,12 @@
     border-color:var(--orange);color:#fff;
   }
 
+  #gameQuickActions{
+    width:100%;max-width:768px;display:flex;justify-content:center;
+    gap:8px;margin-top:2px;flex-wrap:wrap;
+  }
+  #gameQuickActions .miniBtn{padding:8px 14px;font-size:11px;}
+
   #panel{width:100%;max-width:768px;background:var(--panel);border:1px solid var(--line);
          border-radius:8px;padding:10px 12px;font-size:11px;color:#b9b9cc;}
   #panel > summary{cursor:pointer;color:var(--gold);letter-spacing:1px;outline:none;font-size:11px;}
@@ -175,11 +181,12 @@
   #editorToolbar .group{display:flex;gap:6px;align-items:center;
     padding:2px 8px;border-right:1px dashed #2a2a3a;}
   #editorToolbar .group:last-child{border-right:none;}
-  .toolbtn{width:38px;height:38px;border-radius:8px;border:1px solid var(--line);
+  .toolbtn{width:42px;height:42px;border-radius:8px;border:1px solid var(--line);
     background:linear-gradient(#232334,#171722);display:inline-flex;
     align-items:center;justify-content:center;cursor:pointer;
     transition:background .08s,border-color .08s,transform .06s;
-    color:#cfcfe0;font-size:14px;padding:0;}
+    color:#cfcfe0;font-size:14px;padding:0;position:relative;
+    flex-shrink:0;}
   .toolbtn:hover{background:#2e2e42;}
   .toolbtn.active{background:linear-gradient(#2d4a71,#1f3553);border-color:var(--cyan);
     color:#eaf9ff;box-shadow:0 0 0 2px rgba(77,216,255,.25) inset;}
@@ -187,10 +194,72 @@
     color:#ffecec;box-shadow:0 0 0 2px rgba(229,69,69,.3) inset;}
   .toolbtn.green.active{background:linear-gradient(#1f5a2a,#123a1a);border-color:var(--green);
     color:#dcffe3;box-shadow:0 0 0 2px rgba(75,214,107,.3) inset;}
-  .toolbtn .swatch{width:22px;height:22px;display:block;border-radius:4px;
-    pointer-events:none;image-rendering:pixelated;border:1px solid rgba(255,255,255,.15);}
+  .toolbtn canvas.swatch{
+    width:26px;height:26px;display:block;border-radius:4px;
+    pointer-events:none;image-rendering:pixelated;
+    border:1px solid rgba(255,255,255,.15);
+    background:#0b0b12;
+  }
+
+  /* ===== Horizontal scrolling TILES bar ===== */
+  #editorToolbar .group.tilePaletteGroup{
+    flex: 1 1 100%;
+    min-width: 0;
+    max-width: 100%;
+    border-right: none;
+    padding: 4px 8px;
+    border-radius: 8px;
+    background: rgba(0,0,0,0.25);
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: var(--cyan) #1a1a27;
+    position: relative;
+  }
+  #editorToolbar .group.tilePaletteGroup::-webkit-scrollbar{
+    height: 8px;
+  }
+  #editorToolbar .group.tilePaletteGroup::-webkit-scrollbar-track{
+    background: #1a1a27;
+    border-radius: 4px;
+    margin: 0 4px;
+  }
+  #editorToolbar .group.tilePaletteGroup::-webkit-scrollbar-thumb{
+    background: linear-gradient(90deg, var(--cyan), #2fa8d6);
+    border-radius: 4px;
+    border: 1px solid #0d0d14;
+  }
+  #editorToolbar .group.tilePaletteGroup::-webkit-scrollbar-thumb:hover{
+    background: linear-gradient(90deg, #7de0ff, var(--cyan));
+  }
+  .paletteLabel{
+    font-size:10px;
+    color:#7a7a92;
+    letter-spacing:2px;
+    flex-shrink:0;
+    padding:0 4px;
+    font-weight:bold;
+    user-select:none;
+    position: sticky;
+    left: 0;
+    background: linear-gradient(90deg, #1a1a27 70%, rgba(26,26,39,0));
+    z-index: 2;
+    padding-right: 10px;
+  }
+  #tilePalette{
+    display: flex;
+    gap: 6px;
+    flex-wrap: nowrap;
+    align-items: center;
+    padding: 2px 0;
+    min-width: max-content;
+  }
+
   #editorCanvasWrap{position:relative;width:100%;overflow:auto;background:#0d0d14;
-    border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);max-height:520px;}
+    border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);max-height:520px;
+    scroll-behavior: smooth;}
   #editorCanvas{display:block;image-rendering:pixelated;image-rendering:crisp-edges;
     cursor:crosshair;touch-action:none;}
   #editorInfo{display:flex;flex-wrap:wrap;gap:12px;font-size:10px;color:#8f8fa6;padding:0 4px;}
@@ -246,13 +315,14 @@
     .btn{width:56px;height:56px;}
     .btn.wide{width:70px;}
     .btn.small{width:50px;height:50px;font-size:15px;}
+    #editorToolbar .group.tilePaletteGroup::-webkit-scrollbar{height:10px;}
   }
 </style>
 </head>
 <body>
 <div id="app">
 
-  <!-- ================= TOP NAV (no Classic button) ================= -->
+  <!-- ================= TOP NAV ================= -->
   <div id="topbar">
     <div id="brand"><i class="fa-solid fa-gamepad"></i><span>SUPERMODI-BROS</span></div>
     <div id="nav">
@@ -273,7 +343,6 @@
       </div>
       <div class="menu-actions">
         <button class="menubtn gold" data-screen="game"><i class="fa-solid fa-play"></i>Play Main Game</button>
-        <button class="menubtn" data-screen="editor"><i class="fa-solid fa-pen-ruler"></i>Level Editor</button>
         <button class="menubtn green" data-screen="levels"><i class="fa-solid fa-folder-open"></i>Saved Levels</button>
         <button class="menubtn violet" id="menuRandom"><i class="fa-solid fa-dice"></i>Load Random Saved Level</button>
       </div>
@@ -304,6 +373,16 @@
         </div>
         <div class="btn wide jump" data-key="jump"><i class="fa-solid fa-arrow-up"></i></div>
       </div>
+    </div>
+
+    <!-- Quick access to the Level Editor from the Play Main Game screen -->
+    <div id="gameQuickActions">
+      <button class="miniBtn edit" id="editCurrentLevel" title="Open this level in the Level Editor">
+        <i class="fa-solid fa-pen-ruler"></i> Edit current level
+      </button>
+      <button class="miniBtn" id="newLevelBtn" title="Start a fresh level in the Level Editor">
+        <i class="fa-solid fa-plus"></i> New level
+      </button>
     </div>
 
     <!-- ============================================================
@@ -478,16 +557,27 @@
   <div id="screen-editor" class="screen">
     <div id="editorWrap">
       <div id="editorToolbar">
-        <div class="group">
-          <span style="font-size:10px;color:#7a7a92;letter-spacing:1px;">TILES</span>
+
+        <!-- Horizontal scrolling TILES bar -->
+        <div class="group tilePaletteGroup" id="tilePaletteGroup">
+          <span class="paletteLabel">TILES</span>
+          <div id="tilePalette"></div>
         </div>
-        <div class="group" id="tilePalette"></div>
+
         <div class="group">
           <span style="font-size:10px;color:#7a7a92;letter-spacing:1px;">TOOLS</span>
           <button class="toolbtn" id="toolErase" title="Erase (E)"><i class="fa-solid fa-eraser"></i></button>
           <button class="toolbtn" id="toolFill"  title="Fill (F)"><i class="fa-solid fa-fill-drip"></i></button>
           <button class="toolbtn" id="toolPick"  title="Pick (P)"><i class="fa-solid fa-eye-dropper"></i></button>
         </div>
+
+        <!-- NEW: Move Left / Move Right buttons for the editor drawing page -->
+        <div class="group">
+          <span style="font-size:10px;color:#7a7a92;letter-spacing:1px;">MOVE</span>
+          <button class="toolbtn" id="edScrollLeft"  title="Move Left (hold to pan)"><i class="fa-solid fa-arrow-left"></i></button>
+          <button class="toolbtn" id="edScrollRight" title="Move Right (hold to pan)"><i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+
         <div class="group">
           <button class="toolbtn" id="edUndo" title="Undo (Ctrl+Z)"><i class="fa-solid fa-rotate-left"></i></button>
           <button class="toolbtn" id="edRedo" title="Redo (Ctrl+Y)"><i class="fa-solid fa-rotate-right"></i></button>
@@ -509,7 +599,7 @@
         <span class="pill"><i class="fa-solid fa-hand-pointer"></i> <b>Drag</b>&nbsp;to paint multiple</span>
         <span class="pill"><i class="fa-solid fa-ruler-combined"></i> Size: <b id="edSizeLabel">128 × 15</b></span>
         <span class="pill"><i class="fa-solid fa-tag"></i> Selected: <b id="edSelectedLabel">Ground</b></span>
-        <span class="pill"><i class="fa-solid fa-arrows-left-right"></i> Scroll horizontally inside the canvas</span>
+        <span class="pill"><i class="fa-solid fa-arrows-left-right"></i> Move buttons or scroll horizontally</span>
       </div>
     </div>
   </div>
@@ -545,8 +635,8 @@
 
 <script>
 /* =============================================================================
-   MAIN SCRIPT — modern engine, level editor, saved levels, FIRE sound.
-   The Classic Mario Maker module has been fully removed.
+   MAIN SCRIPT — modern engine, level editor (PNG toolbar), saved levels,
+   FIRE sound, quick access to the Level Editor from the Play Main Game screen.
    ============================================================================= */
 (function(){
 'use strict';
@@ -578,6 +668,14 @@ const GRAV=0.42, MAX_FALL=7.0, ACC_WALK=0.13, ACC_RUN=0.20, FRICTION=0.14;
 const MAX_WALK=1.70, MAX_RUN=2.90, JUMP_BASE=-7.40, JUMP_BONUS=-0.70, JUMP_CUT=0.34;
 const SMALL_W=12, SMALL_H=16, BIG_W=12, BIG_H=26;
 
+/* ============================================================
+   Asset URL helper
+   ============================================================ */
+function raw(p){ return 'https://raw.githubusercontent.com/HexSleuth/SuperMODI-Bros/main/' + p; }
+
+/* ============================================================
+   FIRE button sound — plays sound1.mp3 (unchanged)
+   ============================================================ */
 const FireSound = (function(){
   const URL = 'https://raw.githubusercontent.com/HexSleuth/HEX-BLASTER-2D---Orange-Hero-Arena-Shooter/main/sound1.mp3';
   let baseAudio = null;
@@ -618,6 +716,9 @@ const FireSound = (function(){
   };
 })();
 
+/* ============================================================
+   System SFX — UNCHANGED
+   ============================================================ */
 const Sound = (function(){
   let ac = null, masterGain = null, masterVolume = 0.55;
   const SFX_URLS = {
@@ -691,6 +792,128 @@ const Sound = (function(){
   };
 })();
 
+/* ============================================================
+   TILE SPRITES — PNG images loaded from GitHub raw URLs.
+   ============================================================ */
+const TILE_IMG_DEF = {
+  /* ---- original tiles ---- */
+  'X': { url: raw('tree-root-1.png'),        sx:0, sy:0, sw:null, sh:null },
+  'S': { url: raw('stone-0.png'),            sx:0, sy:0, sw:null, sh:null },
+  'B': { url: raw('elements.png'),           sx:0,   sy:0, sw:32,   sh:32 },
+  '?': { url: raw('elements.png'),           sx:32,  sy:0, sw:32,   sh:32 },
+  'M': { url: raw('elements.png'),           sx:64,  sy:0, sw:32,   sh:32 },
+  'U': { url: raw('elements.png'),           sx:96,  sy:0, sw:32,   sh:32 },
+  '[': { url: raw('elements.png'),           sx:256, sy:0, sw:32,   sh:32 },
+  ']': { url: raw('elements.png'),           sx:288, sy:0, sw:32,   sh:32 },
+  '{': { url: raw('elements.png'),           sx:192, sy:0, sw:32,   sh:32 },
+  '}': { url: raw('elements.png'),           sx:224, sy:0, sw:32,   sh:32 },
+  'F': { url: raw('flag-pole.png'),          sx:0, sy:0, sw:null, sh:null },
+  'f': { url: raw('flag.png'),               sx:0, sy:0, sw:null, sh:null },
+  'C': { url: raw('coin.png'),               sx:0, sy:0, sw:null, sh:null },
+
+  /* ---- Cactus tiles ---- */
+  '1': { url: raw('Cactus-1-c.png'),         sx:0, sy:0, sw:null, sh:null },
+  '2': { url: raw('Cactus-2-c.png'),         sx:0, sy:0, sw:null, sh:null },
+
+  /* ---- Stone variants ---- */
+  's': { url: raw('stone-1.png'),            sx:0, sy:0, sw:null, sh:null },
+  't': { url: raw('stone-2.png'),            sx:0, sy:0, sw:null, sh:null },
+
+  /* ---- Misc solids ---- */
+  'b': { url: raw('bullet.png'),             sx:0, sy:0, sw:null, sh:null },
+  'd': { url: raw('dead.png'),               sx:0, sy:0, sw:null, sh:null },
+  'j': { url: raw('jump.png'),               sx:0, sy:0, sw:null, sh:null },
+
+  /* ---- NEW cloud tiles (cloud_0 .. cloud_14) ---- */
+  'a': { url: raw('cloud_0.png'),            sx:0, sy:0, sw:null, sh:null },
+  'c': { url: raw('cloud_1.png'),            sx:0, sy:0, sw:null, sh:null },
+  'e': { url: raw('cloud_2.png'),            sx:0, sy:0, sw:null, sh:null },
+  'g': { url: raw('cloud_3.png'),            sx:0, sy:0, sw:null, sh:null },
+  'h': { url: raw('cloud_4.png'),            sx:0, sy:0, sw:null, sh:null },
+  'i': { url: raw('cloud_5.png'),            sx:0, sy:0, sw:null, sh:null },
+  'k': { url: raw('cloud_6.png'),            sx:0, sy:0, sw:null, sh:null },
+  'l': { url: raw('cloud_7.png'),            sx:0, sy:0, sw:null, sh:null },
+  'm': { url: raw('cloud_8.png'),            sx:0, sy:0, sw:null, sh:null },
+  'n': { url: raw('cloud_9.png'),            sx:0, sy:0, sw:null, sh:null },
+  'o': { url: raw('cloud_10.png'),           sx:0, sy:0, sw:null, sh:null },
+  'p': { url: raw('cloud_11.png'),           sx:0, sy:0, sw:null, sh:null },
+  'q': { url: raw('cloud_12.png'),           sx:0, sy:0, sw:null, sh:null },
+  'r': { url: raw('cloud_13.png'),           sx:0, sy:0, sw:null, sh:null },
+  'u': { url: raw('cloud_14.png'),           sx:0, sy:0, sw:null, sh:null },
+
+  /* ---- NEW misc decorative tiles ---- */
+  'v': { url: raw('enemies.png'),            sx:0, sy:0, sw:null, sh:null },
+  'w': { url: raw('icon.png'),               sx:0, sy:0, sw:null, sh:null },
+  'x': { url: raw('icon_sm.png'),            sx:0, sy:0, sw:null, sh:null },
+  'y': { url: raw('intro.png'),              sx:0, sy:0, sw:null, sh:null },
+  'z': { url: raw('lvl-size.png'),           sx:0, sy:0, sw:null, sh:null },
+  'A': { url: raw('mario-sprites.png'),      sx:0, sy:0, sw:null, sh:null },
+
+  /* ---- NEW mushroom variants (mushroom-1 .. mushroom-7) ---- */
+  'D': { url: raw('mushroom-1.png'),         sx:0, sy:0, sw:null, sh:null },
+  'E': { url: raw('mushroom-2.png'),         sx:0, sy:0, sw:null, sh:null },
+  'G': { url: raw('mushroom-3.png'),         sx:0, sy:0, sw:null, sh:null },
+  'H': { url: raw('mushroom-4.png'),         sx:0, sy:0, sw:null, sh:null },
+  'I': { url: raw('mushroom-5.png'),         sx:0, sy:0, sw:null, sh:null },
+  'J': { url: raw('mushroom-6.png'),         sx:0, sy:0, sw:null, sh:null },
+  'L': { url: raw('mushroom-7.png'),         sx:0, sy:0, sw:null, sh:null },
+
+  /* ---- NEW animation frames (frame_0 .. frame_11) ---- */
+  'N': { url: raw('frame_0.png'),            sx:0, sy:0, sw:null, sh:null },
+  'O': { url: raw('frame_1.png'),            sx:0, sy:0, sw:null, sh:null },
+  'P': { url: raw('frame_2.png'),            sx:0, sy:0, sw:null, sh:null },
+  'Q': { url: raw('frame_3.png'),            sx:0, sy:0, sw:null, sh:null },
+  'R': { url: raw('frame_4.png'),            sx:0, sy:0, sw:null, sh:null },
+  'T': { url: raw('frame_5.png'),            sx:0, sy:0, sw:null, sh:null },
+  'V': { url: raw('frame_6.png'),            sx:0, sy:0, sw:null, sh:null },
+  'W': { url: raw('frame_7.png'),            sx:0, sy:0, sw:null, sh:null },
+  'Y': { url: raw('frame_8.png'),            sx:0, sy:0, sw:null, sh:null },
+  'Z': { url: raw('frame_9.png'),            sx:0, sy:0, sw:null, sh:null },
+  '!': { url: raw('frame_10.png'),           sx:0, sy:0, sw:null, sh:null },
+  '@': { url: raw('frame_11.png'),           sx:0, sy:0, sw:null, sh:null }
+};
+
+const TileSprites = {
+  images: {},
+  load(){
+    for(const ch in TILE_IMG_DEF){
+      const def = TILE_IMG_DEF[ch];
+      const img = new Image();
+      img.onload = ()=>{
+        this.images[ch] = {
+          img: img,
+          ready: true,
+          sx: def.sx,
+          sy: def.sy,
+          sw: def.sw || img.width,
+          sh: def.sh || img.height
+        };
+        if (typeof Editor !== 'undefined' && Editor.inited){
+          Editor.refreshPaletteThumbs();
+          Editor.render();
+        }
+      };
+      img.onerror = ()=>{ /* fallback to procedural */ };
+      img.src = def.url;
+    }
+  },
+  isReady(ch){ const t = this.images[ch]; return !!(t && t.ready); },
+  draw(ctx2, ch, px, py, w, h){
+    const t = this.images[ch];
+    if (!t || !t.ready) return false;
+    try{
+      ctx2.drawImage(t.img, t.sx, t.sy, t.sw, t.sh, px, py, w, h);
+      return true;
+    }catch(e){
+      return false;
+    }
+  }
+};
+TileSprites.load();
+
+/* ============================================================
+   INPUT
+   ============================================================ */
 const Input = { left:false, right:false, jump:false, run:false, down:false,
   jumpEdge:false, startEdge:false, pauseEdge:false, restartEdge:false };
 const KEYMAP = {
@@ -746,23 +969,104 @@ stage.addEventListener('pointerdown', ()=>{
   if(G.state === 'title' || G.state === 'gameover' || G.state === 'clear') Input.startEdge = true;
 });
 
-const SOLID_CHARS = 'XSB?MU[]{}f';
+/* ============================================================
+   TILE DEFINITIONS
+   ============================================================ */
+const SOLID_CHARS = 'XSB?MU[]{}f12stbdj';
 function isSolidChar(c){ return SOLID_CHARS.indexOf(c) !== -1; }
 const TILE_KIND = { '.':'empty','X':'ground','S':'stone','B':'brick',
-  '?':'qblock','M':'qblock','U':'used',
-  '[':'pipeTL',']':'pipeTR','{':'pipeBL','}':'pipeBR','F':'pole','f':'polebase' };
+  '?':'qblock','M':'qblock','U':'used','C':'coin',
+  '[':'pipeTL',']':'pipeTR','{':'pipeBL','}':'pipeBR','F':'pole','f':'polebase',
+  '1':'cactus','2':'cactus','s':'stone2','t':'stone3','b':'bullet','d':'dead','j':'jump' };
 const TILE_COLORS_3D = { 'X':0xc84c0c,'S':0xb06a1c,'B':0xd0561a,'?':0xe8a316,'M':0xe8a316,
-  'U':0x8a5a20,'[':0x00a800,']':0x00a800,'{':0x00a800,'}':0x00a800,'F':0x00c000,'f':0x00a800 };
+  'U':0x8a5a20,'[':0x00a800,']':0x00a800,'{':0x00a800,'}':0x00a800,'F':0x00c000,'f':0x00a800,
+  '1':0x2a8a2a,'2':0x1f7a1f,'s':0xb06a1c,'t':0x9a5a14,'b':0x333333,'d':0xaa2222,'j':0x4488ff,
+  /* new decorative tiles */
+  'a':0xa8d8ff,'c':0xa8d8ff,'e':0xa8d8ff,'g':0xa8d8ff,'h':0xa8d8ff,
+  'i':0xa8d8ff,'k':0xa8d8ff,'l':0xa8d8ff,'m':0xa8d8ff,'n':0xa8d8ff,
+  'o':0xa8d8ff,'p':0xa8d8ff,'q':0xa8d8ff,'r':0xa8d8ff,'u':0xa8d8ff,
+  'v':0x5a2d0c,'w':0xffd34d,'x':0xffd34d,'y':0x4dd8ff,'z':0x9b6dff,
+  'A':0xe52521,'D':0xe52521,'E':0xe52521,'G':0xe52521,'H':0xe52521,
+  'I':0xe52521,'J':0xe52521,'L':0xe52521,
+  'N':0x4bd66b,'O':0x4bd66b,'P':0x4bd66b,'Q':0x4bd66b,'R':0x4bd66b,
+  'T':0x4bd66b,'V':0x4bd66b,'W':0x4bd66b,'Y':0x4bd66b,'Z':0x4bd66b,
+  '!':0x4bd66b,'@':0x4bd66b };
+
 const EDITOR_TILES = [
-  {ch:'.', name:'Empty',color:'#0b0b12'},{ch:'X',name:'Ground',color:'#c84c0c'},
-  {ch:'S',name:'Stone',color:'#b06a1c'},{ch:'B',name:'Brick',color:'#d0561a'},
-  {ch:'?',name:'? Block',color:'#e8a316'},{ch:'M',name:'Mushroom',color:'#e8a316'},
-  {ch:'U',name:'Used',color:'#8a5a20'},{ch:'[',name:'Pipe TL',color:'#00a800'},
-  {ch:']',name:'Pipe TR',color:'#00a800'},{ch:'{',name:'Pipe BL',color:'#00a800'},
-  {ch:'}',name:'Pipe BR',color:'#00a800'},{ch:'F',name:'Flagpole',color:'#00c000'},
-  {ch:'f',name:'Pole base',color:'#00a800'}
+  {ch:'.', name:'Empty',    color:'#0b0b12'},
+  {ch:'X', name:'Ground',   color:'#c84c0c'},
+  {ch:'S', name:'Stone',    color:'#b06a1c'},
+  {ch:'B', name:'Brick',    color:'#d0561a'},
+  {ch:'?', name:'? Block',  color:'#e8a316'},
+  {ch:'M', name:'Mushroom', color:'#e8a316'},
+  {ch:'U', name:'Used',     color:'#8a5a20'},
+  {ch:'[', name:'Pipe TL',  color:'#00a800'},
+  {ch:']', name:'Pipe TR',  color:'#00a800'},
+  {ch:'{', name:'Pipe BL',  color:'#00a800'},
+  {ch:'}', name:'Pipe BR',  color:'#00a800'},
+  {ch:'F', name:'Flagpole', color:'#00c000'},
+  {ch:'f', name:'Pole base',color:'#00a800'},
+  {ch:'C', name:'Coin',     color:'#ffd000'},
+  {ch:'1', name:'Cactus 1', color:'#2a8a2a'},
+  {ch:'2', name:'Cactus 2', color:'#1f7a1f'},
+  {ch:'s', name:'Stone 1',  color:'#b06a1c'},
+  {ch:'t', name:'Stone 2',  color:'#9a5a14'},
+  {ch:'b', name:'Bullet',   color:'#333333'},
+  {ch:'d', name:'Dead',     color:'#aa2222'},
+  {ch:'j', name:'Jump',     color:'#4488ff'},
+  /* clouds */
+  {ch:'a', name:'Cloud 0',  color:'#a8d8ff'},
+  {ch:'c', name:'Cloud 1',  color:'#a8d8ff'},
+  {ch:'e', name:'Cloud 2',  color:'#a8d8ff'},
+  {ch:'g', name:'Cloud 3',  color:'#a8d8ff'},
+  {ch:'h', name:'Cloud 4',  color:'#a8d8ff'},
+  {ch:'i', name:'Cloud 5',  color:'#a8d8ff'},
+  {ch:'k', name:'Cloud 6',  color:'#a8d8ff'},
+  {ch:'l', name:'Cloud 7',  color:'#a8d8ff'},
+  {ch:'m', name:'Cloud 8',  color:'#a8d8ff'},
+  {ch:'n', name:'Cloud 9',  color:'#a8d8ff'},
+  {ch:'o', name:'Cloud 10', color:'#a8d8ff'},
+  {ch:'p', name:'Cloud 11', color:'#a8d8ff'},
+  {ch:'q', name:'Cloud 12', color:'#a8d8ff'},
+  {ch:'r', name:'Cloud 13', color:'#a8d8ff'},
+  {ch:'u', name:'Cloud 14', color:'#a8d8ff'},
+  /* misc */
+  {ch:'v', name:'Enemies',  color:'#5a2d0c'},
+  {ch:'w', name:'Icon',     color:'#ffd34d'},
+  {ch:'x', name:'Icon SM',  color:'#ffd34d'},
+  {ch:'y', name:'Intro',    color:'#4dd8ff'},
+  {ch:'z', name:'Lvl Size', color:'#9b6dff'},
+  {ch:'A', name:'Mario Spr',color:'#e52521'},
+  /* mushrooms */
+  {ch:'D', name:'Mush 1',   color:'#e52521'},
+  {ch:'E', name:'Mush 2',   color:'#e52521'},
+  {ch:'G', name:'Mush 3',   color:'#e52521'},
+  {ch:'H', name:'Mush 4',   color:'#e52521'},
+  {ch:'I', name:'Mush 5',   color:'#e52521'},
+  {ch:'J', name:'Mush 6',   color:'#e52521'},
+  {ch:'L', name:'Mush 7',   color:'#e52521'},
+  /* frames */
+  {ch:'N', name:'Frame 0',  color:'#4bd66b'},
+  {ch:'O', name:'Frame 1',  color:'#4bd66b'},
+  {ch:'P', name:'Frame 2',  color:'#4bd66b'},
+  {ch:'Q', name:'Frame 3',  color:'#4bd66b'},
+  {ch:'R', name:'Frame 4',  color:'#4bd66b'},
+  {ch:'T', name:'Frame 5',  color:'#4bd66b'},
+  {ch:'V', name:'Frame 6',  color:'#4bd66b'},
+  {ch:'W', name:'Frame 7',  color:'#4bd66b'},
+  {ch:'Y', name:'Frame 8',  color:'#4bd66b'},
+  {ch:'Z', name:'Frame 9',  color:'#4bd66b'},
+  {ch:'!', name:'Frame 10', color:'#4bd66b'},
+  {ch:'@', name:'Frame 11', color:'#4bd66b'}
 ];
 
+/* lookup map: char -> editor tile descriptor */
+const EDITOR_TILE_MAP = {};
+EDITOR_TILES.forEach(t=>{ EDITOR_TILE_MAP[t.ch] = t; });
+
+/* ============================================================
+   LEVEL BUILDERS
+   ============================================================ */
 function mkEnemy(type, tx, ty){
   if(type === 'goomba'){
     return { type:'goomba', x:tx*TILE+1, y:ty*TILE+2, w:14, h:14,
@@ -839,6 +1143,9 @@ function buildLevelFromGrid(grid){
     flagX: flagX >= 0 ? flagX : w-6, flagTopY:3*TILE, flagBaseY:12*TILE };
 }
 
+/* ============================================================
+   GAME STATE
+   ============================================================ */
 const G = {
   state:'title', prevState:'play', frame:0,
   score:0, coins:0, lives:3, time:400, timeAcc:0,
@@ -847,6 +1154,9 @@ const G = {
   clearT:0, dieT:0, flagY:0, flagSlide:false, shake:0, overT:0
 };
 
+/* ============================================================
+   TILE QUERY / COLLISION
+   ============================================================ */
 function tileChar(tx,ty){
   if(!G.level) return '.';
   if(ty<0 || ty>=G.level.h) return '.';
@@ -925,6 +1235,9 @@ function bumpBlock(tx,ty){
 }
 function addCoin(){ G.coins++; if(G.coins >= 100){ G.coins = 0; G.lives++; Sound.oneup(); } }
 
+/* ============================================================
+   PARTICLES / ENEMIES / ITEMS
+   ============================================================ */
 function spawnParticle(o){ G.particles.push(Object.assign({t:0, life:40, grav:0}, o)); }
 function spawnBrickChunks(tx,ty){
   const bx = tx*TILE, by = ty*TILE;
@@ -1039,6 +1352,9 @@ function updateCoins(){
 }
 function aabb(a,b){ return a.x < b.x+b.w && a.x+a.w > b.x && a.y < b.y+b.h && a.y+a.h > b.y; }
 
+/* ============================================================
+   PLAYER
+   ============================================================ */
 function makePlayer(){
   return { x:40, y:GROUND_Y-SMALL_H, w:SMALL_W, h:SMALL_H, vx:0, vy:0, dir:1,
     onGround:false, big:false, crouch:false, invuln:0, jumpHeld:false, state:'normal',
@@ -1158,6 +1474,9 @@ function updateWinSequence(p){
   }
 }
 
+/* ============================================================
+   GAME FLOW
+   ============================================================ */
 function resetLevel(fullReset, levelOverride){
   G.level = levelOverride || G.defaultLevel || buildDefaultLevel();
   G.player = makePlayer();
@@ -1242,6 +1561,9 @@ function update(){
   Input.jumpEdge = false;
 }
 
+/* ============================================================
+   SPRITE BANK
+   ============================================================ */
 const SpriteBank = {
   hero:{img:null,ready:false,cols:1,rows:1,fps:8,frame:0},
   goomba:{img:null,ready:false,cols:1,rows:1,fps:6,frame:0},
@@ -1323,6 +1645,9 @@ function drawSpriteEntity(k, x, y, w, h, frameIndex, flipH){
   return true;
 }
 
+/* ============================================================
+   2D RENDERER
+   ============================================================ */
 const SKY='#5c94fc', CLOUD='#ffffff', HILL='#00a800', HILL2='#008000';
 function drawSky(){ ctx.fillStyle = SKY; ctx.fillRect(0,0,VIEW_W,VIEW_H); }
 function drawCloudShape(x,y,s){
@@ -1371,7 +1696,8 @@ function drawBackground(cam){
   }
 }
 function drawTile(c, px, py, tx, ty){
-  const kind = TILE_KIND[c] || 'empty';
+  if (TileSprites.draw(ctx, c, px, py, 16, 16)) return;
+  const kind = TILE_KIND[c] || 'decor';
   switch(kind){
     case 'ground':
       ctx.fillStyle = '#c84c0c'; ctx.fillRect(px,py,16,16);
@@ -1448,6 +1774,72 @@ function drawTile(c, px, py, tx, ty){
       ctx.fillStyle = '#00a800'; ctx.fillRect(px+2,py+2,12,12);
       ctx.fillStyle = '#58d854'; ctx.fillRect(px+3,py+3,10,2);
       break;
+    case 'cactus':
+      ctx.fillStyle = '#1f7a1f'; ctx.fillRect(px+5,py+2,6,14);
+      ctx.fillStyle = '#2a9a2a'; ctx.fillRect(px+6,py+3,3,12);
+      ctx.fillStyle = '#1f7a1f';
+      ctx.fillRect(px+2,py+5,4,2); ctx.fillRect(px+2,py+5,2,5);
+      ctx.fillRect(px+10,py+7,4,2); ctx.fillRect(px+12,py+7,2,5);
+      ctx.fillStyle = '#0e4a0e';
+      ctx.fillRect(px+5,py+2,6,1); ctx.fillRect(px+5,py+15,6,1);
+      ctx.fillStyle = '#d8ffb0';
+      ctx.fillRect(px+7,py+5,1,1); ctx.fillRect(px+7,py+9,1,1);
+      break;
+    case 'stone2':
+      ctx.fillStyle = '#a25a12'; ctx.fillRect(px,py,16,16);
+      ctx.fillStyle = '#e0a456';
+      ctx.fillRect(px,py,16,2); ctx.fillRect(px,py,2,16);
+      ctx.fillStyle = '#5f330a';
+      ctx.fillRect(px,py+14,16,2); ctx.fillRect(px+14,py,2,16);
+      ctx.fillRect(px+4,py+7,8,1);
+      break;
+    case 'stone3':
+      ctx.fillStyle = '#8a4a10'; ctx.fillRect(px,py,16,16);
+      ctx.fillStyle = '#d0883a';
+      ctx.fillRect(px,py+1,16,2);
+      ctx.fillStyle = '#4a2408';
+      ctx.fillRect(px,py+13,16,3);
+      ctx.fillRect(px+2,py+6,5,1); ctx.fillRect(px+9,py+10,5,1);
+      break;
+    case 'bullet':
+      ctx.fillStyle = '#1a1a1a'; ctx.fillRect(px,py,16,16);
+      ctx.fillStyle = '#333333'; ctx.fillRect(px+1,py+1,14,14);
+      ctx.fillStyle = '#666666'; ctx.fillRect(px+3,py+4,10,3);
+      ctx.fillStyle = '#0a0a0a'; ctx.fillRect(px+4,py+11,8,3);
+      break;
+    case 'dead':
+      ctx.fillStyle = '#5a0a0a'; ctx.fillRect(px,py,16,16);
+      ctx.fillStyle = '#aa2222'; ctx.fillRect(px+1,py+1,14,14);
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(px+3,py+6,3,3); ctx.fillRect(px+10,py+6,3,3);
+      ctx.fillStyle = '#000000';
+      ctx.fillRect(px+4,py+7,1,1); ctx.fillRect(px+11,py+7,1,1);
+      break;
+    case 'jump':
+      ctx.fillStyle = '#0a2a55'; ctx.fillRect(px,py,16,16);
+      ctx.fillStyle = '#4488ff'; ctx.fillRect(px+1,py+1,14,14);
+      ctx.fillStyle = '#cfe6ff';
+      ctx.fillRect(px+4,py+10,3,3); ctx.fillRect(px+7,py+7,3,3);
+      ctx.fillRect(px+10,py+4,3,3);
+      break;
+    default: {
+      /* generic placeholder for any decorative tile (clouds, icons, frames, ...) */
+      const info = EDITOR_TILE_MAP[c];
+      const col = info ? info.color : '#666';
+      ctx.fillStyle = col;
+      ctx.fillRect(px, py, 16, 16);
+      ctx.strokeStyle = 'rgba(255,255,255,0.35)';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(px+0.5, py+0.5, 15, 15);
+      ctx.fillStyle = 'rgba(0,0,0,0.65)';
+      ctx.font = 'bold 8px monospace';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(c, px+8, py+8);
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'top';
+      break;
+    }
   }
 }
 function drawTiles(cam){
@@ -1474,6 +1866,10 @@ function drawCoins(cam){
     const cx = c.x+5, cy = c.y+6;
     if(useSprite){ const idx = pickFrame('coin', c.t, true);
       drawSpriteEntity('coin', Math.round(c.x-1), Math.round(c.y), 12, 12, idx, false); continue; }
+    if (TileSprites.isReady('C')) {
+      TileSprites.draw(ctx, 'C', Math.round(c.x-1), Math.round(c.y), 12, 12);
+      continue;
+    }
     const w = Math.abs(Math.cos(c.t*0.11))*8 + 2;
     ctx.fillStyle = '#ffd000';
     ctx.beginPath(); ctx.ellipse(cx,cy,w*0.5+1,6,0,0,Math.PI*2); ctx.fill();
@@ -2419,6 +2815,9 @@ function render3D(dt){
   if(G.state === 'gameover') drawGameOverOverlay();
 }
 
+/* ============================================================
+   MODE SWITCHING
+   ============================================================ */
 const IS_MOBILE = (function(){
   const ua = navigator.userAgent || '';
   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile/i.test(ua) ||
@@ -2554,6 +2953,9 @@ function loop(timestamp){
   if(document.getElementById('screen-game').classList.contains('active')) render(dt);
 }
 
+/* ============================================================
+   LEVEL STORE
+   ============================================================ */
 const LevelStore = {
   KEY_PREFIX:'smb_level_', COUNTER_KEY:'smb_levelCounter',
   list(){
@@ -2585,6 +2987,10 @@ const LevelStore = {
   },
   get(key){ try{ return JSON.parse(localStorage.getItem(key)); }catch(e){ return null; } }
 };
+
+/* ============================================================
+   LEVEL EDITOR — palette renders PNG sprites from GitHub.
+   ============================================================ */
 const Editor = {
   el:null, ctx:null, gridW:128, gridH:ROWS, tilePx:16, grid:null,
   selectedTile:'X', tool:'paint', painting:false,
@@ -2613,17 +3019,45 @@ const Editor = {
     wrap.innerHTML = '';
     EDITOR_TILES.forEach(t=>{
       const btn = document.createElement('button');
-      btn.className = 'toolbtn'; btn.title = t.name + ' (' + t.ch + ')'; btn.dataset.ch = t.ch;
-      const sw = document.createElement('span');
-      sw.className = 'swatch'; sw.style.background = t.color;
-      btn.appendChild(sw);
+      btn.className = 'toolbtn';
+      btn.title = t.name + ' (' + t.ch + ')';
+      btn.dataset.ch = t.ch;
+      const thumb = document.createElement('canvas');
+      thumb.className = 'swatch';
+      thumb.width = 26;
+      thumb.height = 26;
+      thumb.dataset.tileCh = t.ch;
+      thumb.style.background = t.color;
+      btn.appendChild(thumb);
       btn.addEventListener('click', ()=>{
-        Editor.selectedTile = t.ch; Editor.tool = 'paint'; Editor.updatePaletteUI();
+        Editor.selectedTile = t.ch;
+        Editor.tool = 'paint';
+        Editor.updatePaletteUI();
         document.getElementById('edSelectedLabel').textContent = t.name;
       });
       wrap.appendChild(btn);
     });
+    this.refreshPaletteThumbs();
     this.updatePaletteUI();
+  },
+  refreshPaletteThumbs(){
+    const wrap = document.getElementById('tilePalette');
+    if(!wrap) return;
+    for(const btn of wrap.children){
+      const canvas = btn.querySelector('canvas.swatch');
+      if(!canvas) continue;
+      const ch = canvas.dataset.tileCh;
+      const c2 = canvas.getContext('2d');
+      c2.imageSmoothingEnabled = false;
+      c2.clearRect(0,0,canvas.width,canvas.height);
+      const t = TileSprites.images[ch];
+      if(t && t.ready){
+        const w = canvas.width - 2, h = canvas.height - 2;
+        try{
+          c2.drawImage(t.img, t.sx, t.sy, t.sw, t.sh, 1, 1, w, h);
+        }catch(e){}
+      }
+    }
   },
   updatePaletteUI(){
     const wrap = document.getElementById('tilePalette');
@@ -2708,6 +3142,61 @@ const Editor = {
     });
     document.getElementById('edSave').addEventListener('click', ()=> Editor.openSaveDialog());
     document.getElementById('edPlay').addEventListener('click', ()=> Editor.playTest());
+
+    /* ---- NEW: Move Left / Move Right buttons for the editor drawing page ---- */
+    (function bindHoldScroll(btnId, dir){
+      const btn = document.getElementById(btnId);
+      if(!btn) return;
+      let interval = null;
+      const wrap = document.getElementById('editorCanvasWrap');
+      function step(fast){
+        if(!wrap) return;
+        wrap.scrollBy({ left: dir * (fast ? 160 : 40), behavior: fast ? 'smooth' : 'auto' });
+      }
+      function startHold(){
+        if(interval) return;
+        interval = setInterval(()=>step(false), 16);
+      }
+      function stopHold(){
+        if(interval){ clearInterval(interval); interval = null; }
+      }
+      btn.addEventListener('pointerdown', (ev)=>{
+        ev.preventDefault();
+        step(true);
+        startHold();
+      });
+      btn.addEventListener('pointerup', stopHold);
+      btn.addEventListener('pointerleave', stopHold);
+      btn.addEventListener('pointercancel', stopHold);
+      btn.addEventListener('contextmenu', e=>e.preventDefault());
+    })('edScrollLeft', -1);
+    (function bindHoldScroll(btnId, dir){
+      const btn = document.getElementById(btnId);
+      if(!btn) return;
+      let interval = null;
+      const wrap = document.getElementById('editorCanvasWrap');
+      function step(fast){
+        if(!wrap) return;
+        wrap.scrollBy({ left: dir * (fast ? 160 : 40), behavior: fast ? 'smooth' : 'auto' });
+      }
+      function startHold(){
+        if(interval) return;
+        interval = setInterval(()=>step(false), 16);
+      }
+      function stopHold(){
+        if(interval){ clearInterval(interval); interval = null; }
+      }
+      btn.addEventListener('pointerdown', (ev)=>{
+        ev.preventDefault();
+        step(true);
+        startHold();
+      });
+      btn.addEventListener('pointerup', stopHold);
+      btn.addEventListener('pointerleave', stopHold);
+      btn.addEventListener('pointercancel', stopHold);
+      btn.addEventListener('contextmenu', e=>e.preventDefault());
+    })('edScrollRight', 1);
+
     document.addEventListener('keydown', (e)=>{
       if(!document.getElementById('screen-editor').classList.contains('active')) return;
       if((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z' && !e.shiftKey){ e.preventDefault(); this.undo(); }
@@ -2759,7 +3248,14 @@ const Editor = {
   },
   drawTilePreview(ch, px, py, tw, th, tx, ty){
     const c = this.ctx;
-    if(ch === '.'){ if(ty >= GROUND_ROW){ c.fillStyle = 'rgba(200,76,12,0.12)'; c.fillRect(px,py,tw,th); } return; }
+    if(ch === '.'){
+      if(ty >= GROUND_ROW){
+        c.fillStyle = 'rgba(200,76,12,0.12)';
+        c.fillRect(px,py,tw,th);
+      }
+      return;
+    }
+    if (TileSprites.draw(c, ch, px, py, tw, th)) return;
     c.save(); c.translate(px,py); c.scale(tw/16, th/16);
     drawTileAt(c, ch, 0, 0, tx, ty);
     c.restore();
@@ -2839,11 +3335,66 @@ function drawTileAt(c, ch, px, py, tx, ty){
       c.beginPath(); c.ellipse(px+8,py+8,5,6,0,0,Math.PI*2); c.fill();
       c.fillStyle='#b07000';
       c.beginPath(); c.ellipse(px+8,py+8,3,4,0,0,Math.PI*2); c.fill(); break;
+    case '1': case '2':
+      c.fillStyle='#1f7a1f'; c.fillRect(px+5,py+2,6,14);
+      c.fillStyle='#2a9a2a'; c.fillRect(px+6,py+3,3,12);
+      c.fillStyle='#1f7a1f';
+      c.fillRect(px+2,py+5,4,2); c.fillRect(px+2,py+5,2,5);
+      c.fillRect(px+10,py+7,4,2); c.fillRect(px+12,py+7,2,5);
+      c.fillStyle='#0e4a0e';
+      c.fillRect(px+5,py+2,6,1); c.fillRect(px+5,py+15,6,1);
+      break;
+    case 's':
+      c.fillStyle='#a25a12'; c.fillRect(px,py,16,16);
+      c.fillStyle='#e0a456'; c.fillRect(px,py,16,2); c.fillRect(px,py,2,16);
+      c.fillStyle='#5f330a'; c.fillRect(px,py+14,16,2); c.fillRect(px+14,py,2,16);
+      c.fillRect(px+4,py+7,8,1); break;
+    case 't':
+      c.fillStyle='#8a4a10'; c.fillRect(px,py,16,16);
+      c.fillStyle='#d0883a'; c.fillRect(px,py+1,16,2);
+      c.fillStyle='#4a2408'; c.fillRect(px,py+13,16,3);
+      c.fillRect(px+2,py+6,5,1); c.fillRect(px+9,py+10,5,1); break;
+    case 'b':
+      c.fillStyle='#1a1a1a'; c.fillRect(px,py,16,16);
+      c.fillStyle='#333333'; c.fillRect(px+1,py+1,14,14);
+      c.fillStyle='#666666'; c.fillRect(px+3,py+4,10,3);
+      c.fillStyle='#0a0a0a'; c.fillRect(px+4,py+11,8,3); break;
+    case 'd':
+      c.fillStyle='#5a0a0a'; c.fillRect(px,py,16,16);
+      c.fillStyle='#aa2222'; c.fillRect(px+1,py+1,14,14);
+      c.fillStyle='#ffffff';
+      c.fillRect(px+3,py+6,3,3); c.fillRect(px+10,py+6,3,3);
+      c.fillStyle='#000000';
+      c.fillRect(px+4,py+7,1,1); c.fillRect(px+11,py+7,1,1); break;
+    case 'j':
+      c.fillStyle='#0a2a55'; c.fillRect(px,py,16,16);
+      c.fillStyle='#4488ff'; c.fillRect(px+1,py+1,14,14);
+      c.fillStyle='#cfe6ff';
+      c.fillRect(px+4,py+10,3,3); c.fillRect(px+7,py+7,3,3);
+      c.fillRect(px+10,py+4,3,3); break;
+    default: {
+      /* generic placeholder for any new decorative tile */
+      const info = EDITOR_TILE_MAP[ch];
+      const col = info ? info.color : '#666';
+      c.fillStyle = col;
+      c.fillRect(px, py, 16, 16);
+      c.strokeStyle = 'rgba(255,255,255,0.35)';
+      c.lineWidth = 1;
+      c.strokeRect(px+0.5, py+0.5, 15, 15);
+      c.fillStyle = 'rgba(0,0,0,0.65)';
+      c.font = 'bold 8px monospace';
+      c.textAlign = 'center';
+      c.textBaseline = 'middle';
+      c.fillText(ch, px+8, py+8);
+      c.textAlign = 'left';
+      c.textBaseline = 'top';
+      break;
+    }
   }
 }
 
 /* ============================================================
-   SCREEN ROUTER  —  Classic screen and its bridge removed.
+   SCREEN ROUTER
    ============================================================ */
 const screens = ['menu','game','editor','levels'];
 let currentScreenName = 'menu';
@@ -2858,7 +3409,12 @@ function switchScreen(name){
     if(!b.dataset.screen) return;
     b.classList.toggle('active', b.dataset.screen === name);
   });
-  if(name === 'editor'){ Editor.init(); Editor.updatePaletteUI(); Editor.render(); }
+  if(name === 'editor'){
+    Editor.init();
+    Editor.refreshPaletteThumbs();
+    Editor.updatePaletteUI();
+    Editor.render();
+  }
   if(name === 'levels') renderSavedLevels();
 }
 document.querySelectorAll('.navbtn').forEach(btn=>{
@@ -2881,6 +3437,54 @@ document.getElementById('menuRandom').addEventListener('click', ()=>{
   setTimeout(()=>startGame(lvl), 30);
 });
 
+/* ============================================================
+   Play Main Game → Level Editor quick actions
+   ============================================================ */
+document.getElementById('editCurrentLevel').addEventListener('click', ()=>{
+  Editor.init();
+  const src = G.level;
+  if (src && src.grid){
+    Editor.gridW = src.w;
+    Editor.gridH = src.h;
+    Editor.grid = src.grid.map(r=>r.slice());
+  }
+  Editor.undoStack.length = 0;
+  Editor.redoStack.length = 0;
+  Editor.selectedTile = 'X';
+  Editor.tool = 'paint';
+  Editor.resize();
+  Editor.refreshPaletteThumbs();
+  Editor.updatePaletteUI();
+  Editor.render();
+  switchScreen('editor');
+});
+
+document.getElementById('newLevelBtn').addEventListener('click', ()=>{
+  Editor.init();
+  Editor.gridW = 128;
+  Editor.gridH = ROWS;
+  Editor.grid = [];
+  for(let y=0;y<Editor.gridH;y++){
+    const row = [];
+    for(let x=0;x<Editor.gridW;x++){
+      row.push(y >= GROUND_ROW ? 'X' : '.');
+    }
+    Editor.grid.push(row);
+  }
+  Editor.undoStack.length = 0;
+  Editor.redoStack.length = 0;
+  Editor.selectedTile = 'X';
+  Editor.tool = 'paint';
+  Editor.resize();
+  Editor.refreshPaletteThumbs();
+  Editor.updatePaletteUI();
+  Editor.render();
+  switchScreen('editor');
+});
+
+/* ============================================================
+   SAVED LEVELS
+   ============================================================ */
 function renderSavedLevels(){
   const list = document.getElementById('levelsList');
   list.innerHTML = '';
@@ -2921,7 +3525,7 @@ function renderSavedLevels(){
       Editor.gridH = item.grid.length;
       Editor.grid = item.grid.map(r=>r.slice());
       Editor.undoStack.length = 0; Editor.redoStack.length = 0;
-      Editor.resize(); Editor.updatePaletteUI(); Editor.render();
+      Editor.resize(); Editor.refreshPaletteThumbs(); Editor.updatePaletteUI(); Editor.render();
       switchScreen('editor');
     });
     const delBtn = document.createElement('button');
@@ -2964,6 +3568,9 @@ document.getElementById('saveNameInput').addEventListener('keydown', (e)=>{
   if(e.key === 'Escape') saveModal.classList.remove('active');
 });
 
+/* ============================================================
+   BOOT
+   ============================================================ */
 G.defaultLevel = buildDefaultLevel();
 G.level = G.defaultLevel;
 G.player = makePlayer();
