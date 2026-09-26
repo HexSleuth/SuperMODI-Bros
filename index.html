@@ -294,6 +294,32 @@
     border-radius:10px;color:#7a7a92;font-size:11px;line-height:1.7;}
   .emptyState i{font-size:26px;color:#3a3a55;display:block;margin-bottom:10px;}
 
+  /* ================= WORLD / LEVEL SELECT ================= */
+  #worldsWrap{width:100%;max-width:880px;display:flex;flex-direction:column;gap:12px;}
+  #worldsHeader{display:flex;align-items:center;justify-content:space-between;gap:10px;
+    background:linear-gradient(180deg,#1c1c29,#141420);border:1px solid var(--line);
+    border-radius:10px;padding:10px 12px;flex-wrap:wrap;}
+  #worldsHeader h2{font-size:12px;letter-spacing:3px;color:var(--gold);
+    text-transform:uppercase;margin:0;display:flex;align-items:center;gap:8px;}
+  #worldsHeader h2 i{color:var(--cyan);}
+  #worldsGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:10px;}
+  .worldCard{background:linear-gradient(180deg,#20202e,#171722);border:1px solid var(--line);
+    border-radius:10px;padding:10px 12px;box-shadow:0 4px 14px rgba(0,0,0,.35);}
+  .worldCard h3{margin:0 0 8px;font-size:11px;letter-spacing:2px;color:var(--gold);
+    display:flex;align-items:center;gap:6px;text-transform:uppercase;}
+  .worldCard h3 i{color:var(--cyan);}
+  .worldCard h3 .castleTag{margin-left:auto;font-size:8px;color:var(--red);
+    border:1px solid var(--red);border-radius:4px;padding:1px 4px;letter-spacing:1px;}
+  .levelBtnRow{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;}
+  .levelBtn{padding:9px 6px;border-radius:7px;border:1px solid var(--line);
+    background:linear-gradient(180deg,#252536,#181822);color:#eaeaf5;
+    font-family:inherit;font-size:11px;font-weight:bold;letter-spacing:1px;cursor:pointer;
+    transition:background .12s,border-color .12s,transform .06s;}
+  .levelBtn b{color:var(--cyan);}
+  .levelBtn:hover{background:linear-gradient(180deg,#31415a,#20304a);border-color:var(--cyan);}
+  .levelBtn:active{transform:translateY(1px);}
+  #worldsHint{font-size:10px;color:#6f6f85;letter-spacing:1px;line-height:1.6;text-align:center;}
+
   #saveModal{position:fixed;inset:0;background:rgba(6,6,12,.7);display:none;
     align-items:center;justify-content:center;z-index:100;backdrop-filter:blur(3px);}
   #saveModal.active{display:flex;}
@@ -316,6 +342,7 @@
     .btn.wide{width:70px;}
     .btn.small{width:50px;height:50px;font-size:15px;}
     #editorToolbar .group.tilePaletteGroup::-webkit-scrollbar{height:10px;}
+    #worldsGrid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));}
   }
 </style>
 </head>
@@ -328,6 +355,7 @@
     <div id="nav">
       <button class="navbtn" data-screen="menu"><i class="fa-solid fa-house"></i><span>Menu</span></button>
       <button class="navbtn" data-screen="game"><i class="fa-solid fa-play"></i><span>Play</span></button>
+      <button class="navbtn" data-screen="worlds"><i class="fa-solid fa-map"></i><span>Levels</span></button>
       <button class="navbtn" data-screen="editor"><i class="fa-solid fa-pen-ruler"></i><span>Editor</span></button>
       <button class="navbtn" data-screen="levels"><i class="fa-solid fa-folder-open"></i><span>Saved</span></button>
     </div>
@@ -342,13 +370,33 @@
         with a full level editor and saved-level system
       </div>
       <div class="menu-actions">
-        <button class="menubtn gold" data-screen="game"><i class="fa-solid fa-play"></i>Play Main Game</button>
-        <button class="menubtn green" data-screen="levels"><i class="fa-solid fa-folder-open"></i>Saved Levels</button>
-        <button class="menubtn violet" id="menuRandom"><i class="fa-solid fa-dice"></i>Load Random Saved Level</button>
+        <button class="menubtn gold" data-screen="game"><i class="fa-solid fa-play"></i>Play Main Game (World 1-1)</button>
+        <button class="menubtn green" data-screen="worlds"><i class="fa-solid fa-map"></i>Level Select — 32 Levels</button>
+        <button class="menubtn" data-screen="levels"><i class="fa-solid fa-folder-open"></i>Saved Levels</button>
+        <button class="menubtn violet" id="menuRandom"><i class="fa-solid fa-dice"></i>Random Map</button>
       </div>
       <div class="menu-foot">
         <i class="fa-solid fa-keyboard"></i>
         &nbsp; ARROWS move &nbsp;·&nbsp; SPACE jump &nbsp;·&nbsp; X run &nbsp;·&nbsp; V toggle 2D/3D
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= WORLD / LEVEL SELECT SCREEN ================= -->
+  <div id="screen-worlds" class="screen">
+    <div id="worldsWrap">
+      <div id="worldsHeader">
+        <h2><i class="fa-solid fa-map"></i> SUPER MARIO BROS — LEVEL SELECT</h2>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+          <button class="miniBtn" id="randomMapBtn"><i class="fa-solid fa-dice"></i> Random Map</button>
+          <button class="miniBtn play" id="playW11"><i class="fa-solid fa-play"></i> Play 1-1</button>
+        </div>
+      </div>
+      <div id="worldsGrid"></div>
+      <div id="worldsHint">
+        8 worlds · 4 levels each = 32 stages. Every level is procedurally generated
+        from a fixed seed, so each one is unique but always the same when you replay it.
+        The final stage of every world ends at the castle.
       </div>
     </div>
   </div>
@@ -387,7 +435,6 @@
 
     <!-- ============================================================
          PANEL: CHARACTER SPRITES / OPTIONS · RENDER MODE / AUTO CAMERA
-         (UNCHANGED — preserved verbatim)
          ============================================================ -->
     <details id="panel" open>
       <summary><i class="fa-solid fa-sliders"></i> CHARACTER SPRITES / OPTIONS &nbsp;·&nbsp; RENDER MODE / AUTO CAMERA</summary>
@@ -444,6 +491,31 @@
         3D mode builds the entire level as real geometry with <b>Three.js</b>.
         The camera auto-detects screen aspect, speed, jump velocity and level bounds,
         then auto-adjusts its angle, distance and height every frame.
+      </div>
+
+      <hr class="divider">
+
+      <div class="section-title gold"><i class="fa-solid fa-arrows-up-down-left-right"></i> Movement · Size · Pixel Quality</div>
+
+      <div class="row">
+        <label>Movement</label>
+        <button class="act on" id="moveClassic"><i class="fa-solid fa-arrow-right"></i> Classic</button>
+        <button class="act" id="move360"><i class="fa-solid fa-arrows-spin"></i> 360° Free</button>
+        <span style="font-size:10px;color:#6f6f85;">360° = fly in any direction (no gravity)</span>
+      </div>
+
+      <div class="row">
+        <label>Char Size</label>
+        <input type="range" id="charScale" min="0.5" max="2" step="0.1" value="1">
+        <span class="val" id="charScaleV">1.0×</span>
+        <span style="font-size:10px;color:#6f6f85;">scales the hero in 2D &amp; 3D</span>
+      </div>
+
+      <div class="row">
+        <label>Pixel Size</label>
+        <input type="range" id="pixelScale" min="1" max="4" step="1" value="1">
+        <span class="val" id="pixelScaleV">1×</span>
+        <span style="font-size:10px;color:#6f6f85;">1× = crisp retro · 4× = ultra high quality</span>
       </div>
 
       <hr class="divider">
@@ -571,7 +643,7 @@
           <button class="toolbtn" id="toolPick"  title="Pick (P)"><i class="fa-solid fa-eye-dropper"></i></button>
         </div>
 
-        <!-- NEW: Move Left / Move Right buttons for the editor drawing page -->
+        <!-- Move Left / Move Right buttons for the editor drawing page -->
         <div class="group">
           <span style="font-size:10px;color:#7a7a92;letter-spacing:1px;">MOVE</span>
           <button class="toolbtn" id="edScrollLeft"  title="Move Left (hold to pan)"><i class="fa-solid fa-arrow-left"></i></button>
@@ -598,7 +670,7 @@
         <span class="pill"><i class="fa-solid fa-arrows-up-down-left-right"></i> <b>Click</b>&nbsp;to paint</span>
         <span class="pill"><i class="fa-solid fa-hand-pointer"></i> <b>Drag</b>&nbsp;to paint multiple</span>
         <span class="pill"><i class="fa-solid fa-ruler-combined"></i> Size: <b id="edSizeLabel">128 × 15</b></span>
-        <span class="pill"><i class="fa-solid fa-tag"></i> Selected: <b id="edSelectedLabel">Ground</b></span>
+        <span class="pill"><i class="fa-solid fa-tag"></i> Selected: <b id="edSelectedLabel">Brick</b></span>
         <span class="pill"><i class="fa-solid fa-arrows-left-right"></i> Move buttons or scroll horizontally</span>
       </div>
     </div>
@@ -636,7 +708,9 @@
 <script>
 /* =============================================================================
    MAIN SCRIPT — modern engine, level editor (PNG toolbar), saved levels,
-   FIRE sound, quick access to the Level Editor from the Play Main Game screen.
+   FIRE sound, quick access to the Level Editor from the Play Main Game screen,
+   32-level world select, procedural random maps, 360° free movement,
+   character size + pixel-size quality controls, auto-detected enemy tiles.
    ============================================================================= */
 (function(){
 'use strict';
@@ -824,7 +898,7 @@ const TILE_IMG_DEF = {
   'd': { url: raw('dead.png'),               sx:0, sy:0, sw:null, sh:null },
   'j': { url: raw('jump.png'),               sx:0, sy:0, sw:null, sh:null },
 
-  /* ---- NEW cloud tiles (cloud_0 .. cloud_14) ---- */
+  /* ---- cloud tiles (cloud_0 .. cloud_14) ---- */
   'a': { url: raw('cloud_0.png'),            sx:0, sy:0, sw:null, sh:null },
   'c': { url: raw('cloud_1.png'),            sx:0, sy:0, sw:null, sh:null },
   'e': { url: raw('cloud_2.png'),            sx:0, sy:0, sw:null, sh:null },
@@ -841,15 +915,16 @@ const TILE_IMG_DEF = {
   'r': { url: raw('cloud_13.png'),           sx:0, sy:0, sw:null, sh:null },
   'u': { url: raw('cloud_14.png'),           sx:0, sy:0, sw:null, sh:null },
 
-  /* ---- NEW misc decorative tiles ---- */
-  'v': { url: raw('enemies.png'),            sx:0, sy:0, sw:null, sh:null },
+  /* ---- misc decorative tiles ----
+     'v' = enemies.png  →  AUTO-DETECTED into many tiles on load       */
+  'v': { url: raw('enemies.png'),            sx:0, sy:0, sw:null, sh:null, autoDetect:true },
   'w': { url: raw('icon.png'),               sx:0, sy:0, sw:null, sh:null },
   'x': { url: raw('icon_sm.png'),            sx:0, sy:0, sw:null, sh:null },
   'y': { url: raw('intro.png'),              sx:0, sy:0, sw:null, sh:null },
   'z': { url: raw('lvl-size.png'),           sx:0, sy:0, sw:null, sh:null },
   'A': { url: raw('mario-sprites.png'),      sx:0, sy:0, sw:null, sh:null },
 
-  /* ---- NEW mushroom variants (mushroom-1 .. mushroom-7) ---- */
+  /* ---- mushroom variants (mushroom-1 .. mushroom-7) ---- */
   'D': { url: raw('mushroom-1.png'),         sx:0, sy:0, sw:null, sh:null },
   'E': { url: raw('mushroom-2.png'),         sx:0, sy:0, sw:null, sh:null },
   'G': { url: raw('mushroom-3.png'),         sx:0, sy:0, sw:null, sh:null },
@@ -858,7 +933,7 @@ const TILE_IMG_DEF = {
   'J': { url: raw('mushroom-6.png'),         sx:0, sy:0, sw:null, sh:null },
   'L': { url: raw('mushroom-7.png'),         sx:0, sy:0, sw:null, sh:null },
 
-  /* ---- NEW animation frames (frame_0 .. frame_11) ---- */
+  /* ---- animation frames (frame_0 .. frame_11) ---- */
   'N': { url: raw('frame_0.png'),            sx:0, sy:0, sw:null, sh:null },
   'O': { url: raw('frame_1.png'),            sx:0, sy:0, sw:null, sh:null },
   'P': { url: raw('frame_2.png'),            sx:0, sy:0, sw:null, sh:null },
@@ -872,6 +947,10 @@ const TILE_IMG_DEF = {
   '!': { url: raw('frame_10.png'),           sx:0, sy:0, sw:null, sh:null },
   '@': { url: raw('frame_11.png'),           sx:0, sy:0, sw:null, sh:null }
 };
+
+/* Characters reserved for auto-detected tiles sliced out of enemies.png */
+const AUTO_TILE_CHARS = ['0','3','4','5','6','7','8','9','#','$','%','^','&','*','(',')','-','_','+','=','~','|','/'];
+let autoDetectDone = false;
 
 const TileSprites = {
   images: {},
@@ -888,6 +967,7 @@ const TileSprites = {
           sw: def.sw || img.width,
           sh: def.sh || img.height
         };
+        if(def.autoDetect) autoDetectSheet(ch, img);
         if (typeof Editor !== 'undefined' && Editor.inited){
           Editor.refreshPaletteThumbs();
           Editor.render();
@@ -910,6 +990,40 @@ const TileSprites = {
   }
 };
 TileSprites.load();
+
+/* ============================================================
+   AUTO-DETECT: slice enemies.png into individual enemy tiles
+   and register them in the TILES palette automatically.
+   ============================================================ */
+function autoDetectSheet(ch, img){
+  if(autoDetectDone) return;
+  if(!img || !img.width || !img.height) return;
+  const cell = img.height;
+  const cols = Math.max(1, Math.round(img.width / cell));
+  if(cols < 2) return;                 /* not a horizontal sheet */
+  autoDetectDone = true;
+
+  let ci = 0;
+  const added = [];
+  for(let i = 0; i < cols && ci < AUTO_TILE_CHARS.length; i++){
+    let c = AUTO_TILE_CHARS[ci++];
+    while(TILE_IMG_DEF[c] && ci < AUTO_TILE_CHARS.length) c = AUTO_TILE_CHARS[ci++];
+    if(TILE_IMG_DEF[c]) break;
+    TILE_IMG_DEF[c] = { url: img.src, sx:i*cell, sy:0, sw:cell, sh:cell };
+    TILE_COLORS_3D[c] = 0x8a5a2a;
+    TileSprites.images[c] = { img: img, ready:true, sx:i*cell, sy:0, sw:cell, sh:cell };
+    const desc = { ch:c, name:'Enemy '+(i+1), color:'#8a5a2a' };
+    EDITOR_TILES.push(desc);
+    EDITOR_TILE_MAP[c] = desc;
+    added.push(c);
+  }
+  if(added.length && typeof Editor !== 'undefined' && Editor.inited){
+    Editor.buildPalette();
+    Editor.updatePaletteUI();
+    Editor.render();
+  }
+  if(added.length && R3D.ready) R3D.tilesDirty = true;
+}
 
 /* ============================================================
    INPUT
@@ -981,7 +1095,6 @@ const TILE_KIND = { '.':'empty','X':'ground','S':'stone','B':'brick',
 const TILE_COLORS_3D = { 'X':0xc84c0c,'S':0xb06a1c,'B':0xd0561a,'?':0xe8a316,'M':0xe8a316,
   'U':0x8a5a20,'[':0x00a800,']':0x00a800,'{':0x00a800,'}':0x00a800,'F':0x00c000,'f':0x00a800,
   '1':0x2a8a2a,'2':0x1f7a1f,'s':0xb06a1c,'t':0x9a5a14,'b':0x333333,'d':0xaa2222,'j':0x4488ff,
-  /* new decorative tiles */
   'a':0xa8d8ff,'c':0xa8d8ff,'e':0xa8d8ff,'g':0xa8d8ff,'h':0xa8d8ff,
   'i':0xa8d8ff,'k':0xa8d8ff,'l':0xa8d8ff,'m':0xa8d8ff,'n':0xa8d8ff,
   'o':0xa8d8ff,'p':0xa8d8ff,'q':0xa8d8ff,'r':0xa8d8ff,'u':0xa8d8ff,
@@ -1014,7 +1127,6 @@ const EDITOR_TILES = [
   {ch:'b', name:'Bullet',   color:'#333333'},
   {ch:'d', name:'Dead',     color:'#aa2222'},
   {ch:'j', name:'Jump',     color:'#4488ff'},
-  /* clouds */
   {ch:'a', name:'Cloud 0',  color:'#a8d8ff'},
   {ch:'c', name:'Cloud 1',  color:'#a8d8ff'},
   {ch:'e', name:'Cloud 2',  color:'#a8d8ff'},
@@ -1030,14 +1142,12 @@ const EDITOR_TILES = [
   {ch:'q', name:'Cloud 12', color:'#a8d8ff'},
   {ch:'r', name:'Cloud 13', color:'#a8d8ff'},
   {ch:'u', name:'Cloud 14', color:'#a8d8ff'},
-  /* misc */
   {ch:'v', name:'Enemies',  color:'#5a2d0c'},
   {ch:'w', name:'Icon',     color:'#ffd34d'},
   {ch:'x', name:'Icon SM',  color:'#ffd34d'},
   {ch:'y', name:'Intro',    color:'#4dd8ff'},
   {ch:'z', name:'Lvl Size', color:'#9b6dff'},
   {ch:'A', name:'Mario Spr',color:'#e52521'},
-  /* mushrooms */
   {ch:'D', name:'Mush 1',   color:'#e52521'},
   {ch:'E', name:'Mush 2',   color:'#e52521'},
   {ch:'G', name:'Mush 3',   color:'#e52521'},
@@ -1045,7 +1155,6 @@ const EDITOR_TILES = [
   {ch:'I', name:'Mush 5',   color:'#e52521'},
   {ch:'J', name:'Mush 6',   color:'#e52521'},
   {ch:'L', name:'Mush 7',   color:'#e52521'},
-  /* frames */
   {ch:'N', name:'Frame 0',  color:'#4bd66b'},
   {ch:'O', name:'Frame 1',  color:'#4bd66b'},
   {ch:'P', name:'Frame 2',  color:'#4bd66b'},
@@ -1128,7 +1237,7 @@ function buildDefaultLevel(){
   for(let y=3;y<=11;y++) set(FLAG_X, y, 'F');
   set(FLAG_X, 12, 'S');
   return { w:W, h:ROWS, grid, coins, enemySpawns:enemies, flagX:FLAG_X,
-    flagTopY:3*TILE, flagBaseY:12*TILE };
+    flagTopY:3*TILE, flagBaseY:12*TILE, name:'World 1-1' };
 }
 function buildLevelFromGrid(grid){
   const h = grid.length, w = grid[0] ? grid[0].length : 0;
@@ -1140,7 +1249,155 @@ function buildLevelFromGrid(grid){
     else if(c === 'F' && flagX < 0) flagX = x;
   }
   return { w, h, grid: grid.map(r=>r.slice()), coins, enemySpawns,
-    flagX: flagX >= 0 ? flagX : w-6, flagTopY:3*TILE, flagBaseY:12*TILE };
+    flagX: flagX >= 0 ? flagX : Math.max(4, w-6), flagTopY:3*TILE, flagBaseY:12*TILE };
+}
+
+/* ============================================================
+   PROCEDURAL WORLD GENERATOR — 32 deterministic levels
+   (8 worlds × 4 stages). Each seed always produces the same map.
+   ============================================================ */
+function mulberry32(a){
+  return function(){
+    a |= 0; a = a + 0x6D2B79F5 | 0;
+    let t = Math.imul(a ^ a >>> 15, 1 | a);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+function generateLevel(world, stage){
+  const rnd = mulberry32((world * 7919) + (stage * 104729) + 20240517);
+
+  const W = 176 + stage * 7 + world * 6;   /* 183 .. 237 tiles wide */
+  const grid = [];
+  for(let y=0;y<ROWS;y++) grid.push(new Array(W).fill('.'));
+
+  const set  = (x,y,c)=>{ if(x>=0 && x<W && y>=0 && y<ROWS) grid[y][x] = c; };
+  const fill = (x0,y0,x1,y1,c)=>{ for(let y=y0;y<=y1;y++) for(let x=x0;x<=x1;x++) set(x,y,c); };
+
+  /* ---------- ground ---------- */
+  fill(0, GROUND_ROW, W-1, ROWS-1, 'X');
+
+  /* ---------- gaps (bottomless pits) ---------- */
+  const gapCount = 2 + Math.floor(rnd()*3) + Math.floor(world/4);
+  const gaps = [];
+  let tries = 0;
+  while(gaps.length < gapCount && tries < 240){
+    tries++;
+    const gw = 1 + Math.floor(rnd()*3);            /* 1..3 tiles wide */
+    const gx = 26 + Math.floor(rnd()*(W-72));
+    if(gaps.some(g => gx < g.x + g.w + 9 && gx + gw + 9 > g.x)) continue;
+    gaps.push({x:gx, w:gw});
+  }
+  for(const g of gaps) fill(g.x, GROUND_ROW, g.x+g.w-1, ROWS-1, '.');
+
+  /* ---------- pipes ---------- */
+  const pipes = [];
+  const pipeCount = 1 + Math.floor(rnd()*3);
+  tries = 0;
+  while(pipes.length < pipeCount && tries < 240){
+    tries++;
+    const px = 22 + Math.floor(rnd()*(W-62));
+    const ph = 2 + Math.floor(rnd()*3);
+    if(pipes.some(p => Math.abs(p - px) < 12)) continue;
+    if(gaps.some(g => px + 2 > g.x - 2 && px < g.x + g.w + 2)) continue;
+    if(px > W - 30) continue;
+    pipes.push(px);
+    const top = GROUND_ROW - ph;
+    set(px, top, '['); set(px+1, top, ']');
+    for(let y=top+1; y<=GROUND_ROW-1; y++){ set(px, y, '{'); set(px+1, y, '}'); }
+  }
+
+  /* ---------- block clusters / staircases ---------- */
+  const clusters = [];
+  const clusterCount = 3 + Math.floor(rnd()*4);
+  tries = 0;
+  while(clusters.length < clusterCount && tries < 260){
+    tries++;
+    const cx = 18 + Math.floor(rnd()*(W-52));
+    if(clusters.some(c => Math.abs(c - cx) < 15)) continue;
+    if(pipes.some(p => cx > p - 7 && cx < p + 9)) continue;
+    if(gaps.some(g => cx + 6 > g.x - 3 && cx < g.x + g.w + 3)) continue;
+    if(cx > W - 34) continue;
+    clusters.push(cx);
+    const type = Math.floor(rnd()*3);
+    if(type === 0){
+      const len = 3 + Math.floor(rnd()*3);
+      for(let i=0;i<len;i++){
+        const r = rnd();
+        set(cx+i, 9, r < 0.25 ? '?' : (r < 0.35 ? 'M' : 'B'));
+      }
+      if(rnd() < 0.45){
+        const len2 = 2 + Math.floor(rnd()*3);
+        for(let i=0;i<len2;i++) set(cx+1+i, 5, rnd() < 0.3 ? '?' : 'B');
+      }
+    } else if(type === 1){
+      const h = 2 + Math.floor(rnd()*3);
+      for(let i=0;i<h;i++) for(let y=12-i; y<=12; y++) set(cx+i, y, 'S');
+    } else {
+      set(cx,   9, '?');
+      set(cx+2, 9, '?');
+      set(cx+4, 9, rnd() < 0.5 ? 'M' : 'B');
+      if(rnd() < 0.5) set(cx+2, 5, '?');
+    }
+  }
+
+  /* ---------- final staircase + flag ---------- */
+  const FLAG_X = W - 14;
+  const stairBase = FLAG_X - 9;
+  const stairH = 3 + Math.floor(rnd()*4);
+  for(let i=0;i<stairH;i++)
+    for(let y=12-i; y<=12; y++) set(stairBase + i, y, 'S');
+  for(let y=3; y<=11; y++) set(FLAG_X, y, 'F');
+  set(FLAG_X, 12, 'S');
+  /* clear a runway to the flag */
+  for(let x=FLAG_X-2; x<W; x++)
+    for(let y=0; y<GROUND_ROW; y++)
+      if(grid[y][x] !== 'F' && grid[y][x] !== 'S') grid[y][x] = '.';
+
+  /* ---------- coins ---------- */
+  const coinSpots = [];
+  const coinArcs = 2 + Math.floor(rnd()*3);
+  for(let i=0;i<coinArcs;i++){
+    const ax = 22 + Math.floor(rnd()*(W-56));
+    const arcLen = 3 + Math.floor(rnd()*3);
+    for(let k=0;k<arcLen;k++){
+      const cxp = ax + k;
+      const cyp = 7 + Math.floor(Math.sin(k/Math.max(1,arcLen-1)*Math.PI)*2);
+      if(grid[cyp][cxp] !== '.') continue;
+      if(coinSpots.some(c => c[0] === cxp && c[1] === cyp)) continue;
+      coinSpots.push([cxp, cyp]);
+      set(cxp, cyp, 'C');
+    }
+  }
+  /* coins over gaps */
+  for(const g of gaps){
+    const mid = g.x + Math.floor(g.w/2);
+    if(grid[7][mid] === '.'){ set(mid, 7, 'C'); }
+    if(g.w > 1 && grid[7][mid-1] === '.'){ set(mid-1, 7, 'C'); }
+  }
+
+  /* ---------- enemies ---------- */
+  const enemies = [];
+  const enemyCount = 3 + Math.floor(rnd()*4) + Math.floor(world/2);
+  tries = 0;
+  while(enemies.length < enemyCount && tries < 400){
+    tries++;
+    const ex = 22 + Math.floor(rnd()*(W - 46));
+    if(gaps.some(g => ex >= g.x-1 && ex <= g.x + g.w)) continue;
+    if(pipes.some(p => ex === p || ex === p+1)) continue;
+    if(ex > FLAG_X - 6) continue;
+    if(grid[GROUND_ROW-1][ex] !== '.') continue;
+    if(enemies.some(e => Math.abs((e.x/TILE) - ex) < 2)) continue;
+    const kind = rnd() < 0.68 ? 'goomba' : 'koopa';
+    enemies.push(mkEnemy(kind, ex, GROUND_ROW-1));
+  }
+
+  const lvl = buildLevelFromGrid(grid);
+  lvl.enemySpawns = enemies;
+  lvl.name = 'World ' + world + '-' + stage;
+  lvl.world = world;
+  lvl.stage = stage;
+  return lvl;
 }
 
 /* ============================================================
@@ -1151,7 +1408,8 @@ const G = {
   score:0, coins:0, lives:3, time:400, timeAcc:0,
   camX:0, level:null, player:null,
   enemies:[], items:[], particles:[], coinEnts:[], bumps:[],
-  clearT:0, dieT:0, flagY:0, flagSlide:false, shake:0, overT:0
+  clearT:0, dieT:0, flagY:0, flagSlide:false, shake:0, overT:0,
+  charScale:1, pixelScale:1, move360:false
 };
 
 /* ============================================================
@@ -1372,6 +1630,28 @@ function updatePlayer(){
   if(p.state === 'transform'){ p.transT--; if(p.transT <= 0) p.state = 'normal'; return; }
   if(p.state === 'win'){ updateWinSequence(p); return; }
   if(p.invuln > 0) p.invuln--;
+
+  /* ---------- 360° FREE MOVEMENT (cheat mode) ---------- */
+  if(G.move360){
+    const spd = Input.run ? 3.4 : 2.1;
+    let dx = (Input.right ? 1 : 0) - (Input.left ? 1 : 0);
+    let dy = (Input.down  ? 1 : 0) - (Input.jump ? 1 : 0);
+    if(dx !== 0 && dy !== 0){ dx *= 0.70710678; dy *= 0.70710678; }
+    p.vx = dx * spd;
+    p.vy = dy * spd;
+    if(dx > 0) p.dir = 1; else if(dx < 0) p.dir = -1;
+    p.onGround = false;
+    p.jumpHeld = false;
+    collideX(p);
+    collideY(p, true);
+    if(dx !== 0 || dy !== 0){ p.walkAnim += 0.35; p.animT++; }
+    else p.walkAnim = 0;
+    if(p.y > VIEW_H + 40){ killPlayer(); return; }
+    playerEnemyCollisions();
+    checkFlagpole();
+    return;
+  }
+
   const wL = Input.left && !Input.down, wR = Input.right && !Input.down;
   const running = Input.run;
   let ax = 0;
@@ -1509,7 +1789,7 @@ function updateCamera(){
   const p = G.player;
   const target = p.x + p.w*0.5 - VIEW_W*0.42;
   const maxCam = G.level.w*TILE - VIEW_W;
-  G.camX = clamp(target, 0, maxCam);
+  G.camX = clamp(target, 0, Math.max(0, maxCam));
   if(p.x < G.camX+1){ p.x = G.camX+1; if(p.vx < 0) p.vx = 0; }
   if(p.x + p.w > G.camX + VIEW_W - 1){ p.x = G.camX + VIEW_W - 1 - p.w; if(p.vx > 0) p.vx = 0; }
 }
@@ -1676,20 +1956,21 @@ function drawBushShape(x, baseY, w){
 function drawBackground(cam){
   const px = cam*0.55;
   const clouds = [[40,30],[200,52],[360,26],[520,60],[700,34],[900,50],[1080,28],
-    [1280,56],[1480,34],[1700,48],[1900,30],[2100,54],[2300,36],[2500,50],[2700,32]];
+    [1280,56],[1480,34],[1700,48],[1900,30],[2100,54],[2300,36],[2500,50],[2700,32],
+    [2900,44],[3100,28],[3300,52],[3500,36],[3700,48]];
   for(const cp of clouds){
     const x = cp[0] - px;
     if(x > -80 && x < VIEW_W+80) drawCloudShape(x, cp[1], 1);
   }
   const hills = [[80,2],[300,1],[520,2],[760,1],[1000,2],[1240,1],
-    [1480,2],[1740,1],[2000,2],[2260,1]];
+    [1480,2],[1740,1],[2000,2],[2260,1],[2520,2],[2780,1],[3040,2],[3300,1],[3560,2]];
   for(const hp of hills){
     const x = hp[0] - cam*0.85;
     const w = hp[1] === 2 ? 96 : 64;
     const h = hp[1] === 2 ? 56 : 40;
     if(x > -140 && x < VIEW_W+140) drawHillShape(x, GROUND_Y, w, h);
   }
-  const bushes = [180, 420, 660, 940, 1180, 1420, 1660, 1900, 2140];
+  const bushes = [180, 420, 660, 940, 1180, 1420, 1660, 1900, 2140, 2380, 2620, 2860, 3100];
   for(const bx of bushes){
     const x = bx - cam*0.92;
     if(x > -100 && x < VIEW_W+100) drawBushShape(x, GROUND_Y, 56);
@@ -1823,7 +2104,6 @@ function drawTile(c, px, py, tx, ty){
       ctx.fillRect(px+10,py+4,3,3);
       break;
     default: {
-      /* generic placeholder for any decorative tile (clouds, icons, frames, ...) */
       const info = EDITOR_TILE_MAP[c];
       const col = info ? info.color : '#666';
       ctx.fillStyle = col;
@@ -2029,20 +2309,32 @@ function drawPlayerProcedural(p, x, y, w, h){
 function drawPlayer(cam){
   const p = G.player;
   if(p.state === 'dying' && p.deadT > 150) return;
+  const s = G.charScale;
+
+  /* ---- character size customization: scale about the feet center ---- */
+  ctx.save();
+  if(s !== 1){
+    const cxF = p.x + p.w*0.5;
+    const cyF = p.y + p.h;
+    ctx.translate(cxF, cyF);
+    ctx.scale(s, s);
+    ctx.translate(-cxF, -cyF);
+  }
+
   const x = Math.round(p.x), y = Math.round(p.y);
   const w = p.w, h = p.h;
-  if(p.invuln > 0 && Math.floor(G.frame/3)%2 === 0) return;
+  if(p.invuln > 0 && Math.floor(G.frame/3)%2 === 0){ ctx.restore(); return; }
   if(p.state === 'transform'){
     const flick = Math.floor(p.transT/4) % 2;
     if(p.transformTo === 'big' && flick === 0){
-      if(SpriteBank.hero.ready){ drawSpriteEntity('hero', x, y+(h-SMALL_H), SMALL_W, SMALL_H, 0, p.dir<0); return; }
+      if(SpriteBank.hero.ready){ drawSpriteEntity('hero', x, y+(h-SMALL_H), SMALL_W, SMALL_H, 0, p.dir<0); ctx.restore(); return; }
       drawPlayerProcedural(Object.assign({},p,{big:false}), x, y+(h-SMALL_H), SMALL_W, SMALL_H);
-      return;
+      ctx.restore(); return;
     }
     if(p.transformTo === 'small' && flick === 1){
-      if(SpriteBank.hero.ready){ drawSpriteEntity('hero', x, y-(BIG_H-h), BIG_W, BIG_H, 0, p.dir<0); return; }
+      if(SpriteBank.hero.ready){ drawSpriteEntity('hero', x, y-(BIG_H-h), BIG_W, BIG_H, 0, p.dir<0); ctx.restore(); return; }
       drawPlayerProcedural(Object.assign({},p,{big:true}), x, y-(BIG_H-h), BIG_W, BIG_H);
-      return;
+      ctx.restore(); return;
     }
   }
   if(SpriteBank.hero.ready && SpriteBank.hero.img){
@@ -2050,12 +2342,14 @@ function drawPlayer(cam){
     const total = frameCount('hero');
     if(total > 1){
       if(p.state === 'dying') idx = 0;
-      else if(!p.onGround) idx = Math.min(total-1,1);
-      else if(Math.abs(p.vx) > 0.15) idx = pickFrame('hero', p.walkAnim*3.5, true);
+      else if(!p.onGround && !G.move360) idx = Math.min(total-1,1);
+      else if(Math.abs(p.vx) > 0.15 || (G.move360 && p.walkAnim > 0)) idx = pickFrame('hero', p.walkAnim*3.5, true);
       else idx = 0;
     }
     drawSpriteEntity('hero', x, y, w, h, idx, p.dir<0);
   } else drawPlayerProcedural(p, x, y, w, h);
+
+  ctx.restore();
 }
 function drawFlag(cam){
   if(G.flagSlide || G.flagY > 0){
@@ -2095,11 +2389,20 @@ function drawHUD(){
   HUD.beginPath(); HUD.ellipse(95,21,3,4,0,0,Math.PI*2); HUD.fill();
   HUD.fillStyle = '#ffffff';
   HUD.fillText('x'+pad(G.coins,2), 102, 17);
-  HUD.fillText('WORLD', 148, 8); HUD.fillText('1-1', 154, 17);
+  HUD.fillText('WORLD', 148, 8); HUD.fillText(worldLabel(), 154, 17);
   HUD.fillText('TIME', 200, 8); HUD.fillText(pad(G.time,3), 204, 17);
   HUD.fillText('x'+G.lives, 8, 17);
   HUD.fillStyle = '#e52521'; HUD.fillRect(2,9,5,5);
   HUD.fillStyle = '#f8b878'; HUD.fillRect(3,13,3,2);
+  if(G.move360){
+    HUD.fillStyle = '#4dd8ff'; HUD.font = 'bold 7px "SuperMario256", monospace';
+    HUD.fillText('360°', 232, 8);
+  }
+}
+function worldLabel(){
+  const l = G.level;
+  if(l && l.world && l.stage) return l.world + '-' + l.stage;
+  return '1-1';
 }
 function drawTitleScreen(){
   HUD.fillStyle = 'rgba(0,0,0,0.45)'; HUD.fillRect(0,0,VIEW_W,VIEW_H);
@@ -2222,7 +2525,7 @@ const R3D = {
   staticGroup:null, dynamicGroup:null,
   tileMeshes:[], tileIndex:null, tilesDirty:false,
   prevBump:new Map(),
-  playerGroup:null, flagGroup:null, castleGroup:null,
+  playerGroup:null, flagGroup:null, flagPole:null, castleGroup:null, backGround:null,
   enemyPool:new Map(), itemPool:new Map(),
   coinPool:new Map(), particlePool:new Map(),
   cam:{x:0, y:6, z:14, tx:0, ty:3, tz:0, init:false},
@@ -2291,11 +2594,12 @@ function buildScene3D(){
   scene.add(staticGroup); scene.add(dynamicGroup);
   R3D.scene = scene; R3D.camera = camera; R3D.renderer = renderer;
   R3D.staticGroup = staticGroup; R3D.dynamicGroup = dynamicGroup;
+
   const cloudMat = new T.MeshLambertMaterial({color:0xffffff});
   const cloudGeo = new T.BoxGeometry(1,1,1);
-  for(let i=0;i<26;i++){
+  for(let i=0;i<30;i++){
     const g = new T.Group();
-    const baseX = rand(-20,230), baseY = rand(8,18), baseZ = rand(-12,-4);
+    const baseX = rand(-20,250), baseY = rand(8,18), baseZ = rand(-12,-4);
     for(let k=0;k<4;k++){
       const m = new T.Mesh(cloudGeo, cloudMat);
       m.position.set(rand(-1.6,1.6), rand(-0.4,0.5), rand(-0.5,0.5));
@@ -2306,20 +2610,24 @@ function buildScene3D(){
     staticGroup.add(g);
   }
   const hillMat = new T.MeshLambertMaterial({color:0x00a800});
-  for(let i=0;i<22;i++){
+  for(let i=0;i<28;i++){
     const h = new T.Mesh(new T.SphereGeometry(rand(3,6), 8, 6), hillMat);
     h.position.set(i*10 + rand(-2,2), rand(-4,-1), rand(-14,-8));
     h.scale.y = 0.65;
     staticGroup.add(h);
   }
+
+  /* --- flag pole group (repositioned per level) --- */
+  const flagPole = new T.Group();
   const poleMat = new T.MeshLambertMaterial({color:0x00c000});
   const pole = new T.Mesh(new T.CylinderGeometry(0.13,0.13,9,8), poleMat);
-  pole.position.set(G.level.flagX+0.5, 6.5, 0);
-  staticGroup.add(pole);
+  pole.position.set(0, 6.5, 0);
+  flagPole.add(pole);
   const ball = new T.Mesh(new T.SphereGeometry(0.28,10,8),
     new T.MeshLambertMaterial({color:0x00e000}));
-  ball.position.set(G.level.flagX+0.5, 11.2, 0);
-  staticGroup.add(ball);
+  ball.position.set(0, 11.2, 0);
+  flagPole.add(ball);
+
   const flagGroup = new T.Group();
   const cloth = new T.Mesh(new T.BoxGeometry(0.9,0.75,0.06),
     new T.MeshLambertMaterial({color:0xe8e8e8, side:T.DoubleSide}));
@@ -2327,9 +2635,14 @@ function buildScene3D(){
   const stripe = new T.Mesh(new T.BoxGeometry(0.9,0.32,0.08),
     new T.MeshLambertMaterial({color:0xe52521, side:T.DoubleSide}));
   stripe.position.set(-0.45,0,0); flagGroup.add(stripe);
-  flagGroup.position.set(G.level.flagX+0.5, 10.2, 0);
-  staticGroup.add(flagGroup);
+  flagGroup.position.set(0, 10.2, 0);
+  flagPole.add(flagGroup);
+  flagPole.position.set(G.level.flagX + 0.5, 0, 0);
+  staticGroup.add(flagPole);
+  R3D.flagPole = flagPole;
   R3D.flagGroup = flagGroup;
+
+  /* --- castle group --- */
   const castleGroup = new T.Group();
   const castleMat = new T.MeshLambertMaterial({color:0xc84c0c});
   const castleDark = new T.MeshLambertMaterial({color:0x7a2a00});
@@ -2341,12 +2654,18 @@ function buildScene3D(){
   castleGroup.position.set((G.level.w-4)+0.5, 0, 0);
   staticGroup.add(castleGroup);
   R3D.castleGroup = castleGroup;
-  const backGround = new T.Mesh(new T.BoxGeometry(G.level.w,2,5),
+
+  /* --- backdrop wall --- */
+  const backGround = new T.Mesh(new T.BoxGeometry(1,2,5),
     new T.MeshLambertMaterial({color:0xa03c08}));
+  backGround.scale.x = G.level.w;
   backGround.position.set(G.level.w/2, 1, -3.2);
   staticGroup.add(backGround);
+  R3D.backGround = backGround;
+
   R3D.playerGroup = SpriteBank.hero.ready ? makeSpriteBillboard('hero') : buildMarioFigure3D(T);
   dynamicGroup.add(R3D.playerGroup);
+
   R3D.ready = true;
   R3D.tilesDirty = true;
 }
@@ -2474,6 +2793,15 @@ function buildTiles3D(){
   if(!R3D.ready) return;
   for(const m of R3D.tileMeshes){ R3D.staticGroup.remove(m); m.geometry.dispose(); m.material.dispose(); }
   R3D.tileMeshes = []; R3D.tileIndex = new Map(); R3D.prevBump = new Map();
+
+  /* keep world decorations aligned with the active level */
+  if(R3D.flagPole)  R3D.flagPole.position.x  = G.level.flagX + 0.5;
+  if(R3D.castleGroup) R3D.castleGroup.position.x = (G.level.w - 4) + 0.5;
+  if(R3D.backGround){
+    R3D.backGround.scale.x = G.level.w;
+    R3D.backGround.position.x = G.level.w/2;
+  }
+
   const level = G.level;
   const groups = new Map();
   for(let ty=0; ty<level.h; ty++)
@@ -2580,7 +2908,7 @@ function updateCamera3D(dt){
   const tz = 0.6;
   const levelW = G.level.w;
   const halfWVisible = Math.max(6, wantHalfW);
-  tx = clamp(tx, halfWVisible*0.55, levelW - halfWVisible*0.55);
+  tx = clamp(tx, halfWVisible*0.55, Math.max(halfWVisible*0.55, levelW - halfWVisible*0.55));
   const minCamY = 1.8;
   let cx = tx + Math.sin(yaw)*Math.cos(pitch)*dist;
   let cy = ty + Math.sin(pitch)*dist;
@@ -2614,12 +2942,13 @@ function syncPlayer3D(){
   if(!R3D.ready || !R3D.playerGroup) return;
   const p = G.player;
   const g = R3D.playerGroup;
+  const s = G.charScale;
   const px = (p.x + p.w/2)/TILE;
   const pyFeet = (VIEW_H - (p.y + p.h))/TILE;
   const w = p.w/TILE, h = p.h/TILE;
   if(g.userData && g.userData.isSprite){
-    g.position.set(px, pyFeet + h*0.5, 0.75);
-    g.scale.set(w*1.15, h*1.15, 1);
+    g.position.set(px, pyFeet + h*0.5*s, 0.75);
+    g.scale.set(w*1.15*s, h*1.15*s, 1);
     g.visible = (p.state !== 'dying') || (p.deadT < 150);
     g.material.opacity = (p.invuln > 0 && Math.floor(G.frame/3)%2 === 0) ? 0.4 : 1;
     g.material.transparent = true;
@@ -2627,8 +2956,8 @@ function syncPlayer3D(){
     const total = frameCount('hero');
     if(total > 1){
       if(p.state === 'dying') idx = 0;
-      else if(!p.onGround) idx = Math.min(total-1,1);
-      else if(Math.abs(p.vx) > 0.15) idx = pickFrame('hero', p.walkAnim*3.5, true);
+      else if(!p.onGround && !G.move360) idx = Math.min(total-1,1);
+      else if(Math.abs(p.vx) > 0.15 || (G.move360 && p.walkAnim > 0)) idx = pickFrame('hero', p.walkAnim*3.5, true);
       else idx = 0;
     }
     setSpriteFrame(g, idx, p.dir < 0);
@@ -2637,13 +2966,13 @@ function syncPlayer3D(){
   const parts = g.userData.parts;
   g.position.set(px, pyFeet, 0.75);
   const targetH = p.h/TILE;
-  const scale = targetH / 1.20;
+  const scale = (targetH / 1.20) * s;
   g.scale.set(scale, scale, scale);
   g.rotation.y = (p.dir > 0) ? 0 : Math.PI;
   if(p.invuln > 0 && Math.floor(G.frame/3)%2 === 0){ g.visible = false; return; }
   g.visible = (p.state !== 'dying') || (p.deadT < 150);
-  const walking = p.onGround && Math.abs(p.vx) > 0.15;
-  const airborne = !p.onGround;
+  const walking = (p.onGround && Math.abs(p.vx) > 0.15) || (G.move360 && p.walkAnim > 0);
+  const airborne = !p.onGround && !G.move360;
   let swing = walking ? Math.sin(p.walkAnim*1.5)*0.55 : 0;
   if(airborne){
     parts.legL.rotation.x = -0.45; parts.legR.rotation.x = 0.30;
@@ -2930,6 +3259,34 @@ autoBtn.addEventListener('click', function(){
 });
 window.addEventListener('resize', ()=>{ R3D.lastW = 0; R3D.lastH = 0; });
 
+/* ============================================================
+   CHARACTER SIZE + PIXEL SIZE QUALITY CONTROLS
+   ============================================================ */
+bindSlider('charScale','charScaleV', v=>{ G.charScale = v; }, v=>v.toFixed(1)+'×');
+bindSlider('pixelScale','pixelScaleV', v=>{ applyPixelScale(v); }, v=>v+'×');
+
+function applyPixelScale(s){
+  s = Math.max(1, Math.min(4, s|0));
+  G.pixelScale = s;
+  canvas.width  = VIEW_W * s;
+  canvas.height = VIEW_H * s;
+  ctx.setTransform(s, 0, 0, s, 0, 0);
+  ctx.imageSmoothingEnabled = (s > 1);      /* 1× = crisp retro, 2-4× = ultra smooth HD */
+  canvas.style.imageRendering = (s > 1) ? 'auto' : 'pixelated';
+}
+
+/* ---- movement mode buttons ---- */
+const moveClassicBtn = document.getElementById('moveClassic');
+const move360Btn     = document.getElementById('move360');
+function setMoveMode(m){
+  G.move360 = (m === '360');
+  moveClassicBtn.classList.toggle('on', !G.move360);
+  move360Btn.classList.toggle('on', G.move360);
+}
+moveClassicBtn.addEventListener('click', ()=>setMoveMode('classic'));
+move360Btn.addEventListener('click', ()=>setMoveMode('360'));
+setMoveMode('classic');
+
 function render(dt){
   if(R3D.active && R3D.ready) render3D(dt);
   else render2D();
@@ -2990,10 +3347,11 @@ const LevelStore = {
 
 /* ============================================================
    LEVEL EDITOR — palette renders PNG sprites from GitHub.
+   Default selected tile is BRICK (B).
    ============================================================ */
 const Editor = {
   el:null, ctx:null, gridW:128, gridH:ROWS, tilePx:16, grid:null,
-  selectedTile:'X', tool:'paint', painting:false,
+  selectedTile:'B', tool:'paint', painting:false,
   hoverX:-1, hoverY:-1, undoStack:[], redoStack:[], maxUndo:40, inited:false,
   init(){
     if(this.inited) return;
@@ -3061,14 +3419,19 @@ const Editor = {
   },
   updatePaletteUI(){
     const wrap = document.getElementById('tilePalette');
-    for(const b of wrap.children)
-      b.classList.toggle('active', b.dataset.ch === this.selectedTile && this.tool === 'paint');
+    if(wrap){
+      for(const b of wrap.children)
+        b.classList.toggle('active', b.dataset.ch === this.selectedTile && this.tool === 'paint');
+    }
     document.getElementById('toolErase').classList.toggle('active', this.tool === 'erase');
     document.getElementById('toolFill').classList.toggle('active', this.tool === 'fill');
     document.getElementById('toolPick').classList.toggle('active', this.tool === 'pick');
     if(this.tool !== 'paint'){
       document.getElementById('edSelectedLabel').textContent =
         (this.tool === 'erase' ? 'Erase' : (this.tool === 'fill' ? 'Fill' : 'Pick'));
+    } else {
+      const t = EDITOR_TILE_MAP[this.selectedTile];
+      document.getElementById('edSelectedLabel').textContent = t ? t.name : this.selectedTile;
     }
     document.getElementById('edSizeLabel').textContent = this.gridW + ' × ' + this.gridH;
   },
@@ -3143,8 +3506,8 @@ const Editor = {
     document.getElementById('edSave').addEventListener('click', ()=> Editor.openSaveDialog());
     document.getElementById('edPlay').addEventListener('click', ()=> Editor.playTest());
 
-    /* ---- NEW: Move Left / Move Right buttons for the editor drawing page ---- */
-    (function bindHoldScroll(btnId, dir){
+    /* ---- Move Left / Move Right buttons for the editor drawing page ---- */
+    function bindHoldScroll(btnId, dir){
       const btn = document.getElementById(btnId);
       if(!btn) return;
       let interval = null;
@@ -3169,33 +3532,9 @@ const Editor = {
       btn.addEventListener('pointerleave', stopHold);
       btn.addEventListener('pointercancel', stopHold);
       btn.addEventListener('contextmenu', e=>e.preventDefault());
-    })('edScrollLeft', -1);
-    (function bindHoldScroll(btnId, dir){
-      const btn = document.getElementById(btnId);
-      if(!btn) return;
-      let interval = null;
-      const wrap = document.getElementById('editorCanvasWrap');
-      function step(fast){
-        if(!wrap) return;
-        wrap.scrollBy({ left: dir * (fast ? 160 : 40), behavior: fast ? 'smooth' : 'auto' });
-      }
-      function startHold(){
-        if(interval) return;
-        interval = setInterval(()=>step(false), 16);
-      }
-      function stopHold(){
-        if(interval){ clearInterval(interval); interval = null; }
-      }
-      btn.addEventListener('pointerdown', (ev)=>{
-        ev.preventDefault();
-        step(true);
-        startHold();
-      });
-      btn.addEventListener('pointerup', stopHold);
-      btn.addEventListener('pointerleave', stopHold);
-      btn.addEventListener('pointercancel', stopHold);
-      btn.addEventListener('contextmenu', e=>e.preventDefault());
-    })('edScrollRight', 1);
+    }
+    bindHoldScroll('edScrollLeft', -1);
+    bindHoldScroll('edScrollRight', 1);
 
     document.addEventListener('keydown', (e)=>{
       if(!document.getElementById('screen-editor').classList.contains('active')) return;
@@ -3373,7 +3712,6 @@ function drawTileAt(c, ch, px, py, tx, ty){
       c.fillRect(px+4,py+10,3,3); c.fillRect(px+7,py+7,3,3);
       c.fillRect(px+10,py+4,3,3); break;
     default: {
-      /* generic placeholder for any new decorative tile */
       const info = EDITOR_TILE_MAP[ch];
       const col = info ? info.color : '#666';
       c.fillStyle = col;
@@ -3396,7 +3734,7 @@ function drawTileAt(c, ch, px, py, tx, ty){
 /* ============================================================
    SCREEN ROUTER
    ============================================================ */
-const screens = ['menu','game','editor','levels'];
+const screens = ['menu','game','worlds','editor','levels'];
 let currentScreenName = 'menu';
 function switchScreen(name){
   if(screens.indexOf(name) < 0) return;
@@ -3416,6 +3754,7 @@ function switchScreen(name){
     Editor.render();
   }
   if(name === 'levels') renderSavedLevels();
+  if(name === 'worlds') renderWorlds();
 }
 document.querySelectorAll('.navbtn').forEach(btn=>{
   if(!btn.dataset.screen) return;
@@ -3429,16 +3768,55 @@ document.querySelectorAll('.menubtn[data-screen]').forEach(btn=>{
   });
 });
 document.getElementById('menuRandom').addEventListener('click', ()=>{
-  const list = LevelStore.list();
-  if(list.length === 0){ alert('No saved levels yet. Use the Level Editor first.'); return; }
-  const pick = list[Math.floor(Math.random()*list.length)];
-  const lvl = buildLevelFromGrid(pick.grid);
-  switchScreen('game');
-  setTimeout(()=>startGame(lvl), 30);
+  const w = 1 + Math.floor(Math.random()*8);
+  const s = 1 + Math.floor(Math.random()*4);
+  playWorldLevel(w, s);
 });
 
 /* ============================================================
-   Play Main Game → Level Editor quick actions
+   WORLD SELECT — 32 LEVELS  (8 worlds × 4 stages) + RANDOM MAP
+   ============================================================ */
+function renderWorlds(){
+  const grid = document.getElementById('worldsGrid');
+  if(!grid) return;
+  grid.innerHTML = '';
+  for(let w=1; w<=8; w++){
+    const card = document.createElement('div');
+    card.className = 'worldCard';
+    const h3 = document.createElement('h3');
+    h3.innerHTML = '<i class="fa-solid fa-flag"></i> World ' + w +
+                   (w === 8 ? '<span class="castleTag">CASTLE</span>' : '');
+    card.appendChild(h3);
+    const row = document.createElement('div');
+    row.className = 'levelBtnRow';
+    for(let s=1; s<=4; s++){
+      const b = document.createElement('button');
+      b.className = 'levelBtn';
+      b.innerHTML = '<b>' + w + '-' + s + '</b>';
+      b.title = 'Play World ' + w + '-' + s;
+      b.addEventListener('click', ()=> playWorldLevel(w, s));
+      row.appendChild(b);
+    }
+    card.appendChild(row);
+    grid.appendChild(card);
+  }
+}
+function playWorldLevel(w, s){
+  const lvl = generateLevel(w, s);
+  switchScreen('game');
+  setTimeout(()=>startGame(lvl), 30);
+}
+document.getElementById('randomMapBtn').addEventListener('click', ()=>{
+  const w = 1 + Math.floor(Math.random()*8);
+  const s = 1 + Math.floor(Math.random()*4);
+  playWorldLevel(w, s);
+});
+document.getElementById('playW11').addEventListener('click', ()=>{
+  playWorldLevel(1, 1);
+});
+
+/* ============================================================
+   Play Main Game → Level Editor quick actions  (UNCHANGED behaviour)
    ============================================================ */
 document.getElementById('editCurrentLevel').addEventListener('click', ()=>{
   Editor.init();
@@ -3450,7 +3828,7 @@ document.getElementById('editCurrentLevel').addEventListener('click', ()=>{
   }
   Editor.undoStack.length = 0;
   Editor.redoStack.length = 0;
-  Editor.selectedTile = 'X';
+  Editor.selectedTile = 'B';
   Editor.tool = 'paint';
   Editor.resize();
   Editor.refreshPaletteThumbs();
@@ -3473,7 +3851,7 @@ document.getElementById('newLevelBtn').addEventListener('click', ()=>{
   }
   Editor.undoStack.length = 0;
   Editor.redoStack.length = 0;
-  Editor.selectedTile = 'X';
+  Editor.selectedTile = 'B';
   Editor.tool = 'paint';
   Editor.resize();
   Editor.refreshPaletteThumbs();
@@ -3571,6 +3949,8 @@ document.getElementById('saveNameInput').addEventListener('keydown', (e)=>{
 /* ============================================================
    BOOT
    ============================================================ */
+applyPixelScale(1);
+
 G.defaultLevel = buildDefaultLevel();
 G.level = G.defaultLevel;
 G.player = makePlayer();
@@ -3580,6 +3960,8 @@ G.flagY = 0;
 updateCapsText();
 updateModeButtons();
 applyMode('auto');
+renderWorlds();
+
 window.addEventListener('load', ()=>{
   SPRITE_KEYS.forEach(k=>{
     const url = document.getElementById(k+'Url').value.trim();
