@@ -107,26 +107,211 @@
   #hud{pointer-events:none;image-rendering:pixelated;image-rendering:crisp-edges;}
   #hud.hide{display:none;}
 
-  #touch{width:100%;max-width:768px;display:flex;justify-content:space-between;
-         align-items:center;gap:10px;user-select:none;}
-  .pad{display:flex;gap:8px;}
-  .btn{width:64px;height:64px;border-radius:12px;border:2px solid var(--line);
-       background:linear-gradient(#232334,#171722);color:#cfcfe0;
-       font-size:22px;font-weight:700;display:flex;align-items:center;justify-content:center;
-       touch-action:none;cursor:pointer;
-       transition:background .08s,color .08s,border-color .08s,transform .06s;}
-  .btn i{pointer-events:none;line-height:1;}
-  .btn:active,.btn.on{background:linear-gradient(#3a3a55,#25253a);color:#fff;border-color:#4a4a70;}
-  .btn:active{transform:scale(0.95);}
-  .btn.wide{width:78px;}
-  .btn.small{width:56px;height:56px;font-size:18px;}
-  .btn.jump i{color:#ffd34d;}
-  .btn.run{border-color:rgba(255,122,47,.55);}
-  .btn.run i{color:var(--orange);}
-  .btn.run:active,.btn.run.on{
-    background:linear-gradient(#5a2a14,#2c1108);
-    border-color:var(--orange);color:#fff;
+  /* =========================================================
+     GAMEPLAY CONTROLLER PANEL  (Font Awesome upgraded)
+     ========================================================= */
+  #touch{
+    width:100%;
+    max-width:768px;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:14px;
+    user-select:none;
+    padding:10px 4px 4px;
+    position:relative;
   }
+
+  /* ---------- Directional Pad ---------- */
+  .dpad{
+    display:grid;
+    grid-template-columns:repeat(3, 54px);
+    grid-template-rows:repeat(3, 54px);
+    gap:5px;
+    padding:9px;
+    border-radius:22px;
+    background:
+      radial-gradient(120px 70px at 50% 118%, rgba(77,216,255,.14), transparent 72%),
+      linear-gradient(180deg,#1d1d2b 0%, #0d0d16 100%);
+    border:1px solid var(--line);
+    box-shadow:0 10px 26px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.05);
+    position:relative;
+  }
+  .dpad::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:22px;
+    pointer-events:none;
+    box-shadow:inset 0 0 24px rgba(0,0,0,.55);
+  }
+  .dpad .dcell{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .dpad .dcenter{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--cyan);
+    font-size:18px;
+    border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #2b2b40, #101019);
+    border:1px solid #2f2f45;
+    box-shadow:inset 0 0 10px rgba(0,0,0,.75), 0 0 8px rgba(77,216,255,.2);
+    opacity:.85;
+    pointer-events:none;
+  }
+  .btn.dbtn{
+    width:100%;
+    height:100%;
+    border-radius:13px;
+    border:1px solid #33334a;
+    background:linear-gradient(180deg, #2a2a3d 0%, #171720 100%);
+    color:#d8d8e8;
+    font-size:20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    touch-action:none;
+    padding:0;
+    transition:transform .06s, background .1s, border-color .1s, box-shadow .1s, color .1s;
+    box-shadow:0 3px 0 #07070c, inset 0 1px 0 rgba(255,255,255,.09);
+    position:relative;
+    overflow:hidden;
+  }
+  .btn.dbtn::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(180deg, rgba(255,255,255,.09), transparent 55%);
+    pointer-events:none;
+  }
+  .btn.dbtn i{pointer-events:none;line-height:1;position:relative;z-index:1;}
+  .btn.dbtn:hover{background:linear-gradient(180deg, #35354d 0%, #1e1e2c 100%);color:#fff;}
+  .btn.dbtn:active, .btn.dbtn.on{
+    background:linear-gradient(180deg, #5ee0ff 0%, #1f7ea0 100%);
+    color:#061018;
+    border-color:#8defff;
+    transform:translateY(2px);
+    box-shadow:0 1px 0 #07070c, 0 0 20px rgba(77,216,255,.6), inset 0 0 12px rgba(255,255,255,.35);
+  }
+  .btn.dbtn.downBtn i{color:#a7b1ff;}
+  .btn.dbtn:active.downBtn i, .btn.dbtn.on.downBtn i{color:#061018;}
+
+  /* ---------- Action buttons (Run / Jump) ---------- */
+  .actions{
+    display:flex;
+    gap:14px;
+    align-items:center;
+    padding-bottom:2px;
+  }
+  .btn.action{
+    width:84px;
+    height:84px;
+    border-radius:50%;
+    border:2px solid;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:2px;
+    font-family:inherit;
+    font-size:11px;
+    font-weight:bold;
+    letter-spacing:1px;
+    cursor:pointer;
+    touch-action:none;
+    padding:0;
+    transition:transform .08s, background .12s, box-shadow .12s, border-color .12s, color .12s;
+    user-select:none;
+    position:relative;
+    overflow:hidden;
+  }
+  .btn.action::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    background:linear-gradient(180deg, rgba(255,255,255,.14), transparent 55%);
+    pointer-events:none;
+  }
+  .btn.action i{font-size:22px;pointer-events:none;position:relative;z-index:1;line-height:1;}
+  .btn.action span{font-size:9px;letter-spacing:1.6px;pointer-events:none;position:relative;z-index:1;font-weight:900;}
+
+  .btn.action.run{
+    border-color:rgba(255,122,47,.8);
+    background:radial-gradient(circle at 35% 30%, #5a2a14, #1a0c04);
+    color:#ffd9a8;
+    box-shadow:0 5px 0 #341706, 0 0 22px rgba(255,122,47,.4), inset 0 1px 0 rgba(255,255,255,.14);
+  }
+  .btn.action.run i{color:#ff9d4d;}
+  .btn.action.run:hover{background:radial-gradient(circle at 35% 30%, #6d3418, #230f06);}
+  .btn.action.run:active, .btn.action.run.on{
+    background:radial-gradient(circle at 35% 30%, #ffb163, #b84008);
+    color:#1a0a00;
+    border-color:#ffd9a8;
+    transform:translateY(3px);
+    box-shadow:0 2px 0 #341706, 0 0 36px rgba(255,153,51,.9), inset 0 0 18px rgba(255,255,255,.35);
+  }
+  .btn.action.run:active i, .btn.action.run.on i{color:#1a0a00;}
+
+  .btn.action.jump{
+    border-color:rgba(255,211,77,.85);
+    background:radial-gradient(circle at 35% 30%, #4a3a0e, #161004);
+    color:#fff2c4;
+    box-shadow:0 5px 0 #2a2004, 0 0 22px rgba(255,211,77,.4), inset 0 1px 0 rgba(255,255,255,.14);
+  }
+  .btn.action.jump i{color:#ffd34d;}
+  .btn.action.jump:hover{background:radial-gradient(circle at 35% 30%, #5c4a14, #1e1704);}
+  .btn.action.jump:active, .btn.action.jump.on{
+    background:radial-gradient(circle at 35% 30%, #ffe894, #c89012);
+    color:#1a1403;
+    border-color:#fff6c8;
+    transform:translateY(3px);
+    box-shadow:0 2px 0 #2a2004, 0 0 36px rgba(255,211,77,.95), inset 0 0 18px rgba(255,255,255,.4);
+  }
+  .btn.action.jump:active i, .btn.action.jump.on i{color:#1a1403;}
+
+  /* small pause button next to actions */
+  .btn.action.pause{
+    width:56px;height:56px;
+    border-color:rgba(155,109,255,.7);
+    background:radial-gradient(circle at 35% 30%, #3a2a5a, #130c1f);
+    color:#d8c8ff;
+    box-shadow:0 4px 0 #1c1230, 0 0 18px rgba(155,109,255,.35), inset 0 1px 0 rgba(255,255,255,.12);
+    margin-bottom:6px;
+  }
+  .btn.action.pause i{font-size:18px;color:#b99cff;}
+  .btn.action.pause span{font-size:8px;letter-spacing:1.2px;}
+  .btn.action.pause:hover{background:radial-gradient(circle at 35% 30%, #4a3672, #1a1128);}
+  .btn.action.pause:active, .btn.action.pause.on{
+    background:radial-gradient(circle at 35% 30%, #c8aaff, #6a3fbf);
+    color:#0f0820;border-color:#e0d0ff;
+    transform:translateY(2px);
+    box-shadow:0 2px 0 #1c1230, 0 0 26px rgba(155,109,255,.85);
+  }
+  .btn.action.pause:active i, .btn.action.pause.on i{color:#0f0820;}
+
+  /* ---------- Controller status strip ---------- */
+  #ctrlStatus{
+    width:100%;max-width:768px;
+    display:flex;justify-content:center;align-items:center;
+    gap:12px;flex-wrap:wrap;
+    font-size:10px;color:#7a7a92;letter-spacing:1.4px;
+    padding:2px 0 4px;
+  }
+  #ctrlStatus .cstat{
+    display:inline-flex;align-items:center;gap:5px;
+    background:#141420;
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:3px 10px;
+  }
+  #ctrlStatus .cstat i{color:var(--cyan);font-size:10px;}
+  #ctrlStatus .cstat b{color:#dcdcec;}
 
   #gameQuickActions{
     width:100%;max-width:768px;display:flex;justify-content:center;
@@ -208,7 +393,6 @@
     background:#0b0b12;
   }
 
-  /* ===== Horizontal scrolling TILES bar ===== */
   #editorToolbar .group.tilePaletteGroup{
     flex: 1 1 100%;
     min-width: 0;
@@ -303,7 +487,6 @@
     border-radius:10px;color:#7a7a92;font-size:11px;line-height:1.7;}
   .emptyState i{font-size:26px;color:#3a3a55;display:block;margin-bottom:10px;}
 
-  /* ================= WORLD / LEVEL SELECT ================= */
   #worldsWrap{width:100%;max-width:880px;display:flex;flex-direction:column;gap:12px;}
   #worldsHeader{display:flex;align-items:center;justify-content:space-between;gap:10px;
     background:linear-gradient(180deg,#1c1c29,#141420);border:1px solid var(--line);
@@ -346,10 +529,16 @@
     .navbtn{padding:5px 8px;font-size:10px;}
     .navbtn span{display:none;}
     .navbtn i{font-size:13px;}
-    #touch{gap:6px;}
-    .btn{width:56px;height:56px;}
-    .btn.wide{width:70px;}
-    .btn.small{width:50px;height:50px;font-size:15px;}
+    #touch{gap:8px;}
+    .dpad{grid-template-columns:repeat(3, 46px);grid-template-rows:repeat(3, 46px);gap:4px;padding:7px;border-radius:18px;}
+    .btn.dbtn{font-size:17px;border-radius:11px;}
+    .dpad .dcenter{font-size:15px;}
+    .btn.action{width:70px;height:70px;}
+    .btn.action i{font-size:19px;}
+    .btn.action span{font-size:8px;letter-spacing:1.2px;}
+    .btn.action.pause{width:48px;height:48px;}
+    .btn.action.pause i{font-size:15px;}
+    .actions{gap:10px;}
     #editorToolbar .group.tilePaletteGroup::-webkit-scrollbar{height:10px;}
     #worldsGrid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));}
   }
@@ -357,7 +546,6 @@
 
 <!-- ===================================================================
      ANIMATED FX RUNNER — FULLY SCOPED STYLES
-     (all selectors namespaced under #modiRunner so nothing leaks)
      =================================================================== -->
 <style>
   #modiRunner{
@@ -375,7 +563,6 @@
 
   #modiCanvas{display:block;position:absolute;inset:0;z-index:0;}
 
-  /* ---------------- HUD ---------------- */
   #modiRunner .modiHud{position:absolute;inset:0;z-index:5;pointer-events:none;}
   #modiRunner .modiTopbar{
     position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;
@@ -431,7 +618,6 @@
   }
   #modiRunner .modiMute.modiExit:hover{background:rgba(120,25,40,.75);}
 
-  /* ---------------- Hero sprite card ---------------- */
   #modiRunner .modiHeroCard{
     position:absolute;top:96px;right:18px;width:136px;height:136px;
     border-radius:22px;overflow:hidden;display:grid;place-items:center;
@@ -466,7 +652,6 @@
   }
   @keyframes modiSweep{0%{transform:translateX(-130%);}55%,100%{transform:translateX(130%);}}
 
-  /* ---------------- Auto-detect badge ---------------- */
   #modiRunner .modiDetect{
     position:absolute;top:246px;right:18px;
     display:flex;align-items:center;gap:8px;
@@ -484,7 +669,6 @@
   #modiRunner .modiDetect.modiDetectOk{border-color:rgba(75,214,107,.45);}
   #modiRunner .modiDetect.modiDetectOk i{color:#4bd66b;}
 
-  /* ---------------- Touch pads ---------------- */
   #modiRunner .modiPad{position:absolute;bottom:24px;display:flex;gap:14px;pointer-events:auto;}
   #modiRunner .modiLeftPad{left:22px;}
   #modiRunner .modiRightPad{right:22px;}
@@ -520,7 +704,6 @@
     white-space:nowrap;
   }
 
-  /* ---------------- Overlay ---------------- */
   #modiRunner .modiOverlay{
     position:absolute;inset:0;z-index:20;display:grid;place-items:center;padding:20px;
     background:radial-gradient(circle at 50% 42%, rgba(30,14,60,.6), rgba(4,2,10,.94));
@@ -652,18 +835,69 @@
       <canvas id="hud" class="hide" width="256" height="240"></canvas>
     </div>
 
+    <!-- =========================================================
+         UPGRADED GAMEPLAY CONTROLLER PANEL  (Font Awesome icons)
+         ========================================================= -->
     <div id="touch">
-      <div class="pad">
-        <div class="btn" data-key="left"><i class="fa-solid fa-caret-left"></i></div>
-        <div class="btn" data-key="down"><i class="fa-solid fa-caret-down"></i></div>
-        <div class="btn" data-key="right"><i class="fa-solid fa-caret-right"></i></div>
-      </div>
-      <div class="pad">
-        <div class="btn small run" data-key="run" title="Run / Fire — plays sound1.mp3">
-          <i class="fa-solid fa-fire"></i>
+      <!-- Directional Pad: 3×3 grid with chevron icons -->
+      <div class="dpad" role="group" aria-label="Directional pad">
+        <div class="dcell"></div>
+        <div class="dcell">
+          <button class="btn dbtn" data-key="jump" title="Jump / Up">
+            <i class="fa-solid fa-chevron-up"></i>
+          </button>
         </div>
-        <div class="btn wide jump" data-key="jump"><i class="fa-solid fa-arrow-up"></i></div>
+        <div class="dcell"></div>
+
+        <div class="dcell">
+          <button class="btn dbtn" data-key="left" title="Move Left">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+        </div>
+        <div class="dcell">
+          <div class="dcenter" aria-hidden="true">
+            <i class="fa-solid fa-gamepad"></i>
+          </div>
+        </div>
+        <div class="dcell">
+          <button class="btn dbtn" data-key="right" title="Move Right">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
+
+        <div class="dcell"></div>
+        <div class="dcell">
+          <button class="btn dbtn downBtn" data-key="down" title="Crouch / Down">
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
+        </div>
+        <div class="dcell"></div>
       </div>
+
+      <!-- Action buttons: Pause, Run/Fire, Jump -->
+      <div class="actions" role="group" aria-label="Action buttons">
+        <button class="btn action pause" id="ctrlPause" title="Pause / Resume">
+          <i class="fa-solid fa-pause"></i>
+          <span>PAUSE</span>
+        </button>
+        <button class="btn action run" data-key="run" title="Run / Fire — plays sound1.mp3">
+          <i class="fa-solid fa-fire-flame-curved"></i>
+          <span>RUN</span>
+        </button>
+        <button class="btn action jump" data-key="jump" title="Jump">
+          <i class="fa-solid fa-jet-fighter-up"></i>
+          <span>JUMP</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Controller status strip -->
+    <div id="ctrlStatus">
+      <span class="cstat"><i class="fa-solid fa-gamepad"></i> PAD <b>ACTIVE</b></span>
+      <span class="cstat"><i class="fa-solid fa-fire-flame-curved"></i> RUN <b>X / SHIFT</b></span>
+      <span class="cstat"><i class="fa-solid fa-jet-fighter-up"></i> JUMP <b>SPACE</b></span>
+      <span class="cstat"><i class="fa-solid fa-arrows-up-down-left-right"></i> MOVE <b>ARROWS</b></span>
+      <span class="cstat"><i class="fa-solid fa-cube"></i> 3D <b>V</b></span>
     </div>
 
     <!-- Quick access to the Level Editor from the Play Main Game screen -->
@@ -878,7 +1112,6 @@
     <div id="editorWrap">
       <div id="editorToolbar">
 
-        <!-- Horizontal scrolling TILES bar -->
         <div class="group tilePaletteGroup" id="tilePaletteGroup">
           <span class="paletteLabel">TILES</span>
           <div id="tilePalette"></div>
@@ -891,7 +1124,6 @@
           <button class="toolbtn" id="toolPick"  title="Pick (P)"><i class="fa-solid fa-eye-dropper"></i></button>
         </div>
 
-        <!-- Move Left / Move Right buttons for the editor drawing page -->
         <div class="group">
           <span style="font-size:10px;color:#7a7a92;letter-spacing:1px;">MOVE</span>
           <button class="toolbtn" id="edScrollLeft"  title="Move Left (hold to pan)"><i class="fa-solid fa-arrow-left"></i></button>
@@ -985,7 +1217,6 @@
       <div class="modiShine"></div>
     </div>
 
-    <!-- Auto-detect badge: reads the CHARACTER SPRITES panel -->
     <div class="modiDetect" id="modiDetect">
       <i class="fa-solid fa-satellite-dish"></i>
       <span id="modiDetectText">AUTO-DETECTING…</span>
@@ -1075,7 +1306,7 @@ const SMALL_W=12, SMALL_H=16, BIG_W=12, BIG_H=26;
 function raw(p){ return 'https://raw.githubusercontent.com/HexSleuth/SuperMODI-Bros/main/' + p; }
 
 /* ============================================================
-   FIRE button sound — plays sound1.mp3 (unchanged)
+   FIRE button sound — plays sound1.mp3
    ============================================================ */
 const FireSound = (function(){
   const URL = 'https://raw.githubusercontent.com/HexSleuth/HEX-BLASTER-2D---Orange-Hero-Arena-Shooter/main/sound1.mp3';
@@ -1118,7 +1349,7 @@ const FireSound = (function(){
 })();
 
 /* ============================================================
-   System SFX — UNCHANGED
+   System SFX
    ============================================================ */
 const Sound = (function(){
   let ac = null, masterGain = null, masterVolume = 0.55;
@@ -1197,7 +1428,6 @@ const Sound = (function(){
    TILE SPRITES — PNG images loaded from GitHub raw URLs.
    ============================================================ */
 const TILE_IMG_DEF = {
-  /* ---- original tiles ---- */
   'X': { url: raw('tree-root-1.png'),        sx:0, sy:0, sw:null, sh:null },
   'S': { url: raw('stone-0.png'),            sx:0, sy:0, sw:null, sh:null },
   'B': { url: raw('elements.png'),           sx:0,   sy:0, sw:32,   sh:32 },
@@ -1211,21 +1441,13 @@ const TILE_IMG_DEF = {
   'F': { url: raw('flag-pole.png'),          sx:0, sy:0, sw:null, sh:null },
   'f': { url: raw('flag.png'),               sx:0, sy:0, sw:null, sh:null },
   'C': { url: raw('coin.png'),               sx:0, sy:0, sw:null, sh:null },
-
-  /* ---- Cactus tiles ---- */
   '1': { url: raw('Cactus-1-c.png'),         sx:0, sy:0, sw:null, sh:null },
   '2': { url: raw('Cactus-2-c.png'),         sx:0, sy:0, sw:null, sh:null },
-
-  /* ---- Stone variants ---- */
   's': { url: raw('stone-1.png'),            sx:0, sy:0, sw:null, sh:null },
   't': { url: raw('stone-2.png'),            sx:0, sy:0, sw:null, sh:null },
-
-  /* ---- Misc solids ---- */
   'b': { url: raw('bullet.png'),             sx:0, sy:0, sw:null, sh:null },
   'd': { url: raw('dead.png'),               sx:0, sy:0, sw:null, sh:null },
   'j': { url: raw('jump.png'),               sx:0, sy:0, sw:null, sh:null },
-
-  /* ---- cloud tiles (cloud_0 .. cloud_14) ---- */
   'a': { url: raw('cloud_0.png'),            sx:0, sy:0, sw:null, sh:null },
   'c': { url: raw('cloud_1.png'),            sx:0, sy:0, sw:null, sh:null },
   'e': { url: raw('cloud_2.png'),            sx:0, sy:0, sw:null, sh:null },
@@ -1241,17 +1463,12 @@ const TILE_IMG_DEF = {
   'q': { url: raw('cloud_12.png'),           sx:0, sy:0, sw:null, sh:null },
   'r': { url: raw('cloud_13.png'),           sx:0, sy:0, sw:null, sh:null },
   'u': { url: raw('cloud_14.png'),           sx:0, sy:0, sw:null, sh:null },
-
-  /* ---- misc decorative tiles ----
-     'v' = enemies.png  →  AUTO-DETECTED into many tiles on load       */
   'v': { url: raw('enemies.png'),            sx:0, sy:0, sw:null, sh:null, autoDetect:true },
   'w': { url: raw('icon.png'),               sx:0, sy:0, sw:null, sh:null },
   'x': { url: raw('icon_sm.png'),            sx:0, sy:0, sw:null, sh:null },
   'y': { url: raw('intro.png'),              sx:0, sy:0, sw:null, sh:null },
   'z': { url: raw('lvl-size.png'),           sx:0, sy:0, sw:null, sh:null },
   'A': { url: raw('mario-sprites.png'),      sx:0, sy:0, sw:null, sh:null },
-
-  /* ---- mushroom variants (mushroom-1 .. mushroom-7) ---- */
   'D': { url: raw('mushroom-1.png'),         sx:0, sy:0, sw:null, sh:null },
   'E': { url: raw('mushroom-2.png'),         sx:0, sy:0, sw:null, sh:null },
   'G': { url: raw('mushroom-3.png'),         sx:0, sy:0, sw:null, sh:null },
@@ -1259,8 +1476,6 @@ const TILE_IMG_DEF = {
   'I': { url: raw('mushroom-5.png'),         sx:0, sy:0, sw:null, sh:null },
   'J': { url: raw('mushroom-6.png'),         sx:0, sy:0, sw:null, sh:null },
   'L': { url: raw('mushroom-7.png'),         sx:0, sy:0, sw:null, sh:null },
-
-  /* ---- animation frames (frame_0 .. frame_11) ---- */
   'N': { url: raw('frame_0.png'),            sx:0, sy:0, sw:null, sh:null },
   'O': { url: raw('frame_1.png'),            sx:0, sy:0, sw:null, sh:null },
   'P': { url: raw('frame_2.png'),            sx:0, sy:0, sw:null, sh:null },
@@ -1275,7 +1490,6 @@ const TILE_IMG_DEF = {
   '@': { url: raw('frame_11.png'),           sx:0, sy:0, sw:null, sh:null }
 };
 
-/* Characters reserved for auto-detected tiles sliced out of enemies.png */
 const AUTO_TILE_CHARS = ['0','3','4','5','6','7','8','9','#','$','%','^','&','*','(',')','-','_','+','=','~','|','/'];
 let autoDetectDone = false;
 
@@ -1318,16 +1532,12 @@ const TileSprites = {
 };
 TileSprites.load();
 
-/* ============================================================
-   AUTO-DETECT: slice enemies.png into individual enemy tiles
-   and register them in the TILES palette automatically.
-   ============================================================ */
 function autoDetectSheet(ch, img){
   if(autoDetectDone) return;
   if(!img || !img.width || !img.height) return;
   const cell = img.height;
   const cols = Math.max(1, Math.round(img.width / cell));
-  if(cols < 2) return;                 /* not a horizontal sheet */
+  if(cols < 2) return;
   autoDetectDone = true;
 
   let ci = 0;
@@ -1368,7 +1578,7 @@ const KEYMAP = {
   KeyR:'restart'
 };
 window.addEventListener('keydown', (e)=>{
-  if(window.MODI_RUNNER_ACTIVE) return;      /* runner owns the keyboard while open */
+  if(window.MODI_RUNNER_ACTIVE) return;
   const a = KEYMAP[e.code];
   if(e.code === 'KeyV' && !e.repeat){
     if(document.getElementById('screen-game').classList.contains('active')) cycleMode();
@@ -1391,6 +1601,7 @@ window.addEventListener('keyup', (e)=>{
 });
 window.addEventListener('blur', ()=>{ Input.left = Input.right = Input.jump = Input.run = Input.down = false; });
 
+/* ---------- Gameplay controller button bindings ---------- */
 document.querySelectorAll('.btn[data-key]').forEach(btn=>{
   const k = btn.getAttribute('data-key');
   function down(ev){
@@ -1407,6 +1618,23 @@ document.querySelectorAll('.btn[data-key]').forEach(btn=>{
   btn.addEventListener('pointerleave', up);
   btn.addEventListener('contextmenu', e=>e.preventDefault());
 });
+
+/* ---------- Pause button in the controller panel ---------- */
+(function(){
+  const pauseBtn = document.getElementById('ctrlPause');
+  if(!pauseBtn) return;
+  pauseBtn.addEventListener('click', (ev)=>{
+    ev.preventDefault();
+    Sound.unlock();
+    if(G.state === 'play'){ G.prevState = 'play'; G.state = 'paused'; }
+    else if(G.state === 'paused'){ G.state = 'play'; }
+    pauseBtn.classList.toggle('on', G.state === 'paused');
+    pauseBtn.innerHTML = G.state === 'paused'
+      ? '<i class="fa-solid fa-play"></i><span>RESUME</span>'
+      : '<i class="fa-solid fa-pause"></i><span>PAUSE</span>';
+  });
+})();
+
 stage.addEventListener('pointerdown', ()=>{
   Sound.unlock();
   if(G.state === 'title' || G.state === 'gameover' || G.state === 'clear') Input.startEdge = true;
@@ -1498,7 +1726,6 @@ const EDITOR_TILES = [
   {ch:'@', name:'Frame 11', color:'#4bd66b'}
 ];
 
-/* lookup map: char -> editor tile descriptor */
 const EDITOR_TILE_MAP = {};
 EDITOR_TILES.forEach(t=>{ EDITOR_TILE_MAP[t.ch] = t; });
 
@@ -1583,7 +1810,6 @@ function buildLevelFromGrid(grid){
 
 /* ============================================================
    PROCEDURAL WORLD GENERATOR — 32 deterministic levels
-   (8 worlds × 4 stages). Each seed always produces the same map.
    ============================================================ */
 function mulberry32(a){
   return function(){
@@ -1596,30 +1822,27 @@ function mulberry32(a){
 function generateLevel(world, stage){
   const rnd = mulberry32((world * 7919) + (stage * 104729) + 20240517);
 
-  const W = 176 + stage * 7 + world * 6;   /* 183 .. 237 tiles wide */
+  const W = 176 + stage * 7 + world * 6;
   const grid = [];
   for(let y=0;y<ROWS;y++) grid.push(new Array(W).fill('.'));
 
   const set  = (x,y,c)=>{ if(x>=0 && x<W && y>=0 && y<ROWS) grid[y][x] = c; };
   const fill = (x0,y0,x1,y1,c)=>{ for(let y=y0;y<=y1;y++) for(let x=x0;x<=x1;x++) set(x,y,c); };
 
-  /* ---------- ground ---------- */
   fill(0, GROUND_ROW, W-1, ROWS-1, 'X');
 
-  /* ---------- gaps (bottomless pits) ---------- */
   const gapCount = 2 + Math.floor(rnd()*3) + Math.floor(world/4);
   const gaps = [];
   let tries = 0;
   while(gaps.length < gapCount && tries < 240){
     tries++;
-    const gw = 1 + Math.floor(rnd()*3);            /* 1..3 tiles wide */
+    const gw = 1 + Math.floor(rnd()*3);
     const gx = 26 + Math.floor(rnd()*(W-72));
     if(gaps.some(g => gx < g.x + g.w + 9 && gx + gw + 9 > g.x)) continue;
     gaps.push({x:gx, w:gw});
   }
   for(const g of gaps) fill(g.x, GROUND_ROW, g.x+g.w-1, ROWS-1, '.');
 
-  /* ---------- pipes ---------- */
   const pipes = [];
   const pipeCount = 1 + Math.floor(rnd()*3);
   tries = 0;
@@ -1636,7 +1859,6 @@ function generateLevel(world, stage){
     for(let y=top+1; y<=GROUND_ROW-1; y++){ set(px, y, '{'); set(px+1, y, '}'); }
   }
 
-  /* ---------- block clusters / staircases ---------- */
   const clusters = [];
   const clusterCount = 3 + Math.floor(rnd()*4);
   tries = 0;
@@ -1670,7 +1892,6 @@ function generateLevel(world, stage){
     }
   }
 
-  /* ---------- final staircase + flag ---------- */
   const FLAG_X = W - 14;
   const stairBase = FLAG_X - 9;
   const stairH = 3 + Math.floor(rnd()*4);
@@ -1678,12 +1899,10 @@ function generateLevel(world, stage){
     for(let y=12-i; y<=12; y++) set(stairBase + i, y, 'S');
   for(let y=3; y<=11; y++) set(FLAG_X, y, 'F');
   set(FLAG_X, 12, 'S');
-  /* clear a runway to the flag */
   for(let x=FLAG_X-2; x<W; x++)
     for(let y=0; y<GROUND_ROW; y++)
       if(grid[y][x] !== 'F' && grid[y][x] !== 'S') grid[y][x] = '.';
 
-  /* ---------- coins ---------- */
   const coinSpots = [];
   const coinArcs = 2 + Math.floor(rnd()*3);
   for(let i=0;i<coinArcs;i++){
@@ -1698,14 +1917,12 @@ function generateLevel(world, stage){
       set(cxp, cyp, 'C');
     }
   }
-  /* coins over gaps */
   for(const g of gaps){
     const mid = g.x + Math.floor(g.w/2);
     if(grid[7][mid] === '.'){ set(mid, 7, 'C'); }
     if(g.w > 1 && grid[7][mid-1] === '.'){ set(mid-1, 7, 'C'); }
   }
 
-  /* ---------- enemies ---------- */
   const enemies = [];
   const enemyCount = 3 + Math.floor(rnd()*4) + Math.floor(world/2);
   tries = 0;
@@ -1960,7 +2177,6 @@ function updatePlayer(){
   if(p.state === 'win'){ updateWinSequence(p); return; }
   if(p.invuln > 0) p.invuln--;
 
-  /* ---------- 360° FREE MOVEMENT (cheat mode) ---------- */
   if(G.move360){
     const spd = Input.run ? 3.4 : 2.1;
     let dx = (Input.right ? 1 : 0) - (Input.left ? 1 : 0);
@@ -2640,7 +2856,6 @@ function drawPlayer(cam){
   if(p.state === 'dying' && p.deadT > 150) return;
   const s = G.charScale;
 
-  /* ---- character size customization: scale about the feet center ---- */
   ctx.save();
   if(s !== 1){
     const cxF = p.x + p.w*0.5;
@@ -2946,7 +3161,6 @@ function buildScene3D(){
     staticGroup.add(h);
   }
 
-  /* --- flag pole group (repositioned per level) --- */
   const flagPole = new T.Group();
   const poleMat = new T.MeshLambertMaterial({color:0x00c000});
   const pole = new T.Mesh(new T.CylinderGeometry(0.13,0.13,9,8), poleMat);
@@ -2971,7 +3185,6 @@ function buildScene3D(){
   R3D.flagPole = flagPole;
   R3D.flagGroup = flagGroup;
 
-  /* --- castle group --- */
   const castleGroup = new T.Group();
   const castleMat = new T.MeshLambertMaterial({color:0xc84c0c});
   const castleDark = new T.MeshLambertMaterial({color:0x7a2a00});
@@ -2984,7 +3197,6 @@ function buildScene3D(){
   staticGroup.add(castleGroup);
   R3D.castleGroup = castleGroup;
 
-  /* --- backdrop wall --- */
   const backGround = new T.Mesh(new T.BoxGeometry(1,2,5),
     new T.MeshLambertMaterial({color:0xa03c08}));
   backGround.scale.x = G.level.w;
@@ -3123,7 +3335,6 @@ function buildTiles3D(){
   for(const m of R3D.tileMeshes){ R3D.staticGroup.remove(m); m.geometry.dispose(); m.material.dispose(); }
   R3D.tileMeshes = []; R3D.tileIndex = new Map(); R3D.prevBump = new Map();
 
-  /* keep world decorations aligned with the active level */
   if(R3D.flagPole)  R3D.flagPole.position.x  = G.level.flagX + 0.5;
   if(R3D.castleGroup) R3D.castleGroup.position.x = (G.level.w - 4) + 0.5;
   if(R3D.backGround){
@@ -3600,7 +3811,7 @@ function applyPixelScale(s){
   canvas.width  = VIEW_W * s;
   canvas.height = VIEW_H * s;
   ctx.setTransform(s, 0, 0, s, 0, 0);
-  ctx.imageSmoothingEnabled = (s > 1);      /* 1× = crisp retro, 2-4× = ultra smooth HD */
+  ctx.imageSmoothingEnabled = (s > 1);
   canvas.style.imageRendering = (s > 1) ? 'auto' : 'pixelated';
 }
 
@@ -3675,8 +3886,7 @@ const LevelStore = {
 };
 
 /* ============================================================
-   LEVEL EDITOR — palette renders PNG sprites from GitHub.
-   Default selected tile is BRICK (B).
+   LEVEL EDITOR
    ============================================================ */
 const Editor = {
   el:null, ctx:null, gridW:128, gridH:ROWS, tilePx:16, grid:null,
@@ -3835,7 +4045,6 @@ const Editor = {
     document.getElementById('edSave').addEventListener('click', ()=> Editor.openSaveDialog());
     document.getElementById('edPlay').addEventListener('click', ()=> Editor.playTest());
 
-    /* ---- Move Left / Move Right buttons for the editor drawing page ---- */
     function bindHoldScroll(btnId, dir){
       const btn = document.getElementById(btnId);
       if(!btn) return;
@@ -4103,7 +4312,7 @@ document.getElementById('menuRandom').addEventListener('click', ()=>{
 });
 
 /* ============================================================
-   WORLD SELECT — 32 LEVELS  (8 worlds × 4 stages) + RANDOM MAP
+   WORLD SELECT — 32 LEVELS + RANDOM MAP
    ============================================================ */
 function renderWorlds(){
   const grid = document.getElementById('worldsGrid');
@@ -4300,11 +4509,7 @@ window.addEventListener('load', ()=>{
 requestAnimationFrame(loop);
 
 /* ============================================================
-   SHARED API — exposes the untouched Sound + SpriteBank systems
-   so the Super Modi Animated FX Runner can auto-detect every
-   enemy sprite loaded in the CHARACTER SPRITES panel and reuse
-   the exact same system sound-effects interface.
-   (No interface is modified — only referenced.)
+   SHARED API — exposes Sound + SpriteBank for the FX runner
    ============================================================ */
 window.MODI_SHARED = {
   Sound: Sound,
@@ -4321,19 +4526,7 @@ window.MODI_SHARED = {
 <script>
 /* =============================================================================
    SUPER MODI — ANIMATED FX RUNNER
-   Self-contained module.  Opens as a fullscreen overlay on top of the
-   platformer.  All IDs / classes are namespaced (modi*) and every key handler
-   is guarded by `active`, so the two games never fight over input.
-
-   UPGRADES
-   ---------
-   • Auto-detects every enemy sprite loaded in the main game's
-     CHARACTER SPRITES / OPTIONS · RENDER MODE / AUTO CAMERA panel
-     (Goomba + Koopa) and renders them live inside the runner.
-   • Reuses the untouched system sound-effects interface (MODI_SHARED.Sound)
-     for jump / stomp / coin / bump, with the local synth as fallback.
-   • Full Font Awesome icon & button upgrade.
-   • Live enemy AI: walk, shell, shell-kick, stomp, squash, death spin.
+   Self-contained module. Namespaced IDs / classes.
    ============================================================================= */
 (function(){
 'use strict';
@@ -4347,12 +4540,8 @@ const ctx = cv.getContext('2d', { alpha:false });
 let W = 0, H = 0, DPR = 1, groundY = 0;
 let active = false;
 
-/* expose a global flag so the platformer can ignore the keyboard */
 window.MODI_RUNNER_ACTIVE = false;
 
-/* =========================================================
-   SHARED BRIDGE — lazy getters (safe if scripts reorder)
-   ========================================================= */
 function getShared(){ return window.MODI_SHARED || null; }
 function getSound(){
   const s = getShared();
@@ -4362,15 +4551,9 @@ function getSpriteBank(){
   const s = getShared();
   return (s && s.SpriteBank) ? s.SpriteBank : null;
 }
-function enemySpriteReady(kind){
-  const bank = getSpriteBank();
-  const sb = bank && bank[kind];
-  return !!(sb && sb.ready && sb.img);
-}
 
 /* =========================================================
-   AUDIO — routes through the MAIN GAME's system sound interface
-   when available (unchanged), with the local synth as fallback.
+   AUDIO
    ========================================================= */
 let actx = null, muted = false;
 function ensureAudio(){
@@ -4399,7 +4582,6 @@ function tone(freq, dur, type, vol, slideTo){
   o.start(t0); o.stop(t0 + dur + 0.03);
 }
 
-/* Try the system sound-effect interface first — never modify it. */
 function sysSfx(name){
   if(muted) return false;
   const S = getSound();
@@ -4471,8 +4653,8 @@ function rr(x, y, w, h, r){
 const GRAV      = 2500;
 const JUMP_V    = 900;
 const RUN_SPEED = 340;
-const PW = 34;          // player collision width
-const PH = 72;          // player collision height
+const PW = 34;
+const PH = 72;
 
 const player = {
   x: 180, y: 0, vx: 0, vy: 0,
@@ -4533,7 +4715,7 @@ function resize(){
 window.addEventListener('resize', ()=>{ if(active) resize(); });
 
 /* =========================================================
-   BACKGROUND OBJECTS
+   BACKGROUND
    ========================================================= */
 function buildStars(){
   state.stars = [];
@@ -4559,7 +4741,7 @@ function buildStars(){
 }
 
 /* =========================================================
-   INPUT  (namespaced — only responds while the runner is open)
+   INPUT
    ========================================================= */
 const keys = { left:false, right:false, jump:false };
 let jumpBuffer = 0;
@@ -4678,7 +4860,7 @@ spriteImg.addEventListener('error', () => {
 });
 
 /* =========================================================
-   AUTO-DETECT BADGE — reads the CHARACTER SPRITES panel
+   AUTO-DETECT BADGE
    ========================================================= */
 function refreshDetectBadge(){
   if(!detectTxt) return;
@@ -4741,10 +4923,8 @@ function spawnFloater(x, y, text, col){
 }
 
 /* =========================================================
-   ENEMIES — auto-detected from the CHARACTER SPRITES panel
+   ENEMIES
    ========================================================= */
-const ENEMY_KINDS = ['goomba', 'koopa'];
-
 function spawnEnemy(x, kind){
   if(state.enemies.length >= 24) return;
   const type = kind || (Math.random() < 0.68 ? 'goomba' : 'koopa');
@@ -4755,7 +4935,7 @@ function spawnEnemy(x, kind){
     vx: -rand(58, 92), vy: 0,
     dir: -1, onGround: true,
     animT: Math.random() * 6,
-    state: 'walk',              /* walk | shell | shellmove | squash | dead */
+    state: 'walk',
     shellT: 0,
     squashT: 0,
     remove: false
@@ -4767,14 +4947,12 @@ function updateEnemies(dt){
     const e = state.enemies[i];
     if(e.remove){ state.enemies.splice(i,1); continue; }
 
-    /* ---- squashed: hold briefly, then remove ---- */
     if(e.state === 'squash'){
       e.squashT -= dt;
       if(e.squashT <= 0) e.remove = true;
       continue;
     }
 
-    /* ---- dead (kicked by a sliding shell): tumble off-screen ---- */
     if(e.state === 'dead'){
       e.vy += GRAV * dt;
       e.x  += e.vx * dt;
@@ -4783,11 +4961,9 @@ function updateEnemies(dt){
       continue;
     }
 
-    /* ---- gravity ---- */
     e.vy += GRAV * dt;
     if(e.vy > 1500) e.vy = 1500;
 
-    /* ---- horizontal ---- */
     e.x += e.vx * dt;
     for(const b of state.blocks){
       const el = e.x - e.w/2, er = e.x + e.w/2;
@@ -4806,7 +4982,6 @@ function updateEnemies(dt){
       e.dir = 1;
     }
 
-    /* ---- vertical ---- */
     e.y += e.vy * dt;
     e.onGround = false;
     if(e.y >= groundY){
@@ -4822,7 +4997,6 @@ function updateEnemies(dt){
       else { e.y = b.y + b.h + e.h; e.vy = 0; }
     }
 
-    /* ---- shell timer ---- */
     if(e.state === 'shell'){
       e.shellT -= dt;
       if(e.shellT <= 0){
@@ -4834,7 +5008,6 @@ function updateEnemies(dt){
 
     e.animT += dt;
 
-    /* ---- remove when far behind ---- */
     if(e.x < state.camX - 520) e.remove = true;
   }
 }
@@ -4862,7 +5035,6 @@ function stompEnemy(e){
       e.shellT = 8;
       SFX.stomp();
     } else {
-      /* idle shell under the feet — kick it away */
       kickShell(e);
     }
   }
@@ -4907,7 +5079,6 @@ function playerEnemyCollisions(dt){
 
     if(falling && feetHigh){
       stompEnemy(e);
-      /* bounce */
       player.vy = keys.jump ? -JUMP_V * 0.82 : -JUMP_V * 0.56;
       player.sy = 1.18; player.sx = 0.86;
       spawnDust(e.x, e.y, 6, 110);
@@ -4918,7 +5089,6 @@ function playerEnemyCollisions(dt){
     }
   }
 
-  /* sliding shells destroy other enemies */
   for(const s of state.enemies){
     if(s.state !== 'shellmove' || s.remove) continue;
     for(const o of state.enemies){
@@ -4941,7 +5111,7 @@ function playerEnemyCollisions(dt){
 }
 
 /* =========================================================
-   ENEMY RENDERING (sprite sheet → procedural fallback)
+   ENEMY RENDERING
    ========================================================= */
 function drawEnemySprite(e, x, y, w, h){
   const bank = getSpriteBank();
@@ -4991,12 +5161,10 @@ function drawGoombaProc(x, y, w, h, squashed){
     return;
   }
 
-  /* feet */
   ctx.fillStyle = '#2b1a0c';
   rr(x + w*0.06, y + h*0.76, w*0.34, h*0.24, 5); ctx.fill();
   rr(x + w*0.60, y + h*0.76, w*0.34, h*0.24, 5); ctx.fill();
 
-  /* body */
   const bg = ctx.createLinearGradient(x, y, x, y + h);
   bg.addColorStop(0, '#c9843f');
   bg.addColorStop(0.6, '#a05c1f');
@@ -5009,17 +5177,14 @@ function drawGoombaProc(x, y, w, h, squashed){
   ctx.lineWidth = 2;
   ctx.stroke();
 
-  /* eye whites */
   ctx.fillStyle = '#ffffff';
   ctx.beginPath(); ctx.ellipse(x + w*0.33, y + h*0.45, w*0.11, h*0.14, 0, 0, TAU); ctx.fill();
   ctx.beginPath(); ctx.ellipse(x + w*0.67, y + h*0.45, w*0.11, h*0.14, 0, 0, TAU); ctx.fill();
 
-  /* pupils */
   ctx.fillStyle = '#141414';
   ctx.beginPath(); ctx.arc(x + w*0.33, y + h*0.48, w*0.055, 0, TAU); ctx.fill();
   ctx.beginPath(); ctx.arc(x + w*0.67, y + h*0.48, w*0.055, 0, TAU); ctx.fill();
 
-  /* angry brows */
   ctx.strokeStyle = '#2b1a0c';
   ctx.lineWidth = 3.2;
   ctx.lineCap = 'round';
@@ -5057,7 +5222,6 @@ function drawKoopaProc(x, y, w, h, e){
       ctx.arc(x + w/2, y + h/2, w*0.13 * i, 0, TAU);
       ctx.stroke();
     }
-    /* rim highlight */
     ctx.strokeStyle = 'rgba(255,255,255,0.55)';
     ctx.lineWidth = 2;
     ctx.beginPath();
@@ -5066,12 +5230,10 @@ function drawKoopaProc(x, y, w, h, e){
     return;
   }
 
-  /* legs / feet */
   ctx.fillStyle = '#e8d24a';
   rr(x + w*0.10, y + h*0.80, w*0.28, h*0.18, 4); ctx.fill();
   rr(x + w*0.62, y + h*0.80, w*0.28, h*0.18, 4); ctx.fill();
 
-  /* body shell */
   const sg = ctx.createLinearGradient(x, y, x, y + h);
   sg.addColorStop(0, '#4fd44f');
   sg.addColorStop(0.55, '#1f9a1f');
@@ -5092,7 +5254,6 @@ function drawKoopaProc(x, y, w, h, e){
   ctx.lineTo(x + w*0.78, y + h*0.62);
   ctx.stroke();
 
-  /* head */
   const headOnRight = (e.dir >= 0);
   const hx = headOnRight ? x + w*0.68 : x - w*0.02;
   ctx.fillStyle = '#f8d8a8';
@@ -5102,13 +5263,11 @@ function drawKoopaProc(x, y, w, h, e){
   ctx.lineWidth = 1.8;
   ctx.stroke();
 
-  /* eye */
   ctx.fillStyle = '#141414';
   ctx.beginPath();
   ctx.arc(hx + w*(headOnRight ? 0.24 : 0.10), y + h*0.20, w*0.055, 0, TAU);
   ctx.fill();
 
-  /* snout */
   ctx.fillStyle = '#f0c88a';
   rr(hx + w*(headOnRight ? 0.28 : -0.02), y + h*0.24, w*0.12, h*0.10, 4);
   ctx.fill();
@@ -5149,7 +5308,6 @@ function drawEnemies(){
       else drawKoopaProc(sx - e.w/2, top, e.w, e.h, e);
     }
 
-    /* glint on sliding shells */
     if(e.state === 'shellmove'){
       ctx.save();
       ctx.globalCompositeOperation = 'lighter';
@@ -5174,7 +5332,6 @@ function spawnChunks(){
     const r = Math.random();
 
     if(r < 0.28){
-      // coin arc
       const n = 5;
       for(let i = 0; i < n; i++){
         const k = i / (n - 1);
@@ -5187,7 +5344,6 @@ function spawnChunks(){
       state.nextX += 350;
 
     } else if(r < 0.52){
-      // block row
       const n = 1 + Math.floor(Math.random() * 3);
       for(let i = 0; i < n; i++){
         state.blocks.push({
@@ -5198,7 +5354,6 @@ function spawnChunks(){
       state.nextX += n * 50 + 270;
 
     } else if(r < 0.70){
-      // single block + high coins
       state.blocks.push({ x: state.nextX, y: groundY - 162, w: 46, h: 46, bump: 0 });
       for(let i = 0; i < 3; i++){
         state.coinsArr.push({
@@ -5210,7 +5365,6 @@ function spawnChunks(){
       state.nextX += 330;
 
     } else if(r < 0.90){
-      // enemy patrol (goomba / koopa — auto-detected sprites)
       const kind = Math.random() < 0.62 ? 'goomba' : 'koopa';
       spawnEnemy(state.nextX + rand(-40, 60), kind);
       if(Math.random() < 0.4) spawnEnemy(state.nextX + rand(120, 220), kind);
@@ -5238,7 +5392,6 @@ function update(dt){
   state.t += dt;
   if(state.shake > 0) state.shake = Math.max(0, state.shake - dt);
 
-  /* ---- horizontal input ---- */
   const dir = (keys.right ? 1 : 0) - (keys.left ? 1 : 0);
   const targetVx = dir * RUN_SPEED;
   const accel = player.onGround ? 16 : 9;
@@ -5246,14 +5399,12 @@ function update(dt){
   if(dir === 0 && Math.abs(player.vx) < 5) player.vx = 0;
   if(dir !== 0) player.face = dir;
 
-  /* ---- jump ---- */
   player.coyote = player.onGround ? 0.1 : Math.max(0, player.coyote - dt);
   if(jumpBuffer > 0){
     jumpBuffer -= dt;
     tryJump();
   }
 
-  /* ---- gravity ---- */
   player.vy += GRAV * dt;
   if(player.vy > 1500) player.vy = 1500;
 
@@ -5261,11 +5412,9 @@ function update(dt){
   const prevTop = prevY - PH;
   const wasOnGround = player.onGround;
 
-  /* ---- vertical move ---- */
   player.y += player.vy * dt;
   player.onGround = false;
 
-  /* ground */
   if(player.y >= groundY){
     player.y = groundY;
     player.vy = 0;
@@ -5273,7 +5422,6 @@ function update(dt){
     player.jumps = 0;
   }
 
-  /* block vertical collisions */
   for(const b of state.blocks){
     const p1 = player.x - PW/2, p2 = player.x + PW/2;
     const t1 = player.y - PH,    t2 = player.y;
@@ -5291,7 +5439,6 @@ function update(dt){
     }
   }
 
-  /* landing FX */
   if(player.onGround && !wasOnGround){
     player.sy = 0.74;
     player.sx = 1.24;
@@ -5300,7 +5447,6 @@ function update(dt){
     spawnSpark(player.x, groundY - 6, 6, 'rgba(180,200,255,');
   }
 
-  /* ---- horizontal move ---- */
   player.x += player.vx * dt;
   for(const b of state.blocks){
     const p1 = player.x - PW/2, p2 = player.x + PW/2;
@@ -5312,19 +5458,16 @@ function update(dt){
   }
   if(player.x < state.camX + 26) player.x = state.camX + 26;
 
-  /* ---- squash & stretch ---- */
   let targetSy = 1;
   if(!player.onGround) targetSy = player.vy < 0 ? 1.1 : 0.97;
   player.sy += (targetSy - player.sy) * Math.min(1, 11 * dt);
   player.sx += ((1 + (1 - player.sy) * 0.7) - player.sx) * Math.min(1, 11 * dt);
 
-  /* ---- animation clock ---- */
   if(player.onGround){
     player.animT += dt * clamp(Math.abs(player.vx) / RUN_SPEED, 0, 1.7);
   }
   if(player.spinT > 0) player.spinT = Math.max(0, player.spinT - dt);
 
-  /* ---- run dust ---- */
   if(player.onGround && Math.abs(player.vx) > 120){
     player.dustT -= dt;
     if(player.dustT <= 0){
@@ -5333,15 +5476,12 @@ function update(dt){
     }
   }
 
-  /* ---- camera ---- */
   const camTarget = Math.max(0, player.x - W * 0.34);
   state.camX = lerp(state.camX, camTarget, Math.min(1, 7 * dt));
   if(state.camX < 0) state.camX = 0;
 
-  /* ---- score from distance ---- */
   state.score += Math.abs(player.vx) * dt * 0.09;
 
-  /* ---- coins ---- */
   for(const c of state.coinsArr){
     if(c.taken) continue;
     c.phase += dt * 6.5;
@@ -5357,16 +5497,13 @@ function update(dt){
     }
   }
 
-  /* ---- blocks ---- */
   for(const b of state.blocks){
     if(b.bump > 0) b.bump = Math.max(0, b.bump - dt * 3.4);
   }
 
-  /* ---- enemies ---- */
   updateEnemies(dt);
   playerEnemyCollisions(dt);
 
-  /* ---- particles ---- */
   for(let i = state.particles.length - 1; i >= 0; i--){
     const p = state.particles[i];
     p.life -= dt;
@@ -5379,7 +5516,6 @@ function update(dt){
     }
   }
 
-  /* ---- floaters ---- */
   for(let i = state.floaters.length - 1; i >= 0; i--){
     const f = state.floaters[i];
     f.life -= dt;
@@ -5387,17 +5523,14 @@ function update(dt){
     if(f.life <= 0) state.floaters.splice(i, 1);
   }
 
-  /* ---- spawning & cleanup ---- */
   spawnChunks();
   state.coinsArr = state.coinsArr.filter(c => !c.taken && c.x > state.camX - 260);
   state.blocks   = state.blocks.filter(b => b.x > state.camX - 340);
   state.decor    = state.decor.filter(d => d.x > state.camX - 340);
 
-  /* ---- periodic auto-detect badge refresh ---- */
   state.detectTick += dt;
   if(state.detectTick > 0.6){ state.detectTick = 0; refreshDetectBadge(); }
 
-  /* ---- HUD ---- */
   const sc = Math.floor(state.score);
   if(scoreEl.textContent !== String(sc)) scoreEl.textContent = sc;
   if(coinsEl.textContent !== String(state.coins)) coinsEl.textContent = state.coins;
@@ -5443,7 +5576,6 @@ function drawSun(){
   const cy = groundY - Math.min(300, H * 0.42);
   const r  = Math.max(46, Math.min(90, H * 0.09));
 
-  // rays
   ctx.save();
   ctx.translate(cx, cy);
   ctx.rotate(state.t * 0.16);
@@ -5468,7 +5600,6 @@ function drawSun(){
   }
   ctx.restore();
 
-  // glow
   ctx.save();
   ctx.globalCompositeOperation = 'lighter';
   const gl = ctx.createRadialGradient(cx, cy, r * 0.3, cx, cy, r * 4.2);
@@ -5479,7 +5610,6 @@ function drawSun(){
   ctx.beginPath(); ctx.arc(cx, cy, r * 4.2, 0, TAU); ctx.fill();
   ctx.restore();
 
-  // disc
   const dg = ctx.createRadialGradient(cx - r*0.3, cy - r*0.35, r*0.1, cx, cy, r);
   dg.addColorStop(0, '#fff2c4');
   dg.addColorStop(0.55, '#ffcb63');
@@ -5570,14 +5700,12 @@ function drawHills(parallax, baseY, amp, color){
 function drawGround(){
   const gy = groundY;
 
-  // soil
   const g = ctx.createLinearGradient(0, gy, 0, H);
   g.addColorStop(0, '#6b4130');
   g.addColorStop(1, '#241412');
   ctx.fillStyle = g;
   ctx.fillRect(-30, gy, W + 60, H - gy + 30);
 
-  // bricks
   ctx.save();
   ctx.strokeStyle = 'rgba(0,0,0,0.30)';
   ctx.lineWidth = 2;
@@ -5593,7 +5721,6 @@ function drawGround(){
   }
   ctx.restore();
 
-  // grass cap (tricolor nod)
   ctx.fillStyle = '#ff9933';
   ctx.fillRect(-30, gy - 11, W + 60, 3);
   ctx.fillStyle = '#f5f5f5';
@@ -5601,7 +5728,6 @@ function drawGround(){
   ctx.fillStyle = '#1f9d4d';
   ctx.fillRect(-30, gy - 5,  W + 60, 6);
 
-  // grass blades
   ctx.save();
   ctx.fillStyle = '#27c463';
   const gs = 16;
@@ -5664,7 +5790,6 @@ function drawBlocks(){
     const bumpOff = -Math.sin(clamp(b.bump, 0, 1) * Math.PI) * 13;
     const y = b.y + bumpOff;
 
-    // glow
     ctx.save();
     ctx.globalCompositeOperation = 'lighter';
     ctx.globalAlpha = 0.30 + 0.25 * Math.abs(Math.sin(state.t * 3 + b.x * 0.01));
@@ -5675,7 +5800,6 @@ function drawBlocks(){
     ctx.beginPath(); ctx.arc(x + b.w/2, y + b.h/2, 62, 0, TAU); ctx.fill();
     ctx.restore();
 
-    // body
     const g = ctx.createLinearGradient(x, y, x, y + b.h);
     g.addColorStop(0, '#ffd15c');
     g.addColorStop(0.5, '#eea92a');
@@ -5688,19 +5812,16 @@ function drawBlocks(){
     ctx.lineWidth = 3;
     ctx.stroke();
 
-    // inner bevel
     ctx.strokeStyle = 'rgba(255,255,255,0.45)';
     ctx.lineWidth = 2;
     rr(x + 5, y + 5, b.w - 10, b.h - 10, 4);
     ctx.stroke();
 
-    // rivets
     ctx.fillStyle = '#7a4a08';
     [[7,7],[b.w-7,7],[7,b.h-7],[b.w-7,b.h-7]].forEach(([dx,dy]) => {
       ctx.beginPath(); ctx.arc(x + dx, y + dy, 2, 0, TAU); ctx.fill();
     });
 
-    // question mark
     ctx.fillStyle = '#7a4a08';
     ctx.font = 'bold 27px "Trebuchet MS", sans-serif';
     ctx.textAlign = 'center';
@@ -5717,7 +5838,6 @@ function drawCoins(){
     const y = c.y + Math.sin(state.t * 2.4 + c.phase) * 3;
     const sc = Math.cos(c.phase);
 
-    // aura
     ctx.save();
     ctx.globalCompositeOperation = 'lighter';
     ctx.globalAlpha = 0.35;
@@ -5728,7 +5848,6 @@ function drawCoins(){
     ctx.beginPath(); ctx.arc(x, y, 30, 0, TAU); ctx.fill();
     ctx.restore();
 
-    // coin body
     ctx.save();
     ctx.translate(x, y);
     ctx.scale(Math.max(0.14, Math.abs(sc)), 1);
@@ -5770,7 +5889,6 @@ function drawPlayer(){
   const px = player.x - state.camX;
   const feet = player.y;
 
-  /* --- shadow --- */
   const airK = clamp((groundY - feet) / 320, 0, 1);
   ctx.save();
   ctx.globalAlpha = 0.32 * (1 - airK * 0.75);
@@ -5780,10 +5898,8 @@ function drawPlayer(){
   ctx.fill();
   ctx.restore();
 
-  /* --- invulnerability flicker --- */
   const flicker = player.invuln > 0 && (Math.floor(state.t * 18) % 2 === 0);
 
-  /* --- animation params --- */
   const run  = player.onGround && Math.abs(player.vx) > 34;
   const cyc  = player.animT * 15;
   const air  = !player.onGround;
@@ -5798,14 +5914,12 @@ function drawPlayer(){
   ctx.scale(player.face * player.sx, player.sy);
   ctx.translate(0, bob);
 
-  /* --- double-jump spin --- */
   if(player.spinT > 0){
     const k = 1 - player.spinT / 0.45;
     ctx.translate(0, -PH / 2);
     ctx.rotate(k * TAU * player.face);
     ctx.translate(0, PH / 2);
 
-    // spin aura
     ctx.save();
     ctx.globalCompositeOperation = 'lighter';
     ctx.globalAlpha = 0.55 * (1 - k);
@@ -5817,19 +5931,14 @@ function drawPlayer(){
     ctx.restore();
   }
 
-  /* --- back arm --- */
   limb(-13, -44, -armA, 7, 18, '#e2e5ef');
-
-  /* --- legs --- */
   limb(-7, -22,  legA, 9, 22, '#3b4468', true);
   limb( 7, -22, -legA, 9, 22, '#2f3757', true);
 
-  /* --- torso (kurta) --- */
   ctx.fillStyle = '#f4f6fb';
   rr(-14, -48, 28, 28, 9);
   ctx.fill();
 
-  /* --- saffron vest --- */
   const vg = ctx.createLinearGradient(-15, -47, 15, -23);
   vg.addColorStop(0, '#ffb457');
   vg.addColorStop(0.5, '#ff9933');
@@ -5838,7 +5947,6 @@ function drawPlayer(){
   rr(-15, -47, 30, 24, 8);
   ctx.fill();
 
-  /* V-neck */
   ctx.fillStyle = '#f4f6fb';
   ctx.beginPath();
   ctx.moveTo(-6.5, -47);
@@ -5847,41 +5955,34 @@ function drawPlayer(){
   ctx.closePath();
   ctx.fill();
 
-  /* buttons */
   ctx.fillStyle = '#7a4a10';
   ctx.beginPath(); ctx.arc(0, -31, 1.8, 0, TAU); ctx.fill();
   ctx.beginPath(); ctx.arc(0, -26, 1.8, 0, TAU); ctx.fill();
 
-  /* --- head --- */
   ctx.fillStyle = '#e3a86f';
   ctx.beginPath(); ctx.arc(0, -58, 13, 0, TAU); ctx.fill();
 
-  /* hair */
   ctx.fillStyle = '#f3f5fa';
   ctx.beginPath();
   ctx.arc(0, -60, 13.6, Math.PI * 1.03, Math.PI * 1.97);
   ctx.closePath();
   ctx.fill();
 
-  /* beard */
   ctx.beginPath();
   ctx.arc(0, -55, 13.6, Math.PI * 0.14, Math.PI * 0.86);
   ctx.closePath();
   ctx.fill();
 
-  /* glasses */
   ctx.strokeStyle = '#20242f';
   ctx.lineWidth = 2;
   ctx.beginPath(); ctx.arc(-5.6, -57.5, 4.7, 0, TAU); ctx.stroke();
   ctx.beginPath(); ctx.arc( 5.6, -57.5, 4.7, 0, TAU); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(-0.9, -57.5); ctx.lineTo(0.9, -57.5); ctx.stroke();
 
-  /* eyes */
   ctx.fillStyle = '#20242f';
   ctx.beginPath(); ctx.arc(-5.6, -57.5, 1.6, 0, TAU); ctx.fill();
   ctx.beginPath(); ctx.arc( 5.6, -57.5, 1.6, 0, TAU); ctx.fill();
 
-  /* --- front arm --- */
   limb(13, -44, armA, 7, 18, '#f4f6fb');
 
   ctx.restore();
@@ -5975,7 +6076,6 @@ function render(){
   drawWatermark();
   drawChakra();
 
-  /* ---- screen shake wraps the world layer ---- */
   ctx.save();
   if(state.shake > 0){
     const m = state.shake * 22;
@@ -6120,7 +6220,6 @@ window.ModiRunner = {
   refreshDetectBadge
 };
 
-/* Keep the badge fresh if a sprite finishes loading while open */
 window.addEventListener('load', ()=>{
   if(active) refreshDetectBadge();
 });
@@ -6130,8 +6229,7 @@ window.addEventListener('load', ()=>{
 
 <script>
 /* =============================================================================
-   HOOK UP THE RUNNER BUTTONS  (menu button, nav button, in-game quick action)
-   The in-game quick action lives in the "Play Main Game" section.
+   HOOK UP THE RUNNER BUTTONS
    ============================================================================= */
 (function(){
   function openRunner(){
@@ -6150,7 +6248,7 @@ window.addEventListener('load', ()=>{
 
 <script>
 /* =============================================================================
-   PAGE PROTECTION / RIGHT-CLICK DISABLE  (kept from the original build)
+   PAGE PROTECTION / RIGHT-CLICK DISABLE
    ============================================================================= */
 (function(){
   document.addEventListener('contextmenu', function(e){ e.preventDefault(); }, false);
@@ -6160,14 +6258,13 @@ window.addEventListener('load', ()=>{
   }
 
   document.addEventListener('keydown', function(e){
-    if(e.keyCode === 123) { e.preventDefault(); return false; }                       /* F12      */
-    if(ctrlShiftKey(e, 'I')) { e.preventDefault(); return false; }                    /* Ctrl+Shift+I */
-    if(ctrlShiftKey(e, 'J')) { e.preventDefault(); return false; }                    /* Ctrl+Shift+J */
-    if(ctrlShiftKey(e, 'C')) { e.preventDefault(); return false; }                    /* Ctrl+Shift+C */
-    if(e.ctrlKey && e.keyCode === 'U'.charCodeAt(0)) { e.preventDefault(); return false; } /* Ctrl+U */
+    if(e.keyCode === 123) { e.preventDefault(); return false; }
+    if(ctrlShiftKey(e, 'I')) { e.preventDefault(); return false; }
+    if(ctrlShiftKey(e, 'J')) { e.preventDefault(); return false; }
+    if(ctrlShiftKey(e, 'C')) { e.preventDefault(); return false; }
+    if(e.ctrlKey && e.keyCode === 'U'.charCodeAt(0)) { e.preventDefault(); return false; }
   }, false);
 
-  /* disable text selection */
   if(typeof document.onselectstart !== 'undefined'){
     document.onselectstart = new Function('return false;');
   } else {
