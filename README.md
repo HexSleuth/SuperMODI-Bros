@@ -1,18 +1,55 @@
 # SuperMODI-Bros 🍄🇮🇳
-A retro side-scrolling platformer blending classic 2D HTML5 Canvas physics with full real-time 3D Three.js rendering, procedural level generation, a built-in tile editor, and custom sprite support.
-🎮 **[Play Live Demo](https://hexsleuth.github.io/SuperMODI-Bros/)**
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![GitHub Pages](https://img.shields.io/badge/Demo-GitHub%20Pages-brightgreen)](https://hexsleuth.github.io/SuperMODI-Bros/)
+[![Three.js](https://img.shields.io/badge/3D%20Engine-Three.js-black?logo=three.js)](https://threejs.org/)
+[![HTML5 Canvas](https://img.shields.io/badge/Render-HTML5%20Canvas%202D-orange?logo=html5)](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API)
+
+> A hybrid retro platformer combining a 2D HTML5 Canvas physics engine with dynamic real-time Three.js 3D extrusion, deterministic procedural level generation, a full-featured level editor, custom sprite mapping, and the **Super Modi Animated FX Runner**.
+
+🎮 **Live Demo:** [https://hexsleuth.github.io/SuperMODI-Bros/](https://hexsleuth.github.io/SuperMODI-Bros/)
+
 ---
-## 🌟 Highlights & Features
-- **Dual Render Modes (2D Canvas & 3D Three.js):** Switch instantly between classic retro 2D pixel-art and dynamic 3D geometric views at the press of a key (`V`).
-- **Dynamic 3D Camera System:** Responsive camera tracks player speed, jump height, viewport aspect ratio, and level boundaries with real-time pitch, yaw, and FOV adjustments.
-- **32 Seeded Procedural Stages:** Play across 8 worlds (4 levels each), ending at the castle. Every stage is deterministically generated from fixed seeds—ensuring consistent, shareable gameplay.
-- **Super Modi Animated FX Runner:** Special effect overlay featuring custom animations, particle effects, score multipliers, and dynamic sprite detection.
-- **In-Browser Level Editor:**
-  - Full-featured 128×15 grid canvas.
-  - Paint and erase blocks, mystery boxes, coins, and enemies.
-  - Save and load custom stages locally.
-- **Custom Sprite Sheet Loader:** Load your own character, enemy (Goomba, Koopa), and item sprites with configurable column/row grids and FPS playback.
-- **Mobile & Touch Support:** On-screen virtual D-pad and action buttons for touchscreen play.
+
+## 📑 Table of Contents
+
+- [Overview](#-overview)
+- [Core Features](#-core-features)
+- [Rendering Architecture & 3D Auto-Camera](#-rendering-architecture--3d-auto-camera)
+- [Game Mechanics & FX Runner](#-game-mechanics--fx-runner)
+- [Controls](#-controls)
+- [In-Game Level Editor & Storage](#-in-game-level-editor--storage)
+- [Sprite Sheet Customization](#-sprite-sheet-customization)
+- [Project Structure](#-project-structure)
+- [Local Development Setup](#-local-development-setup)
+- [Roadmap & Contributing](#-roadmap--contributing)
+- [License](#-license)
+
+---
+
+## 📖 Overview
+
+**SuperMODI-Bros** bridges nostalgic 8-bit platforming with modern browser-based graphics programming. Players can seamlessly swap between standard 2D side-scrolling and full 3D perspectives on the fly. 
+
+The game contains 32 procedural stages spanning 8 distinct worlds, culminating in classic castle finish lines, accompanied by custom sprite animation support, touch input emulation, and an integrated level-authoring sandbox.
+
+---
+
+## ✨ Core Features
+
+- **Dual-Engine Rendering:** Instant toggling between 2D HTML5 Canvas pixel rendering and Three.js 3D scene geometry.
+- **Dynamic 3D Camera System:** Real-time auto-panning camera tracking player velocity, jump trajectory, screen aspect ratio, and level bounds.
+- **Deterministic Procedural World Generation:** 8 worlds with 4 levels each (32 stages total). Each level derives from a fixed pseudorandom seed, ensuring predictable layouts and shareable seeds.
+- **Super Modi Animated FX Runner:** Standalone FX canvas overlay featuring customized animations, score multipliers, double-jump spin moves, and responsive particle effects.
+- **Built-in 128×15 Level Editor:** Browser-based tile builder with multi-tile brushes, terrain painting, enemy placement, and local persistence.
+- **Universal Custom Sprite Sheets:** Custom grid slicer allowing users to swap Hero, Goomba, Koopa, Mushroom, and Coin art via URL or local file upload.
+- **Cross-Platform Input:** Simultaneous support for physical keyboards, virtual touch D-pads, and action buttons.
+
+---
+
+## 📐 Rendering Architecture & 3D Auto-Camera
+
+
 ---
 ## 🎮 Controls
 ### Desktop Keyboard
