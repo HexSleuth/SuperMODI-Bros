@@ -7,7 +7,7 @@
 
 <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-      integrity="sha512-DTOQ0O9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
       crossorigin="anonymous" referrerpolicy="no-referrer">
 
 <style>
@@ -46,10 +46,10 @@
   #brand i{color:var(--cyan);font-size:14px;}
   #nav{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
   .navbtn{background:#22222f;border:1px solid var(--line);color:#cfcfe0;
-          border-radius:6px;padding:6px 10px;font-family:inherit;font-size:11px;
-          cursor:pointer;display:inline-flex;align-items:center;gap:6px;
+          border-radius:6px;padding:8px 11px;font-family:inherit;font-size:11px;
+          cursor:pointer;display:inline-flex;align-items:center;justify-content:center;
           transition:background .12s,color .12s,border-color .12s,transform .06s;}
-  .navbtn i{font-size:11px;}
+  .navbtn i{font-size:14px;}
   .navbtn:hover{background:#2e2e42;}
   .navbtn.active{background:linear-gradient(180deg,#2e4666,#20334d);border-color:var(--cyan);color:#eaf9ff;}
   .navbtn:active{transform:translateY(1px);}
@@ -79,14 +79,14 @@
               text-shadow:0 4px 0 rgba(0,0,0,.6), 0 0 30px rgba(255,211,77,.3);}
   .menu-sub{font-size:11px;color:#8f8fa6;letter-spacing:1px;text-align:center;line-height:1.6;}
   .menu-actions{display:flex;flex-direction:column;gap:10px;width:100%;max-width:400px;}
-  .menubtn{width:100%;padding:14px 16px;border-radius:10px;
+  .menubtn{width:100%;padding:16px 16px;border-radius:10px;
            background:linear-gradient(180deg,#252536,#181822);
            border:1px solid var(--line);color:#eaeaf5;
            font-family:inherit;font-size:13px;font-weight:bold;letter-spacing:2px;
            text-transform:uppercase;cursor:pointer;
-           display:inline-flex;align-items:center;justify-content:flex-start;gap:12px;
+           display:inline-flex;align-items:center;justify-content:center;gap:12px;
            transition:background .12s,border-color .12s,transform .06s;}
-  .menubtn i{font-size:16px;color:var(--cyan);width:20px;text-align:center;}
+  .menubtn i{font-size:22px;color:var(--cyan);}
   .menubtn:hover{background:linear-gradient(180deg,#31415a,#20304a);border-color:var(--cyan);}
   .menubtn:active{transform:translateY(1px);}
   .menubtn.gold i{color:var(--gold);}
@@ -108,7 +108,7 @@
   #hud.hide{display:none;}
 
   /* =========================================================
-     GAMEPLAY CONTROLLER PANEL  (Font Awesome upgraded)
+     GAMEPLAY CONTROLLER PANEL  (icon-only buttons)
      ========================================================= */
   #touch{
     width:100%;
@@ -170,7 +170,7 @@
     border:1px solid #33334a;
     background:linear-gradient(180deg, #2a2a3d 0%, #171720 100%);
     color:#d8d8e8;
-    font-size:20px;
+    font-size:22px;
     display:flex;
     align-items:center;
     justify-content:center;
@@ -201,7 +201,7 @@
   .btn.dbtn.downBtn i{color:#a7b1ff;}
   .btn.dbtn:active.downBtn i, .btn.dbtn.on.downBtn i{color:#061018;}
 
-  /* ---------- Action buttons (Run / Jump) ---------- */
+  /* ---------- Action buttons (Run / Jump / Pause) ---------- */
   .actions{
     display:flex;
     gap:14px;
@@ -214,14 +214,8 @@
     border-radius:50%;
     border:2px solid;
     display:flex;
-    flex-direction:column;
     align-items:center;
     justify-content:center;
-    gap:2px;
-    font-family:inherit;
-    font-size:11px;
-    font-weight:bold;
-    letter-spacing:1px;
     cursor:pointer;
     touch-action:none;
     padding:0;
@@ -238,8 +232,7 @@
     background:linear-gradient(180deg, rgba(255,255,255,.14), transparent 55%);
     pointer-events:none;
   }
-  .btn.action i{font-size:22px;pointer-events:none;position:relative;z-index:1;line-height:1;}
-  .btn.action span{font-size:9px;letter-spacing:1.6px;pointer-events:none;position:relative;z-index:1;font-weight:900;}
+  .btn.action i{font-size:32px;pointer-events:none;position:relative;z-index:1;line-height:1;}
 
   .btn.action.run{
     border-color:rgba(255,122,47,.8);
@@ -277,15 +270,14 @@
 
   /* small pause button next to actions */
   .btn.action.pause{
-    width:56px;height:56px;
+    width:58px;height:58px;
     border-color:rgba(155,109,255,.7);
     background:radial-gradient(circle at 35% 30%, #3a2a5a, #130c1f);
     color:#d8c8ff;
     box-shadow:0 4px 0 #1c1230, 0 0 18px rgba(155,109,255,.35), inset 0 1px 0 rgba(255,255,255,.12);
-    margin-bottom:6px;
+    margin-bottom:8px;
   }
-  .btn.action.pause i{font-size:18px;color:#b99cff;}
-  .btn.action.pause span{font-size:8px;letter-spacing:1.2px;}
+  .btn.action.pause i{font-size:22px;color:#b99cff;}
   .btn.action.pause:hover{background:radial-gradient(circle at 35% 30%, #4a3672, #1a1128);}
   .btn.action.pause:active, .btn.action.pause.on{
     background:radial-gradient(circle at 35% 30%, #c8aaff, #6a3fbf);
@@ -317,7 +309,7 @@
     width:100%;max-width:768px;display:flex;justify-content:center;
     gap:8px;margin-top:2px;flex-wrap:wrap;
   }
-  #gameQuickActions .miniBtn{padding:8px 14px;font-size:11px;}
+  #gameQuickActions .miniBtn{padding:9px 13px;font-size:13px;}
 
   #panel{width:100%;max-width:768px;background:var(--panel);border:1px solid var(--line);
          border-radius:8px;padding:10px 12px;font-size:11px;color:#b9b9cc;}
@@ -344,10 +336,10 @@
   input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;
     background:var(--cyan);cursor:pointer;border:none;}
   button.act{background:#2b2b40;border:1px solid #3d3d58;color:var(--fg);
-    border-radius:5px;padding:5px 10px;font-family:inherit;font-size:11px;cursor:pointer;
+    border-radius:5px;padding:6px 11px;font-family:inherit;font-size:11px;cursor:pointer;
     display:inline-flex;align-items:center;gap:5px;
     transition:background .1s,border-color .1s,color .1s;}
-  button.act i{font-size:11px;}
+  button.act i{font-size:13px;}
   button.act:hover{background:#383856;}
   button.act.on{background:#1f4b6b;border-color:#4dd8ff;color:#dff6ff;}
   #modeStatus{color:#4dd8ff;font-size:10px;}
@@ -377,7 +369,7 @@
     background:linear-gradient(#232334,#171722);display:inline-flex;
     align-items:center;justify-content:center;cursor:pointer;
     transition:background .08s,border-color .08s,transform .06s;
-    color:#cfcfe0;font-size:14px;padding:0;position:relative;
+    color:#cfcfe0;font-size:15px;padding:0;position:relative;
     flex-shrink:0;}
   .toolbtn:hover{background:#2e2e42;}
   .toolbtn.active{background:linear-gradient(#2d4a71,#1f3553);border-color:var(--cyan);
@@ -475,8 +467,8 @@
   .levelCard .lmeta{font-size:10px;color:#7a7a92;}
   .levelCard .lacts{display:flex;gap:6px;}
   .miniBtn{background:#2b2b40;border:1px solid #3d3d58;color:var(--fg);
-    border-radius:6px;padding:6px 10px;font-family:inherit;font-size:10px;cursor:pointer;
-    display:inline-flex;align-items:center;gap:5px;}
+    border-radius:6px;padding:8px 11px;font-family:inherit;font-size:13px;cursor:pointer;
+    display:inline-flex;align-items:center;justify-content:center;gap:5px;}
   .miniBtn:hover{background:#383856;}
   .miniBtn.play{border-color:#2f7f4a;color:#c7f7d4;}
   .miniBtn.edit{border-color:#2f5f8f;color:#c7e3ff;}
@@ -526,19 +518,18 @@
   @media (max-width:520px){
     #brand span{display:none;}
     #nav{gap:4px;}
-    .navbtn{padding:5px 8px;font-size:10px;}
-    .navbtn span{display:none;}
-    .navbtn i{font-size:13px;}
+    .navbtn{padding:7px 9px;font-size:10px;}
+    .navbtn i{font-size:14px;}
     #touch{gap:8px;}
     .dpad{grid-template-columns:repeat(3, 46px);grid-template-rows:repeat(3, 46px);gap:4px;padding:7px;border-radius:18px;}
-    .btn.dbtn{font-size:17px;border-radius:11px;}
+    .btn.dbtn{font-size:19px;border-radius:11px;}
     .dpad .dcenter{font-size:15px;}
-    .btn.action{width:70px;height:70px;}
-    .btn.action i{font-size:19px;}
-    .btn.action span{font-size:8px;letter-spacing:1.2px;}
-    .btn.action.pause{width:48px;height:48px;}
-    .btn.action.pause i{font-size:15px;}
+    .btn.action{width:72px;height:72px;}
+    .btn.action i{font-size:27px;}
+    .btn.action.pause{width:50px;height:50px;}
+    .btn.action.pause i{font-size:19px;}
     .actions{gap:10px;}
+    .menubtn i{font-size:20px;}
     #editorToolbar .group.tilePaletteGroup::-webkit-scrollbar{height:10px;}
     #worldsGrid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));}
   }
@@ -598,9 +589,9 @@
     font-variant-numeric:tabular-nums;
   }
   #modiRunner .modiMute{
-    pointer-events:auto;width:42px;height:42px;border-radius:50%;cursor:pointer;
+    pointer-events:auto;width:44px;height:44px;border-radius:50%;cursor:pointer;
     background:rgba(14,11,30,.55);backdrop-filter:blur(8px);
-    border:1px solid rgba(255,215,106,.25);color:#fff;font-size:16px;
+    border:1px solid rgba(255,215,106,.25);color:#fff;font-size:17px;
     display:inline-flex;align-items:center;justify-content:center;
     transition:transform .12s, background .2s, border-color .2s;
     font-family:inherit;line-height:1;
@@ -613,7 +604,7 @@
     color:#ffb3b3;
   }
   #modiRunner .modiMute.modiExit{
-    font-size:18px;font-weight:900;border-color:rgba(255,120,120,.45);
+    font-size:19px;font-weight:900;border-color:rgba(255,120,120,.45);
     background:rgba(50,10,20,.6);
   }
   #modiRunner .modiMute.modiExit:hover{background:rgba(120,25,40,.75);}
@@ -676,7 +667,7 @@
     width:74px;height:74px;border-radius:50%;cursor:pointer;
     border:1px solid rgba(255,255,255,.22);
     background:rgba(20,16,42,.5);backdrop-filter:blur(8px);
-    color:#fff;font-size:24px;font-weight:900;font-family:inherit;
+    color:#fff;font-size:28px;font-weight:900;font-family:inherit;
     display:inline-flex;align-items:center;justify-content:center;
     touch-action:none;user-select:none;
     box-shadow:0 0 22px rgba(120,80,255,.25), inset 0 0 18px rgba(0,0,0,.4);
@@ -690,14 +681,12 @@
   }
   #modiRunner .modiBtn.modiJump{
     width:96px;height:96px;
-    flex-direction:column;gap:2px;
-    font-size:11px;letter-spacing:1.5px;
+    font-size:36px;
     background:rgba(255,153,51,.22);
     border-color:rgba(255,215,106,.55);
     box-shadow:0 0 28px rgba(255,153,51,.35), inset 0 0 18px rgba(0,0,0,.4);
   }
-  #modiRunner .modiBtn.modiJump i{font-size:26px;color:#ffd76a;}
-  #modiRunner .modiBtn.modiJump span{font-size:10px;letter-spacing:2px;font-weight:900;}
+  #modiRunner .modiBtn.modiJump i{font-size:36px;color:#ffd76a;}
   #modiRunner .modiHint{
     position:absolute;bottom:30px;left:50%;transform:translateX(-50%);
     font-size:11px;letter-spacing:2px;color:rgba(255,255,255,.42);font-weight:700;
@@ -739,16 +728,18 @@
     color:rgba(255,255,255,.72);
   }
   #modiRunner .modiPanel .modiFeatureRow i{color:#ffd76a;}
+
+  /* Icon-only play button */
   #modiRunner .modiPlay{
-    margin-top:22px;padding:15px 36px;border-radius:999px;cursor:pointer;
-    font-family:inherit;font-size:15px;font-weight:900;letter-spacing:2.5px;color:#1a0d00;
+    margin-top:22px;width:96px;height:96px;border-radius:50%;cursor:pointer;
+    font-family:inherit;color:#1a0d00;
     border:none;background:linear-gradient(135deg,#ffd76a,#ff9933 55%,#ffb347);
     box-shadow:0 0 34px rgba(255,153,51,.7),0 6px 0 rgba(120,60,0,.55);
     animation:modiPulse 1.9s ease-in-out infinite;
     transition:transform .1s ease;
-    display:inline-flex;align-items:center;gap:10px;
+    display:inline-grid;place-items:center;
   }
-  #modiRunner .modiPlay i{font-size:14px;}
+  #modiRunner .modiPlay i{font-size:38px;pointer-events:none;line-height:1;margin-left:5px;}
   #modiRunner .modiPlay:active{transform:translateY(3px);box-shadow:0 0 34px rgba(255,153,51,.7),0 3px 0 rgba(120,60,0,.55);}
   @keyframes modiPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
 
@@ -757,9 +748,11 @@
     #modiRunner .modiDetect{top:190px;right:12px;font-size:9px;letter-spacing:1px;padding:6px 11px;}
     #modiRunner .modiHint{display:none;}
     #modiRunner .modiStat{min-width:64px;padding:6px 10px;}
-    #modiRunner .modiBtn{width:64px;height:64px;font-size:22px;}
-    #modiRunner .modiBtn.modiJump{width:84px;height:84px;font-size:10px;}
-    #modiRunner .modiBtn.modiJump i{font-size:22px;}
+    #modiRunner .modiBtn{width:64px;height:64px;font-size:24px;}
+    #modiRunner .modiBtn.modiJump{width:84px;height:84px;}
+    #modiRunner .modiBtn.modiJump i{font-size:30px;}
+    #modiRunner .modiPlay{width:84px;height:84px;}
+    #modiRunner .modiPlay i{font-size:32px;}
   }
   @media (max-height:520px){
     #modiRunner .modiHeroCard{display:none;}
@@ -770,22 +763,22 @@
 <body>
 <div id="app">
 
-  <!-- ================= TOP NAV ================= -->
+  <!-- ================= TOP NAV (icon-only) ================= -->
   <div id="topbar">
     <div id="brand"><i class="fa-solid fa-gamepad"></i><span>SUPERMODI-BROS</span></div>
     <div id="nav">
-      <button class="navbtn" data-screen="menu"><i class="fa-solid fa-house"></i><span>Menu</span></button>
-      <button class="navbtn" data-screen="game"><i class="fa-solid fa-play"></i><span>Play</span></button>
-      <button class="navbtn" data-screen="worlds"><i class="fa-solid fa-map"></i><span>Levels</span></button>
-      <button class="navbtn" data-screen="editor"><i class="fa-solid fa-pen-ruler"></i><span>Editor</span></button>
-      <button class="navbtn" data-screen="levels"><i class="fa-solid fa-folder-open"></i><span>Saved</span></button>
-      <button class="navbtn fx" id="navRunner" title="Super Modi — Animated FX Runner">
-        <i class="fa-solid fa-bolt"></i><span>FX</span>
+      <button class="navbtn" data-screen="menu" title="Main Menu" aria-label="Main Menu"><i class="fa-solid fa-house"></i></button>
+      <button class="navbtn" data-screen="game" title="Play Main Game" aria-label="Play Main Game"><i class="fa-solid fa-play"></i></button>
+      <button class="navbtn" data-screen="worlds" title="Level Select" aria-label="Level Select"><i class="fa-solid fa-map"></i></button>
+      <button class="navbtn" data-screen="editor" title="Level Editor" aria-label="Level Editor"><i class="fa-solid fa-pen-ruler"></i></button>
+      <button class="navbtn" data-screen="levels" title="Saved Levels" aria-label="Saved Levels"><i class="fa-solid fa-folder-open"></i></button>
+      <button class="navbtn fx" id="navRunner" title="Super Modi — Animated FX Runner" aria-label="Super Modi Animated FX Runner">
+        <i class="fa-solid fa-bolt"></i>
       </button>
     </div>
   </div>
 
-  <!-- ================= MAIN MENU ================= -->
+  <!-- ================= MAIN MENU (icon-only) ================= -->
   <div id="screen-menu" class="screen active">
     <div id="menuCard">
       <div class="menu-title"><i class="fa-solid fa-star" style="color:var(--gold)"></i> SUPERMODI-BROS</div>
@@ -795,11 +788,21 @@
         and the <b style="color:var(--orange)">Super Modi Animated FX Runner</b>
       </div>
       <div class="menu-actions">
-        <button class="menubtn gold" data-screen="game"><i class="fa-solid fa-play"></i>Play Main Game (World 1-1)</button>
-        <button class="menubtn orange" id="menuRunner"><i class="fa-solid fa-bolt"></i>Super Modi Runner — Animated FX</button>
-        <button class="menubtn green" data-screen="worlds"><i class="fa-solid fa-map"></i>Level Select — 32 Levels</button>
-        <button class="menubtn" data-screen="levels"><i class="fa-solid fa-folder-open"></i>Saved Levels</button>
-        <button class="menubtn violet" id="menuRandom"><i class="fa-solid fa-dice"></i>Random Map</button>
+        <button class="menubtn gold" data-screen="game" title="Play Main Game (World 1-1)" aria-label="Play Main Game">
+          <i class="fa-solid fa-play"></i>
+        </button>
+        <button class="menubtn orange" id="menuRunner" title="Super Modi Runner — Animated FX" aria-label="Super Modi Animated FX Runner">
+          <i class="fa-solid fa-bolt"></i>
+        </button>
+        <button class="menubtn green" data-screen="worlds" title="Level Select — 32 Levels" aria-label="Level Select">
+          <i class="fa-solid fa-map"></i>
+        </button>
+        <button class="menubtn" data-screen="levels" title="Saved Levels" aria-label="Saved Levels">
+          <i class="fa-solid fa-folder-open"></i>
+        </button>
+        <button class="menubtn violet" id="menuRandom" title="Random Map" aria-label="Random Map">
+          <i class="fa-solid fa-dice"></i>
+        </button>
       </div>
       <div class="menu-foot">
         <i class="fa-solid fa-keyboard"></i>
@@ -814,8 +817,8 @@
       <div id="worldsHeader">
         <h2><i class="fa-solid fa-map"></i> SUPER MARIO BROS — LEVEL SELECT</h2>
         <div style="display:flex;gap:6px;flex-wrap:wrap;">
-          <button class="miniBtn" id="randomMapBtn"><i class="fa-solid fa-dice"></i> Random Map</button>
-          <button class="miniBtn play" id="playW11"><i class="fa-solid fa-play"></i> Play 1-1</button>
+          <button class="miniBtn" id="randomMapBtn" title="Random Map" aria-label="Random Map"><i class="fa-solid fa-dice"></i></button>
+          <button class="miniBtn play" id="playW11" title="Play World 1-1" aria-label="Play World 1-1"><i class="fa-solid fa-play"></i></button>
         </div>
       </div>
       <div id="worldsGrid"></div>
@@ -836,21 +839,21 @@
     </div>
 
     <!-- =========================================================
-         UPGRADED GAMEPLAY CONTROLLER PANEL  (Font Awesome icons)
+         GAMEPLAY CONTROLLER PANEL (icon-only buttons)
          ========================================================= -->
     <div id="touch">
-      <!-- Directional Pad: 3×3 grid with chevron icons -->
+      <!-- Directional Pad -->
       <div class="dpad" role="group" aria-label="Directional pad">
         <div class="dcell"></div>
         <div class="dcell">
-          <button class="btn dbtn" data-key="jump" title="Jump / Up">
+          <button class="btn dbtn" data-key="jump" title="Jump / Up" aria-label="Jump or Up">
             <i class="fa-solid fa-chevron-up"></i>
           </button>
         </div>
         <div class="dcell"></div>
 
         <div class="dcell">
-          <button class="btn dbtn" data-key="left" title="Move Left">
+          <button class="btn dbtn" data-key="left" title="Move Left" aria-label="Move Left">
             <i class="fa-solid fa-chevron-left"></i>
           </button>
         </div>
@@ -860,14 +863,14 @@
           </div>
         </div>
         <div class="dcell">
-          <button class="btn dbtn" data-key="right" title="Move Right">
+          <button class="btn dbtn" data-key="right" title="Move Right" aria-label="Move Right">
             <i class="fa-solid fa-chevron-right"></i>
           </button>
         </div>
 
         <div class="dcell"></div>
         <div class="dcell">
-          <button class="btn dbtn downBtn" data-key="down" title="Crouch / Down">
+          <button class="btn dbtn downBtn" data-key="down" title="Crouch / Down" aria-label="Crouch or Down">
             <i class="fa-solid fa-chevron-down"></i>
           </button>
         </div>
@@ -876,40 +879,37 @@
 
       <!-- Action buttons: Pause, Run/Fire, Jump -->
       <div class="actions" role="group" aria-label="Action buttons">
-        <button class="btn action pause" id="ctrlPause" title="Pause / Resume">
+        <button class="btn action pause" id="ctrlPause" title="Pause / Resume" aria-label="Pause or Resume">
           <i class="fa-solid fa-pause"></i>
-          <span>PAUSE</span>
         </button>
-        <button class="btn action run" data-key="run" title="Run / Fire — plays sound1.mp3">
+        <button class="btn action run" data-key="run" title="Run / Fire" aria-label="Run or Fire">
           <i class="fa-solid fa-fire-flame-curved"></i>
-          <span>RUN</span>
         </button>
-        <button class="btn action jump" data-key="jump" title="Jump">
+        <button class="btn action jump" data-key="jump" title="Jump" aria-label="Jump">
           <i class="fa-solid fa-jet-fighter-up"></i>
-          <span>JUMP</span>
         </button>
       </div>
     </div>
 
-    <!-- Controller status strip -->
+    <!-- Controller status strip (informational, not buttons) -->
     <div id="ctrlStatus">
       <span class="cstat"><i class="fa-solid fa-gamepad"></i> PAD <b>ACTIVE</b></span>
-      <span class="cstat"><i class="fa-solid fa-fire-flame-curved"></i> RUN <b>X / SHIFT</b></span>
-      <span class="cstat"><i class="fa-solid fa-jet-fighter-up"></i> JUMP <b>SPACE</b></span>
-      <span class="cstat"><i class="fa-solid fa-arrows-up-down-left-right"></i> MOVE <b>ARROWS</b></span>
-      <span class="cstat"><i class="fa-solid fa-cube"></i> 3D <b>V</b></span>
+      <span class="cstat"><i class="fa-solid fa-fire-flame-curved"></i> <b>X / SHIFT</b></span>
+      <span class="cstat"><i class="fa-solid fa-jet-fighter-up"></i> <b>SPACE</b></span>
+      <span class="cstat"><i class="fa-solid fa-arrows-up-down-left-right"></i> <b>ARROWS</b></span>
+      <span class="cstat"><i class="fa-solid fa-cube"></i> <b>V</b></span>
     </div>
 
     <!-- Quick access to the Level Editor from the Play Main Game screen -->
     <div id="gameQuickActions">
-      <button class="miniBtn edit" id="editCurrentLevel" title="Open this level in the Level Editor">
-        <i class="fa-solid fa-pen-ruler"></i> Edit current level
+      <button class="miniBtn edit" id="editCurrentLevel" title="Edit current level" aria-label="Edit current level">
+        <i class="fa-solid fa-pen-ruler"></i>
       </button>
-      <button class="miniBtn" id="newLevelBtn" title="Start a fresh level in the Level Editor">
-        <i class="fa-solid fa-plus"></i> New level
+      <button class="miniBtn" id="newLevelBtn" title="New level" aria-label="New level">
+        <i class="fa-solid fa-plus"></i>
       </button>
-      <button class="miniBtn orange" id="launchRunner" title="Launch the Super Modi Animated FX Runner">
-        <i class="fa-solid fa-bolt"></i> Animated FX Runner
+      <button class="miniBtn orange" id="launchRunner" title="Launch Animated FX Runner" aria-label="Launch Animated FX Runner">
+        <i class="fa-solid fa-bolt"></i>
       </button>
     </div>
 
@@ -923,15 +923,15 @@
 
       <div class="row">
         <label>Render</label>
-        <button class="act" id="mode2d" data-mode="2d"><i class="fa-solid fa-square"></i> 2D</button>
-        <button class="act" id="mode3d" data-mode="3d"><i class="fa-solid fa-cube"></i> 3D</button>
-        <button class="act" id="modeAuto" data-mode="auto"><i class="fa-solid fa-wand-magic-sparkles"></i> AUTO</button>
+        <button class="act" id="mode2d" data-mode="2d" title="2D Mode" aria-label="2D Mode"><i class="fa-solid fa-square"></i></button>
+        <button class="act" id="mode3d" data-mode="3d" title="3D Mode" aria-label="3D Mode"><i class="fa-solid fa-cube"></i></button>
+        <button class="act" id="modeAuto" data-mode="auto" title="Auto Mode" aria-label="Auto Mode"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
         <span id="modeStatus">detecting…</span>
       </div>
 
       <div class="row">
         <label>Auto-Adjust</label>
-        <button class="act on" id="toggleAuto"><i class="fa-solid fa-sliders"></i> ON</button>
+        <button class="act on" id="toggleAuto" title="Toggle auto-adjust" aria-label="Toggle auto-adjust"><i class="fa-solid fa-sliders"></i></button>
         <span style="font-size:10px;color:#6f6f85;">camera follows speed, jump height &amp; screen shape</span>
       </div>
 
@@ -979,8 +979,8 @@
 
       <div class="row">
         <label>Movement</label>
-        <button class="act on" id="moveClassic"><i class="fa-solid fa-arrow-right"></i> Classic</button>
-        <button class="act" id="move360"><i class="fa-solid fa-arrows-spin"></i> 360° Free</button>
+        <button class="act on" id="moveClassic" title="Classic movement" aria-label="Classic movement"><i class="fa-solid fa-arrow-right"></i></button>
+        <button class="act" id="move360" title="360° free movement" aria-label="360 degree free movement"><i class="fa-solid fa-arrows-spin"></i></button>
         <span style="font-size:10px;color:#6f6f85;">360° = fly in any direction (no gravity)</span>
       </div>
 
@@ -1008,14 +1008,14 @@
           <label>URL</label>
           <input type="text" id="heroUrl"
             value="https://raw.githubusercontent.com/HexSleuth/SuperMODI-Bros/main/1000221698.png">
-          <button class="act" data-load="hero"><i class="fa-solid fa-upload"></i> Load</button>
+          <button class="act" data-load="hero" title="Load hero sprite" aria-label="Load hero sprite"><i class="fa-solid fa-upload"></i></button>
         </div>
         <div class="row">
           <label>Cols</label><input type="number" id="heroCols" value="1" min="1" max="32">
           <label>Rows</label><input type="number" id="heroRows" value="1" min="1" max="32">
           <label>FPS</label><input type="number" id="heroFps" value="8" min="1" max="30">
           <input type="file" id="heroFile" accept="image/*">
-          <button class="act" data-clear="hero"><i class="fa-solid fa-trash"></i> Clear</button>
+          <button class="act" data-clear="hero" title="Clear hero sprite" aria-label="Clear hero sprite"><i class="fa-solid fa-trash"></i></button>
         </div>
         <div class="row"><span class="spriteStatus" id="heroStatus">Using procedural character.</span></div>
       </div>
@@ -1024,14 +1024,14 @@
         <div class="spriteHeader"><i class="fa-solid fa-ghost"></i>GOOMBA (Enemy)</div>
         <div class="row">
           <label>URL</label><input type="text" id="goombaUrl" placeholder="https://...">
-          <button class="act" data-load="goomba"><i class="fa-solid fa-upload"></i> Load</button>
+          <button class="act" data-load="goomba" title="Load goomba sprite" aria-label="Load goomba sprite"><i class="fa-solid fa-upload"></i></button>
         </div>
         <div class="row">
           <label>Cols</label><input type="number" id="goombaCols" value="1" min="1" max="32">
           <label>Rows</label><input type="number" id="goombaRows" value="1" min="1" max="32">
           <label>FPS</label><input type="number" id="goombaFps" value="6" min="1" max="30">
           <input type="file" id="goombaFile" accept="image/*">
-          <button class="act" data-clear="goomba"><i class="fa-solid fa-trash"></i> Clear</button>
+          <button class="act" data-clear="goomba" title="Clear goomba sprite" aria-label="Clear goomba sprite"><i class="fa-solid fa-trash"></i></button>
         </div>
         <div class="row"><span class="spriteStatus" id="goombaStatus">Using procedural Goomba.</span></div>
       </div>
@@ -1040,14 +1040,14 @@
         <div class="spriteHeader"><i class="fa-solid fa-dragon"></i>KOOPA (Enemy)</div>
         <div class="row">
           <label>URL</label><input type="text" id="koopaUrl" placeholder="https://...">
-          <button class="act" data-load="koopa"><i class="fa-solid fa-upload"></i> Load</button>
+          <button class="act" data-load="koopa" title="Load koopa sprite" aria-label="Load koopa sprite"><i class="fa-solid fa-upload"></i></button>
         </div>
         <div class="row">
           <label>Cols</label><input type="number" id="koopaCols" value="1" min="1" max="32">
           <label>Rows</label><input type="number" id="koopaRows" value="1" min="1" max="32">
           <label>FPS</label><input type="number" id="koopaFps" value="6" min="1" max="30">
           <input type="file" id="koopaFile" accept="image/*">
-          <button class="act" data-clear="koopa"><i class="fa-solid fa-trash"></i> Clear</button>
+          <button class="act" data-clear="koopa" title="Clear koopa sprite" aria-label="Clear koopa sprite"><i class="fa-solid fa-trash"></i></button>
         </div>
         <div class="row"><span class="spriteStatus" id="koopaStatus">Using procedural Koopa.</span></div>
       </div>
@@ -1056,14 +1056,14 @@
         <div class="spriteHeader"><i class="fa-solid fa-star"></i>MUSHROOM (Item)</div>
         <div class="row">
           <label>URL</label><input type="text" id="mushroomUrl" placeholder="https://...">
-          <button class="act" data-load="mushroom"><i class="fa-solid fa-upload"></i> Load</button>
+          <button class="act" data-load="mushroom" title="Load mushroom sprite" aria-label="Load mushroom sprite"><i class="fa-solid fa-upload"></i></button>
         </div>
         <div class="row">
           <label>Cols</label><input type="number" id="mushroomCols" value="1" min="1" max="32">
           <label>Rows</label><input type="number" id="mushroomRows" value="1" min="1" max="32">
           <label>FPS</label><input type="number" id="mushroomFps" value="1" min="1" max="30">
           <input type="file" id="mushroomFile" accept="image/*">
-          <button class="act" data-clear="mushroom"><i class="fa-solid fa-trash"></i> Clear</button>
+          <button class="act" data-clear="mushroom" title="Clear mushroom sprite" aria-label="Clear mushroom sprite"><i class="fa-solid fa-trash"></i></button>
         </div>
         <div class="row"><span class="spriteStatus" id="mushroomStatus">Using procedural Mushroom.</span></div>
       </div>
@@ -1072,14 +1072,14 @@
         <div class="spriteHeader"><i class="fa-solid fa-coins"></i>COIN</div>
         <div class="row">
           <label>URL</label><input type="text" id="coinUrl" placeholder="https://...">
-          <button class="act" data-load="coin"><i class="fa-solid fa-upload"></i> Load</button>
+          <button class="act" data-load="coin" title="Load coin sprite" aria-label="Load coin sprite"><i class="fa-solid fa-upload"></i></button>
         </div>
         <div class="row">
           <label>Cols</label><input type="number" id="coinCols" value="1" min="1" max="32">
           <label>Rows</label><input type="number" id="coinRows" value="1" min="1" max="32">
           <label>FPS</label><input type="number" id="coinFps" value="8" min="1" max="30">
           <input type="file" id="coinFile" accept="image/*">
-          <button class="act" data-clear="coin"><i class="fa-solid fa-trash"></i> Clear</button>
+          <button class="act" data-clear="coin" title="Clear coin sprite" aria-label="Clear coin sprite"><i class="fa-solid fa-trash"></i></button>
         </div>
         <div class="row"><span class="spriteStatus" id="coinStatus">Using procedural Coin.</span></div>
       </div>
@@ -1090,8 +1090,8 @@
         used in <b>both 2D and 3D</b> modes — 3D builds a camera-facing billboard.
         Any <b>Goomba / Koopa</b> sprite loaded here is <b>auto-detected</b> by the
         <b>Super Modi Animated FX Runner</b>.
-        If a remote image is blocked by CORS, use <b>Local file</b>. Press <b>Clear</b>
-        to return to the built-in procedural character.
+        If a remote image is blocked by CORS, use <b>Local file</b>. Press the trash
+        icon to return to the built-in procedural character.
       </div>
 
       <div id="legend">
@@ -1119,28 +1119,28 @@
 
         <div class="group">
           <span style="font-size:10px;color:#7a7a92;letter-spacing:1px;">TOOLS</span>
-          <button class="toolbtn" id="toolErase" title="Erase (E)"><i class="fa-solid fa-eraser"></i></button>
-          <button class="toolbtn" id="toolFill"  title="Fill (F)"><i class="fa-solid fa-fill-drip"></i></button>
-          <button class="toolbtn" id="toolPick"  title="Pick (P)"><i class="fa-solid fa-eye-dropper"></i></button>
+          <button class="toolbtn" id="toolErase" title="Erase (E)" aria-label="Erase"><i class="fa-solid fa-eraser"></i></button>
+          <button class="toolbtn" id="toolFill"  title="Fill (F)" aria-label="Fill"><i class="fa-solid fa-fill-drip"></i></button>
+          <button class="toolbtn" id="toolPick"  title="Pick (P)" aria-label="Pick tile"><i class="fa-solid fa-eye-dropper"></i></button>
         </div>
 
         <div class="group">
           <span style="font-size:10px;color:#7a7a92;letter-spacing:1px;">MOVE</span>
-          <button class="toolbtn" id="edScrollLeft"  title="Move Left (hold to pan)"><i class="fa-solid fa-arrow-left"></i></button>
-          <button class="toolbtn" id="edScrollRight" title="Move Right (hold to pan)"><i class="fa-solid fa-arrow-right"></i></button>
+          <button class="toolbtn" id="edScrollLeft"  title="Move Left (hold to pan)" aria-label="Move Left"><i class="fa-solid fa-arrow-left"></i></button>
+          <button class="toolbtn" id="edScrollRight" title="Move Right (hold to pan)" aria-label="Move Right"><i class="fa-solid fa-arrow-right"></i></button>
         </div>
 
         <div class="group">
-          <button class="toolbtn" id="edUndo" title="Undo (Ctrl+Z)"><i class="fa-solid fa-rotate-left"></i></button>
-          <button class="toolbtn" id="edRedo" title="Redo (Ctrl+Y)"><i class="fa-solid fa-rotate-right"></i></button>
-          <button class="toolbtn red" id="edClear" title="Clear Level"><i class="fa-solid fa-trash"></i></button>
+          <button class="toolbtn" id="edUndo" title="Undo (Ctrl+Z)" aria-label="Undo"><i class="fa-solid fa-rotate-left"></i></button>
+          <button class="toolbtn" id="edRedo" title="Redo (Ctrl+Y)" aria-label="Redo"><i class="fa-solid fa-rotate-right"></i></button>
+          <button class="toolbtn red" id="edClear" title="Clear Level" aria-label="Clear Level"><i class="fa-solid fa-trash"></i></button>
         </div>
         <div class="group">
-          <button class="toolbtn" id="edResize" title="Toggle level length"><i class="fa-solid fa-arrows-left-right"></i></button>
+          <button class="toolbtn" id="edResize" title="Toggle level length" aria-label="Toggle level length"><i class="fa-solid fa-arrows-left-right"></i></button>
         </div>
         <div class="group">
-          <button class="toolbtn green" id="edSave" title="Save Level"><i class="fa-solid fa-floppy-disk"></i></button>
-          <button class="toolbtn" id="edPlay" title="Play Test"><i class="fa-solid fa-play"></i></button>
+          <button class="toolbtn green" id="edSave" title="Save Level" aria-label="Save Level"><i class="fa-solid fa-floppy-disk"></i></button>
+          <button class="toolbtn" id="edPlay" title="Play Test" aria-label="Play Test"><i class="fa-solid fa-play"></i></button>
         </div>
       </div>
       <div id="editorCanvasWrap">
@@ -1162,8 +1162,8 @@
       <div id="levelsHeader">
         <h2><i class="fa-solid fa-folder-open"></i> SAVED LEVELS</h2>
         <div style="display:flex;gap:6px;">
-          <button class="miniBtn" id="lvRefresh"><i class="fa-solid fa-rotate"></i> Refresh</button>
-          <button class="miniBtn del" id="lvDeleteAll"><i class="fa-solid fa-trash"></i> Delete All</button>
+          <button class="miniBtn" id="lvRefresh" title="Refresh list" aria-label="Refresh list"><i class="fa-solid fa-rotate"></i></button>
+          <button class="miniBtn del" id="lvDeleteAll" title="Delete all saved levels" aria-label="Delete all saved levels"><i class="fa-solid fa-trash"></i></button>
         </div>
       </div>
       <div id="levelsList"></div>
@@ -1179,8 +1179,8 @@
     <div style="font-size:11px;color:#b9b9cc;">Give your level a name:</div>
     <input type="text" id="saveNameInput" maxlength="24" placeholder="My Awesome Level" style="flex:1;min-width:0;">
     <div class="dialog-actions">
-      <button class="miniBtn" id="saveCancel"><i class="fa-solid fa-xmark"></i> Cancel</button>
-      <button class="miniBtn play" id="saveConfirm"><i class="fa-solid fa-check"></i> Save</button>
+      <button class="miniBtn" id="saveCancel" title="Cancel" aria-label="Cancel"><i class="fa-solid fa-xmark"></i></button>
+      <button class="miniBtn play" id="saveConfirm" title="Confirm save" aria-label="Confirm save"><i class="fa-solid fa-check"></i></button>
     </div>
   </div>
 </div>
@@ -1200,10 +1200,10 @@
       <div class="modiStats">
         <div class="modiStat"><span class="modiK">SCORE</span><span class="modiV" id="modiScoreEl">0</span></div>
         <div class="modiStat"><span class="modiK">COINS</span><span class="modiV" id="modiCoinsEl">0</span></div>
-        <button class="modiMute" id="modiMuteBtn" title="Toggle sound">
+        <button class="modiMute" id="modiMuteBtn" title="Toggle sound" aria-label="Toggle sound">
           <i class="fa-solid fa-volume-high" id="modiMuteIcon"></i>
         </button>
-        <button class="modiMute modiExit" id="modiExitBtn" title="Exit to SuperMODI-Bros">
+        <button class="modiMute modiExit" id="modiExitBtn" title="Exit to SuperMODI-Bros" aria-label="Exit to SuperMODI-Bros">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
@@ -1223,17 +1223,16 @@
     </div>
 
     <div class="modiPad modiLeftPad">
-      <button class="modiBtn" data-mkey="left" aria-label="Left">
+      <button class="modiBtn" data-mkey="left" title="Left" aria-label="Left">
         <i class="fa-solid fa-caret-left"></i>
       </button>
-      <button class="modiBtn" data-mkey="right" aria-label="Right">
+      <button class="modiBtn" data-mkey="right" title="Right" aria-label="Right">
         <i class="fa-solid fa-caret-right"></i>
       </button>
     </div>
     <div class="modiPad modiRightPad">
-      <button class="modiBtn modiJump" data-mkey="jump" aria-label="Jump">
+      <button class="modiBtn modiJump" data-mkey="jump" title="Jump" aria-label="Jump">
         <i class="fa-solid fa-arrow-up"></i>
-        <span>JUMP</span>
       </button>
     </div>
 
@@ -1256,8 +1255,8 @@
         <span><i class="fa-solid fa-satellite-dish"></i> AUTO-DETECT</span>
       </div>
 
-      <button class="modiPlay" id="modiPlayBtn">
-        <i class="fa-solid fa-play"></i> TAP TO PLAY
+      <button class="modiPlay" id="modiPlayBtn" title="Tap to Play" aria-label="Tap to Play">
+        <i class="fa-solid fa-play"></i>
       </button>
     </div>
   </div>
@@ -1630,8 +1629,8 @@ document.querySelectorAll('.btn[data-key]').forEach(btn=>{
     else if(G.state === 'paused'){ G.state = 'play'; }
     pauseBtn.classList.toggle('on', G.state === 'paused');
     pauseBtn.innerHTML = G.state === 'paused'
-      ? '<i class="fa-solid fa-play"></i><span>RESUME</span>'
-      : '<i class="fa-solid fa-pause"></i><span>PAUSE</span>';
+      ? '<i class="fa-solid fa-play"></i>'
+      : '<i class="fa-solid fa-pause"></i>';
   });
 })();
 
@@ -3795,7 +3794,7 @@ const autoBtn = document.getElementById('toggleAuto');
 autoBtn.addEventListener('click', function(){
   R3D.opts.autoAdjust = !R3D.opts.autoAdjust;
   autoBtn.classList.toggle('on', R3D.opts.autoAdjust);
-  autoBtn.innerHTML = '<i class="fa-solid fa-sliders"></i> ' + (R3D.opts.autoAdjust ? 'ON' : 'OFF');
+  autoBtn.innerHTML = '<i class="fa-solid fa-sliders"></i>';
 });
 window.addEventListener('resize', ()=>{ R3D.lastW = 0; R3D.lastH = 0; });
 
@@ -4426,7 +4425,9 @@ function renderSavedLevels(){
     acts.className = 'lacts';
     const playBtn = document.createElement('button');
     playBtn.className = 'miniBtn play';
-    playBtn.innerHTML = '<i class="fa-solid fa-play"></i> Play';
+    playBtn.title = 'Play level';
+    playBtn.setAttribute('aria-label', 'Play level');
+    playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
     playBtn.addEventListener('click', ()=>{
       const lvl = buildLevelFromGrid(item.grid);
       switchScreen('game');
@@ -4434,7 +4435,9 @@ function renderSavedLevels(){
     });
     const editBtn = document.createElement('button');
     editBtn.className = 'miniBtn edit';
-    editBtn.innerHTML = '<i class="fa-solid fa-pen"></i> Edit';
+    editBtn.title = 'Edit level';
+    editBtn.setAttribute('aria-label', 'Edit level');
+    editBtn.innerHTML = '<i class="fa-solid fa-pen"></i>';
     editBtn.addEventListener('click', ()=>{
       Editor.init();
       Editor.gridW = item.grid[0] ? item.grid[0].length : 128;
@@ -4446,7 +4449,9 @@ function renderSavedLevels(){
     });
     const delBtn = document.createElement('button');
     delBtn.className = 'miniBtn del';
-    delBtn.innerHTML = '<i class="fa-solid fa-trash"></i> Delete';
+    delBtn.title = 'Delete level';
+    delBtn.setAttribute('aria-label', 'Delete level');
+    delBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
     delBtn.addEventListener('click', ()=>{
       if(!confirm('Delete "' + item.name + '"?')) return;
       LevelStore.remove(item.key);
