@@ -50,21 +50,117 @@ The game contains 32 procedural stages spanning 8 distinct worlds, culminating i
 ## 📐 Rendering Architecture & 3D Auto-Camera
 
 
----
-## 🎮 Controls
-### Desktop Keyboard
++-------------------------------------------------------------+
+|                     Game State & Physics                    |
+|        (Position, Velocity, Collision Boxes, Entities)       |
++------------------------------+------------------------------+
+|
++------------------+------------------+
+|                                     |
+v                                     v
++-----------------------+             +-----------------------+
+|    2D Canvas Loop     |             |   Three.js 3D Scene   |
+| - 256x240 buffer      |             | - Geometry Extrusion  |
+| - Pixel-perfect blit  |             | - Billboard Sprites   |
+| - Retro CRT feel      |             | - Dynamic Auto-Camera |
++-----------------------+             +-----------------------+
 
-| Action | Primary Key | Alternate Keys |
+### 3D Auto-Camera Parameters
+
+In 3D mode (`V`), the world is constructed as real 3D geometry. The camera adapts dynamically to maintain player focus and dramatic framing:
+
+| Parameter | Default Value | Description |
+| :--- | :--- | :--- |
+| **Pitch / Tilt** | `16°` | Downward angle toward the ground plane |
+| **Yaw / Orbit** | `15°` | Horizontal offset producing depth parallax |
+| **Field of View (FOV)** | `55°` | View frustum angle; broadens during high speed |
+| **Distance** | `11 units` | Base distance behind the character |
+| **Height Offset** | `1.5×` | Vertical elevation offset relative to hero height |
+| **Aspect Adapt** | Auto | Re-centers frustum based on mobile vs. ultra-wide ratios |
+
+---
+
+## 🕹️ Controls
+
+### Keyboard Navigation
+
+| Action | Primary Key | Secondary / Alternative |
 | :--- | :--- | :--- |
 | **Move Left / Right** | <kbd>←</kbd> / <kbd>→</kbd> | <kbd>A</kbd> / <kbd>D</kbd> |
 | **Crouch** | <kbd>↓</kbd> | <kbd>S</kbd> |
-| **Jump / Double-Jump Spin** | <kbd>Space</kbd> | <kbd>Z</kbd> / <kbd>↑</kbd> / <kbd>W</kbd> |
+| **Jump** | <kbd>Space</kbd> | <kbd>Z</kbd> / <kbd>↑</kbd> / <kbd>W</kbd> |
+| **Double-Jump Spin** | <kbd>Space</kbd> *(in air)* | <kbd>W</kbd> *(in air)* |
 | **Run / Dash** | <kbd>X</kbd> | <kbd>Shift</kbd> |
 | **Toggle 2D / 3D** | <kbd>V</kbd> | — |
-| **Pause** | <kbd>P</kbd> | — |
+| **Pause Game** | <kbd>P</kbd> | — |
 | **Restart Level** | <kbd>R</kbd> | — |
 | **Start / Confirm** | <kbd>Enter</kbd> | — |
 | **Exit Overlay / FX** | <kbd>Esc</kbd> | — |
+
+### Mobile / Touch Controls
+- **Virtual D-Pad:** 8-way directional touch control on the left screen half.
+- **Action Buttons:** Dedicated on-screen **A (Jump)**, **B (Run)**, and **3D (View Toggle)** buttons.
+
+---
+
+## 🛠️ In-Game Level Editor & Storage
+
+The integrated editor enables level creation without opening an IDE or modifying code:
+
+- **Grid Resolution:** `128` horizontal tiles by `15` vertical tiles.
+- **Painting Tools:**
+  - **Single Click:** Place a selected tile or entity.
+  - **Click + Drag:** Multi-tile stroke painting for ground, platforms, or pipes.
+  - **Eraser:** Clear placed blocks and objects.
+- **Supported Tile Elements:**
+  - Standard Bricks & Solid Ground
+  - Mystery `?` Blocks (Coins & Power-ups)
+  - Pipe segments (entry/exit)
+  - Goombas, Koopas, and Items
+- **Saving & Loading:**
+  - Levels can be named and serialized into browser `localStorage`.
+  - Levels can be exported, reloaded, and played directly inside the test runner.
+
+---
+
+## 🎨 Sprite Sheet Customization
+
+All characters and objects can be replaced at runtime using the **Sprites / Options** drawer:
+
+1. **Target Characters:**
+   - **Hero** (`Supermodi-sprites.png` by default)
+   - **Goomba** (Walking / squished states)
+   - **Koopa** (Walking / shell states)
+   - **Mushroom** & **Coin**
+2. **Configuration Settings:**
+   - **Columns & Rows:** Defines cell cuts for the sprite atlas grid.
+   - **FPS:** Controls animation cycle playback rate.
+   - **Scale:** Multiplier (`0.5×` to `3.0×`) applied across both 2D blits and 3D billboards.
+   - **Pixel Quality:** Toggle between `1×` (crisp retro nearest-neighbor) and `4×` (anti-aliased supersampling).
+   - **360° Movement:** Optional toggle to bypass gravity and test flight mechanics.
+
+> **Note on Remote Assets:** If a remote sprite image fails due to browser CORS headers, use the **Local file** upload option to load images directly from disk.
+
+---
+
+## 📂 Project Structure
+
+``text
+SuperMODI-Bros/
+│
+├── index.html                 # Main markup, canvas viewports & UI controls
+├── Supermodi-sprites.png      # Default hero sprite sheet
+│
+├── css/
+│   └── styles.css             # Arcade UI, responsive layout, virtual D-pad
+│
+└── js/
+    ├── main.js                # App lifecycle, state coordinator & input router
+    ├── engine2d.js            # 2D canvas renderer, physics & AABB collisions
+    ├── engine3d.js            # Three.js scene, geometry generation & camera math
+    ├── procedural.js          # Seed-based world/level generator (Worlds 1-8)
+    ├── editor.js              # 128x15 tile editor, brush tools & persistence
+    └── sprites.js             # Sprite sheet slicing, atlas parser & animations
 
 ---
 ## 🛠️ Tech Stack
@@ -74,6 +170,8 @@ The game contains 32 procedural stages spanning 8 distinct worlds, culminating i
 - **CSS3** – Responsive retro arcade UI and virtual controls.
 ---
 ## 🚀 Getting Started
+**🚀 Local Development Setup**
+​No build tools, compilation, or package installations are necessary. However, because Three.js texture loaders and web audio enforce CORS restrictions on file:/// URLs, run a lightweight local web server.
 No build step or Node.js environment is required—this project runs directly in any modern web browser.
 ### Clone and Run Locally
 1. **Clone the repository:**
@@ -89,7 +187,11 @@ python3 -m http.server 8000
 
 **Or using Node (npx):
 ``bash
-npx serve .
+npx serve -l 8080 .
+
+3.**Using PHP:**
+php -S localhost:8080
+
 3.**Open in browser:**
 Navigate to http://localhost:8000 in your web browser.
 ---
@@ -107,6 +209,20 @@ Navigate to http://localhost:8000 in your web browser.
 ​Push to the Branch (git push origin feature/NewFeature)
 ​Open a Pull Request
 ---
+## Open in Browser
+​Visit http://localhost:8080 in Chrome, Firefox, Safari, or Edge.
+**​🗺️ Roadmap & Contributing**
+​[ ] Add sound effects and chiptune BGM using Web Audio API synthesis.
+​[ ] Export custom levels as shareable JSON seeds/strings.
+​[ ] Add underground and underwater level themes in Three.js.
+​[ ] Support custom gamepad/controller mapping via the Gamepad API.
+​Pull requests and issues are welcome! Feel free to fork the repository, create feature branches, and submit PRs.
+---
 ## ​📜 License
 ​Distributed under the MIT License.
+<ElicitationsGroup message="To tailor this README further:">
+  <Elicitation label="Add Web Audio API BGM & SFX implementation roadmap" query="Draft a detailed Web Audio API chiptune audio architecture section to include in the SuperMODI-Bros README."/>
+  <Elicitation label="Create a GitHub Actions deployment workflow" query="Create a GitHub Actions workflow YAML file to automatically deploy SuperMODI-Bros to GitHub Pages on push."/>
+  <Elicitation label="Generate a detailed CONTRIBUTING.md file" query="Generate a complete CONTRIBUTING.md file for the SuperMODI-Bros repository with PR guidelines and coding standards."/>
+</ElicitationsGroup>
 ---
